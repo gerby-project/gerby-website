@@ -34,10 +34,14 @@ class Dependency(BaseModel):
   tag = ForeignKeyField(Tag, related_name="from")
   to = ForeignKeyField(Tag, related_name="to")
 
+class Extra(BaseModel):
+  tag = ForeignKeyField(Tag)
+  html = TextField(null=True)
+
 
 # create database if it doesn't exist already
 if not os.path.isfile("stacks.sqlite"):
-  db.create_tables([Tag, Proof, Dependency])
+  db.create_tables([Tag, Proof, Dependency, Extra])
   log.info("Created database")
 
 
@@ -45,6 +49,8 @@ if not os.path.isfile("stacks.sqlite"):
 files = [f for f in os.listdir(PATH) if os.path.isfile(os.path.join(PATH, f)) and f != "index"] # index is always created
 tagFiles = [filename for filename in files if filename.endswith(".tag")]
 proofFiles = [filename for filename in files if filename.endswith(".proof")]
+extras = ("slogan", "history")
+extraFiles = [filename for filename in files if filename.endswith(extras)]
 
 # import tags
 log.info("Importing tags")
@@ -128,3 +134,24 @@ for proof in Proof.select():
 
     if len(dependencies) > 0:
       Dependency.insert_many([{"tag": proof.tag.tag, "to": to} for to in dependencies]).execute()
+
+
+# import history, slogans, etc
+log.info("Importing history, slogans, etc.")
+for filename in extraFiles:
+  with open(os.path.join(PATH, filename)) as f:
+    value = f.read()
+
+  pieces = filename.split(".")
+
+  extra, created = Extra.get_or_create(tag=pieces[0])
+
+  if created:
+    log.info("  Tag %s: added a %s", extra.tag.tag, pieces[1])
+  else:
+    if extra.html != value:
+      log.info("  Tag %s: %s has changed", extra.tag.tag, pieces[1])
+
+  extra.html = value
+  extra.save()
+
