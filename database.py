@@ -19,16 +19,16 @@ class BaseModel(Model):
 
 class Tag(BaseModel):
   tag = CharField(unique=True, primary_key=True)
-  label = CharField()
-  active = BooleanField()
-  ref = CharField()
-  type = CharField()
-  html = TextField()
+  label = CharField(unique=True, null=True)
+  active = BooleanField(null=True)
+  ref = CharField(null=True) # TODO unique=True?
+  type = CharField(null=True)
+  html = TextField(null=True)
 
 class Proof(BaseModel):
   tag = ForeignKeyField(Tag, related_name = "proofs")
-  html = TextField()
-  number = IntegerField()
+  html = TextField(null=True)
+  number = IntegerField() # TODO (tag,number) is unique
 
 class Dependency(BaseModel):
   tag = ForeignKeyField(Tag, related_name="from")
@@ -47,6 +47,7 @@ tagFiles = [filename for filename in files if filename.endswith(".tag")]
 proofFiles = [filename for filename in files if filename.endswith(".proof")]
 
 # import tags
+log.info("Importing tags")
 for filename in tagFiles:
   with open(os.path.join(PATH, filename)) as f:
     value = f.read()
@@ -54,9 +55,11 @@ for filename in tagFiles:
   filename = filename[:-4]
   pieces = filename.split("-")
 
-  try:
-    tag = Tag.get(Tag.tag == pieces[2])
+  tag, created = Tag.get_or_create(tag=pieces[2])
 
+  if created:
+    log.info("Created tag %s", pieces[2])
+  else:
     if tag.label != "-".join(pieces[3:]):
       log.info("Tag %s: label has changed", tag.tag)
     if tag.html != value:
@@ -64,14 +67,16 @@ for filename in tagFiles:
     if tag.type != pieces[0]:
       log.info("Tag %s: type has changed", tag.tag)
 
-    Tag.update(label="-".join(pieces[3:]), ref=pieces[1], type=pieces[0], html=value).where(Tag.tag == pieces[2]).execute()
+  tag.label = "-".join(pieces[3:])
+  tag.ref = pieces[1]
+  tag.type = pieces[0]
+  tag.html = value
 
-  except DoesNotExist:
-    tag = Tag.create(tag=pieces[2], label="-".join(pieces[3:]), ref=pieces[1], type=pieces[0], active=True, html=value)
-    log.info("Created tag %s", pieces[2])
+  tag.save()
 
 
 # import proofs
+log.info("Importing proofs")
 for filename in proofFiles:
   with open(os.path.join(PATH, filename)) as f:
     value = f.read()
@@ -79,20 +84,20 @@ for filename in proofFiles:
   filename = filename[:-6]
   pieces = filename.split("-")
 
-  try:
-    proof = Proof.get(Proof.tag == pieces[0], number=int(pieces[1]))
+  proof, created = Proof.get_or_create(tag=pieces[0], number=int(pieces[1]))
 
+  if created:
+    log.info("Tag %s: created proof #%s", proof.tag.tag, proof.number)
+  else:
     if proof.html != value:
       log.info("Tag %s: proof #%s has changed", proof.tag.tag, pieces[1])
 
-    Proof.update(html=value)
-
-  except DoesNotExist:
-    proof = Proof.create(tag=pieces[0], html=value, number=pieces[1])
-    log.info("tag %s: created proof #%s", proof.tag.tag, proof.number)
+  proof.html = value
+  proof.save()
 
 
 # check (in)activity of tags
+log.info("Checking inactivity")
 with open("tags") as f:
   tags = f.readlines()
   tags = [line.strip() for line in tags if not line.startswith("#")]
