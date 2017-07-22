@@ -1,5 +1,6 @@
 from peewee import *
 
+import re
 import os
 import os.path
 import logging, sys
@@ -29,9 +30,14 @@ class Proof(BaseModel):
   html = TextField()
   number = IntegerField()
 
+class Dependency(BaseModel):
+  tag = ForeignKeyField(Tag, related_name="from")
+  to = ForeignKeyField(Tag, related_name="to")
+
+
 # create database if it doesn't exist already
 if not os.path.isfile("stacks.sqlite"):
-  db.create_tables([Tag, Proof])
+  db.create_tables([Tag, Proof, Dependency])
   log.info("Created database")
 
 
@@ -100,3 +106,16 @@ with open("tags") as f:
       if tag.label != tags[tag.tag]:
         log.error("Labels for tag %s differ from tags file to database:\n  %s\n  %s", tag.tag, tags[tag.tag], tag.label)
 
+
+# create dependency data
+log.info("Creating dependency data")
+Dependency.drop_table()
+db.create_table(Dependency)
+
+for proof in Proof.select():
+  regex = re.compile(r'<a href=\"/tag/([0-9A-Z]{4})\">')
+  with db.atomic():
+    dependencies = regex.findall(proof.html)
+
+    if len(dependencies) > 0:
+      Dependency.insert_many([{"tag": proof.tag.tag, "to": to} for to in dependencies]).execute()
