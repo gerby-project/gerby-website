@@ -58,14 +58,14 @@ for filename in tagFiles:
   tag, created = Tag.get_or_create(tag=pieces[2])
 
   if created:
-    log.info("Created tag %s", pieces[2])
+    log.info("  Created tag %s", pieces[2])
   else:
     if tag.label != "-".join(pieces[3:]):
-      log.info("Tag %s: label has changed", tag.tag)
+      log.info("  Tag %s: label has changed", tag.tag)
     if tag.html != value:
-      log.info("Tag %s: content has changed", tag.tag)
+      log.info("  Tag %s: content has changed", tag.tag)
     if tag.type != pieces[0]:
-      log.info("Tag %s: type has changed", tag.tag)
+      log.info("  Tag %s: type has changed", tag.tag)
 
   tag.label = "-".join(pieces[3:])
   tag.ref = pieces[1]
@@ -87,7 +87,7 @@ for filename in proofFiles:
   proof, created = Proof.get_or_create(tag=pieces[0], number=int(pieces[1]))
 
   if created:
-    log.info("Tag %s: created proof #%s", proof.tag.tag, proof.number)
+    log.info("  Tag %s: created proof #%s", proof.tag.tag, proof.number)
   else:
     if proof.html != value:
       log.info("Tag %s: proof #%s has changed", proof.tag.tag, pieces[1])
@@ -105,11 +105,15 @@ with open("tags") as f:
 
   for tag in Tag.select():
     if tag.tag not in tags:
-      Tag.update(active=False).where(Tag.tag == tag.tag)
-      log.info("Tag %s became inactive", tag.tag)
+      log.info("  Tag %s became inactive", tag.tag)
+      tag.active = False
     else:
       if tag.label != tags[tag.tag]:
-        log.error("Labels for tag %s differ from tags file to database:\n  %s\n  %s", tag.tag, tags[tag.tag], tag.label)
+        log.error("  Labels for tag %s differ from tags file to database:\n  - %s\n  - %s", tag.tag, tags[tag.tag], tag.label)
+      else:
+        tag.active = True
+
+    tag.save()
 
 
 # create dependency data
