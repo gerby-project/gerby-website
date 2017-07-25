@@ -65,10 +65,11 @@ def show_tag(tag):
 
   if tag.type == "chapter":
     sections = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "section", Tag.ref.startswith(tag.ref + "."))
-    sections = sorted(list(sections))
+    sections = sorted(sections)
 
     # to avoid n+1 query we select all tags at once and then let Python figure it out
-    tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type != "section").order_by(Tag.ref)
+    tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type != "section")
+    tags = sorted(tags)
     for section in sections:
       section.tags = [tag for tag in tags if tag.ref.startswith(section.ref + ".")]
 
@@ -80,6 +81,6 @@ def show_tag(tag):
 @app.route("/browse")
 def show_chapters():
   chapters = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "chapter")
-  chapters = sorted(list(chapters))
+  chapters = sorted(chapters)
 
   return render_template("show_chapters.html", chapters=chapters)
