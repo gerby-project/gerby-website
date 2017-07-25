@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+  <title>Stacks Project</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      extensions: ['tex2jax.js'],
+      jax: ['input/TeX','output/HTML-CSS'],
+      TeX: {extensions: ['/js/XyJax/extensions/TeX/xypic.js', 'AMSmath.js', 'AMSsymbols.js'],
+      TagSide: 'left'},
+      tex2jax: {inlineMath: [['$','$']]},    'HTML-CSS': { scale: 85 }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+</head>
+<body>
+  {% block body %}{% endblock %}
+</body>
+</html>
