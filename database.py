@@ -4,6 +4,7 @@ import re
 import os
 import os.path
 import logging, sys
+import pickle
 
 logging.basicConfig(stream=sys.stdout)
 log = logging.getLogger(__name__)
@@ -11,7 +12,10 @@ log.setLevel(logging.INFO)
 
 
 PATH = "book"
-db = SqliteDatabase("stacks.sqlite")
+FILENAME = "stacks.sqlite"
+PAUX = "book.paux"
+
+db = SqliteDatabase(FILENAME)
 
 class BaseModel(Model):
   class Meta:
@@ -38,10 +42,15 @@ class Extra(BaseModel):
   tag = ForeignKeyField(Tag)
   html = TextField(null=True)
 
+# TODO maybe just put this in Tag?
+class LabelName(BaseModel):
+  tag = ForeignKeyField(Tag)
+  name = CharField()
+
 
 # create database if it doesn't exist already
-if not os.path.isfile("stacks.sqlite"):
-  db.create_tables([Tag, Proof, Dependency, Extra])
+if not os.path.isfile(FILENAME):
+  db.create_tables([Tag, Proof, Dependency, Extra, LabelName])
   log.info("Created database")
 
 
@@ -49,8 +58,17 @@ if not os.path.isfile("stacks.sqlite"):
 files = [f for f in os.listdir(PATH) if os.path.isfile(os.path.join(PATH, f)) and f != "index"] # index is always created
 tagFiles = [filename for filename in files if filename.endswith(".tag")]
 proofFiles = [filename for filename in files if filename.endswith(".proof")]
+
 extras = ("slogan", "history")
 extraFiles = [filename for filename in files if filename.endswith(extras)]
+
+context = pickle.load(open(os.path.join(PAUX), "rb"))
+
+with open("tags") as f:
+  tags = f.readlines()
+  tags = [line.strip() for line in tags if not line.startswith("#")]
+  tags = dict([line.split(",") for line in tags if "," in line])
+  labels = {item: key for key, item in tags.items()}
 
 # import tags
 log.info("Importing tags")
@@ -104,22 +122,17 @@ for filename in proofFiles:
 
 # check (in)activity of tags
 log.info("Checking inactivity")
-with open("tags") as f:
-  tags = f.readlines()
-  tags = [line.strip() for line in tags if not line.startswith("#")]
-  tags = dict([line.split(",") for line in tags if "," in line])
-
-  for tag in Tag.select():
-    if tag.tag not in tags:
-      log.info("  Tag %s became inactive", tag.tag)
-      tag.active = False
+for tag in Tag.select():
+  if tag.tag not in tags:
+    log.info("  Tag %s became inactive", tag.tag)
+    tag.active = False
+  else:
+    if tag.label != tags[tag.tag]:
+      log.error("  Labels for tag %s differ from tags file to database:\n  - %s\n  - %s", tag.tag, tags[tag.tag], tag.label)
     else:
-      if tag.label != tags[tag.tag]:
-        log.error("  Labels for tag %s differ from tags file to database:\n  - %s\n  - %s", tag.tag, tags[tag.tag], tag.label)
-      else:
-        tag.active = True
+      tag.active = True
 
-    tag.save()
+  tag.save()
 
 
 # create dependency data
@@ -155,3 +168,23 @@ for filename in extraFiles:
   extra.html = value
   extra.save()
 
+
+# import names of labels
+log.info("Importing names of tags")
+LabelName.drop_table()
+db.create_table(LabelName)
+
+names = list()
+
+for key, item in context["Gerby"].items():
+  if "title" in item and key in labels:
+    # TODO pickle does not reconstruct plasTeX.TeXFragment, which is used for some labels with accents...
+    if "TeX" in item["title"]:
+      print(item)
+
+    names.append({"tag" : labels[key], "name" : item["title"]})
+
+with db.atomic():
+  chunk = 100 # despite its name, Model.insert_many cannot insert too many at the same time
+  for i in range(0, len(names), chunk):
+    LabelName.insert_many(names[i:i+chunk]).execute()
