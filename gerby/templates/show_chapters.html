@@ -2,7 +2,7 @@
 {% block body %}
   <ul class=entries>
   {% for chapter in chapters %}
-    <li><a href="/tag/{{ chapter.tag }}">Chapter {{ chapter.ref }} {{ chapter.labelname.name }}</a>
+    <li><a href="{{ tagURL(chapter.tag) }}">Chapter {{ chapter.ref }} {{ chapter.labelname.name }}</a>
   {% endfor %}
   </ul>
 {% endblock %}

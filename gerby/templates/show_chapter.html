@@ -3,10 +3,10 @@
 <h2>{{ chapter.tag }}</h2>
 <ul>
   {% for section in sections %}
-  <li><a href="/tag/{{ section.tag }}">Tag {{ section.ref}}</a> points to Section {{ section.ref }}: {{ section.labelname.name }}
+  <li><a href="{{ tagURL(section.tag) }}">Tag {{ section.ref}}</a> points to Section {{ section.ref }}: {{ section.labelname.name }}
     <ul>
     {% for tag in section.tags %}
-    <li><a href="/tag/{{ tag.tag }}">Tag {{ tag.tag }}</a> points to {{ tag.type|capitalize }} {{ tag.ref }}</a>
+    <li><a href="{{ tagURL( tag.tag) }}">Tag {{ tag.tag }}</a> points to {{ tag.type|capitalize }} {{ tag.ref }}</a>
     {% endfor %}
   </ul>
   {% endfor %}

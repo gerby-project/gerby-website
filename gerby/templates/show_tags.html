@@ -2,7 +2,7 @@
 {% block body %}
   <ul class=entries>
   {% for tag in tags %}
-    <li><a href="/tag/{{ tag.tag }}">tag {{ tag.tag }}</a>
+    <li><a href="{{ tagURL(tag.tag) }}">tag {{ tag.tag }}</a>
   {% endfor %}
   </ul>
 {% endblock %}
