@@ -76,7 +76,19 @@ def show_tag(tag):
     return render_template("show_chapter.html", chapter=tag, sections=sections)
 
   else:
-    return render_template("show_tag.html", tag=tag)
+    # if something is at least 3 levels deep we show a breadcrumb
+    breadcrumb = None
+    if len(tag.ref.split(".")) > 2:
+      parents = [".".join(tag.ref.split(".")[:-1])]
+      while parents[-1] != "":
+        parents.append(".".join(parents[-1].split(".")[:-1]))
+
+      # TODO can we do a select with join without specifying all the columns?
+      breadcrumb = sorted(Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName).where(Tag.ref << parents))
+
+    proofs = Proof.select().where(Proof.tag == tag.tag)
+
+    return render_template("show_tag.html", tag=tag, breadcrumb=breadcrumb, proofs=proofs)
 
 @app.route("/browse")
 def show_chapters():

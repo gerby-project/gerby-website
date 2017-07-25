@@ -1,8 +1,19 @@
 {% extends "layout.html" %}
 {% block body %}
 <h2>{{ tag.tag }}</h2>
-<div>
-  {{ tag.html|safe }}
+{% if breadcrumb %}
+  <ul class="breadcrumb">
+  {% for parent in breadcrumb %}
+    <li><a href="/tag/{{ parent.tag }}">{{ parent.type | capitalize }} {{ parent.ref }}: {{ parent.labelname.name }}</a>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+<div class="html">
+  {{ tag.html | safe }}
+  {% for proof in proofs %}
+    {{ proof.html | safe }}
+  {% endfor %}
 </div>
 {% endblock %}
 
