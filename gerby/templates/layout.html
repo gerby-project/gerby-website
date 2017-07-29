@@ -7,17 +7,51 @@
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       extensions: ['tex2jax.js'],
+      preferredFont: "STIX",
       jax: ['input/TeX','output/HTML-CSS'],
-      TeX: {extensions: ['/js/XyJax/extensions/TeX/xypic.js', 'AMSmath.js', 'AMSsymbols.js'],
+      TeX: {extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'],
       TagSide: 'left'},
-      tex2jax: {inlineMath: [['$','$']]},    'HTML-CSS': { scale: 85 }
+      tex2jax: {
+        inlineMath: [['$','$']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      },
+      'HTML-CSS': { scale: 85 }
     });
   </script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
 </head>
 <body>
-{% macro tagURL(tag) -%}/tag/{{ tag }}{%- endmacro %}
+  <header>
+    <h1>The Stacks Project</h1>
+  </header>
+  <nav>
+    <ul id="mobile-nav-1">
+      <li><a href="/browse">browse</a>
+      <li>
+        <form id="quicksearch">
+          <input type="search" name="quicksearchfield" id="quicksearchfield">
+          <!--<button type="submit">-->
+        </form>
+        <!--<li><a href="/search">search</a>-->
+    </ul>
 
-  {% block body %}{% endblock %}
+    <ul id="mobile-nav-2">
+      <li><a href="#">about</a>
+      <li><a href="#">tags</a>
+      <li><a href="#">bibliography</a>
+      <li><a href="#">comments</a>
+      <li><a href="#">blog</a>
+    </ul>
+  </nav>
+  <div id="body">
+    <section id="main">
+      {% macro tagURL(tag) -%}/tag/{{ tag }}{%- endmacro %}
+
+      {% block body %}{% endblock %}
+    </section>
+    <section id="meta">
+    </section>
+  </div>
+
 </body>
 </html>

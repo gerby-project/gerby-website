@@ -1,4 +1,10 @@
 div.html {
+  line-height: 130%;
+}
+
+div.html h2 {
+  font-size: 1.1em;
+  margin-bottom: 1em;
 }
 
 div.html article.env-theorem,
