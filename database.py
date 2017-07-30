@@ -1,4 +1,5 @@
 from peewee import *
+from playhouse.sqlite_ext import *
 
 import re
 import os
@@ -11,11 +12,12 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 
-PATH = "book"
-FILENAME = "stacks.sqlite"
-PAUX = "book.paux"
+PATH = "htt"
+FILENAME = "htt.sqlite"
+PAUX = "htt.paux"
+TAGS = "tags.htt"
 
-db = SqliteDatabase(FILENAME)
+db = SqliteExtDatabase(FILENAME)
 
 class BaseModel(Model):
   class Meta:
@@ -28,6 +30,14 @@ class Tag(BaseModel):
   ref = CharField(null=True) # TODO unique=True?
   type = CharField(null=True)
   html = TextField(null=True)
+
+class TagSearch(FTSModel):
+  tag = SearchField()
+  html = SearchField() # HTML of the statement or (sub)section
+  full = SearchField() # HTML of the statement including the proof (if relevant)
+
+  class Meta:
+    database = db
 
 class Proof(BaseModel):
   tag = ForeignKeyField(Tag, related_name = "proofs")
@@ -50,7 +60,7 @@ class LabelName(BaseModel):
 
 # create database if it doesn't exist already
 if not os.path.isfile(FILENAME):
-  db.create_tables([Tag, Proof, Dependency, Extra, LabelName])
+  db.create_tables([Tag, Proof, Extra])
   log.info("Created database")
 
 
@@ -64,7 +74,7 @@ extraFiles = [filename for filename in files if filename.endswith(extras)]
 
 context = pickle.load(open(os.path.join(PAUX), "rb"))
 
-with open("tags") as f:
+with open(TAGS) as f:
   tags = f.readlines()
   tags = [line.strip() for line in tags if not line.startswith("#")]
   tags = dict([line.split(",") for line in tags if "," in line])
@@ -120,6 +130,23 @@ for filename in proofFiles:
   proof.save()
 
 
+# create search table
+log.info("Populating the search table")
+if TagSearch.table_exists():
+  TagSearch.drop_table()
+db.create_table(TagSearch)
+
+for tag in Tag.select():
+  proof = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
+
+  TagSearch.insert({
+    TagSearch.tag: tag.tag,
+    TagSearch.html: tag.html,
+    TagSearch.full: tag.html, # TODO collate with proofs
+    }).execute()
+
+
+
 # check (in)activity of tags
 log.info("Checking inactivity")
 for tag in Tag.select():
@@ -137,7 +164,8 @@ for tag in Tag.select():
 
 # create dependency data
 log.info("Creating dependency data")
-Dependency.drop_table()
+if Dependency.table_exists():
+  Dependency.drop_table()
 db.create_table(Dependency)
 
 for proof in Proof.select():
@@ -171,7 +199,8 @@ for filename in extraFiles:
 
 # import names of labels
 log.info("Importing names of tags")
-LabelName.drop_table()
+if LabelName.table_exists():
+  LabelName.drop_table()
 db.create_table(LabelName)
 
 names = list()
