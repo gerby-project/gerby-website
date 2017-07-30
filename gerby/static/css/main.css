@@ -86,6 +86,16 @@ ul#mobile-nav-2 li {
 }
 
 div#body {
-  position: absolute;
-  top: 60px;
+  margin: 90px auto 1em auto;
+  padding: 0 1em;
+  max-width: 600px;
+}
+
+ul.breadcrumb {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul.breadcrumb li + li:before {
+  content: ">  ";
 }
