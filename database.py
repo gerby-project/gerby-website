@@ -32,7 +32,7 @@ class Tag(BaseModel):
   html = TextField(null=True)
 
 class TagSearch(FTSModel):
-  tag = SearchField()
+  tag = SearchField(unindexed=True)
   html = SearchField() # HTML of the statement or (sub)section
   full = SearchField() # HTML of the statement including the proof (if relevant)
 
@@ -137,12 +137,12 @@ if TagSearch.table_exists():
 db.create_table(TagSearch)
 
 for tag in Tag.select():
-  proof = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
+  proofs = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
 
   TagSearch.insert({
     TagSearch.tag: tag.tag,
     TagSearch.html: tag.html,
-    TagSearch.full: tag.html, # TODO collate with proofs
+    TagSearch.full: tag.html + "".join([proof.html for proof in proofs]), # TODO collate with proofs
     }).execute()
 
 
