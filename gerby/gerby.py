@@ -6,7 +6,7 @@ import time
 from peewee import *
 from playhouse.sqlite_ext import *
 
-FILENAME = "htt.sqlite"
+FILENAME = "stacks.sqlite"
 
 db = SqliteExtDatabase(FILENAME)
 
@@ -59,7 +59,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 app.config.update(dict(
-  DATABASE=os.path.join(app.root_path, "stacks.sqlite"),
+  DATABASE=os.path.join(app.root_path, FILENAME),
 ))
 
 @app.route("/")
