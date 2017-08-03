@@ -1,0 +1,43 @@
+div.html {
+  line-height: 130%;
+}
+
+div.html h2 {
+  font-size: 1.1em;
+  margin-bottom: 1em;
+}
+
+div.html article.env-theorem,
+div.html article.env-proposition,
+div.html article.env-lemma {
+  font-style: italic;
+}
+
+div.html a.environment-identifier {
+  font-style: normal;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+
+div.html a.environment-identifier:hover {
+  text-decoration: underline;
+}
+
+div.html a.environment-identifier span.named {
+  font-weight: normal;
+}
+
+div.html article.env-proof {
+  margin-top: 1em;
+}
+
+div.html article.env-proof p:nth-of-type(1),
+div.html article.env-proof p:nth-of-type(2) {
+  display: inline;
+}
+
+div.html article.env-proof p.qed {
+  float: right;
+  margin-top: -0em;
+}

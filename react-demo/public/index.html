@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/stacks.png">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Stacks Project</title>
+      <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/main.css">
+  <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/tag.css">
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      extensions: ['tex2jax.js'],
+      preferredFont: "STIX",
+      jax: ['input/TeX','output/HTML-CSS'],
+      TeX: {extensions: ['AMSmath.js', 'AMSsymbols.js', 'http://sonoisa.github.io/xyjax_ext/xypic.js'],
+      TagSide: 'left'},
+      tex2jax: {
+        inlineMath: [['$','$']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      },
+      'HTML-CSS': { scale: 85 }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+  </head>
+  <body>
+  <header>
+    <h1>The Stacks Project</h1>
+  </header>
+  <nav>
+    <ul id="mobile-nav-1">
+      <li><a href="/browse">browse</a>
+      <li>
+        <form id="quicksearch">
+          <input type="search" name="quicksearchfield" id="quicksearchfield">
+          <!--<button type="submit">-->
+        </form>
+        <!--<li><a href="/search">search</a>-->
+    </ul>
+
+    <ul id="mobile-nav-2">
+      <li><a href="#">about</a>
+      <li><a href="#">tags</a>
+      <li><a href="#">bibliography</a>
+      <li><a href="#">comments</a>
+      <li><a href="#">blog</a>
+    </ul>
+  </nav>
+  <div id="body">
+    <section id="root">
+    </section>
+    <section id="meta">
+    </section>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+  </body>
+</html>
