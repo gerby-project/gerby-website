@@ -2,7 +2,7 @@ import os
 import json
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template
-from flask.ext.jsonpify import jsonify
+from flask_jsonpify import jsonify
 import time
 
 from peewee import *
