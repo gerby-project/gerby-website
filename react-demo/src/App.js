@@ -7,8 +7,11 @@ class App extends Component {
   componentWillMount() {
     this.state = {content: {}};
     var that = this;
-    var pathname = window.location.href.split("?")[1];
-    var url = "http://127.0.0.1:5000/api/" + pathname + "?callback=?";
+    var pathname = "/" + window.location.href.split("?")[1];
+    if (pathname === "/undefined") {
+      pathname = window.location.pathname;
+    }
+    var url = "http://127.0.0.1:5000/api" + pathname + "?callback=?";
     $.getJSON(url,
     function (result) {
       that.setState({content:result});
