@@ -26,11 +26,22 @@ class App extends Component {
   render() {
     if (this.state.content.hasOwnProperty("type") && this.state.content.type === "tag") {
       var that = this;
-      function spawnContent() {
+      function spawnStatement() {
         return {__html: that.state.content.tag.html};
       }
+      function spawnProof(i) {
+        return {__html: that.state.content.proofs[i].html}
+      }
+      var proofs = [];
+      for (var i = 0; i < that.state.content.proofs.length; i++) {
+        proofs.push(<div dangerouslySetInnerHTML={spawnProof(i)}></div>)
+      }
+
       return (
-        <div dangerouslySetInnerHTML={spawnContent()}>
+        <div>
+        <div dangerouslySetInnerHTML={spawnStatement()}>
+        </div>
+        {proofs}
         </div>
       );
     }
