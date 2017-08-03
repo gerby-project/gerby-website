@@ -41,7 +41,6 @@ class App extends Component {
 
   render() {
     if (this.state.content.hasOwnProperty("type") && this.state.content.type === "tag") {
-      var that = this;
       let proofs = this
         .state
         .content
