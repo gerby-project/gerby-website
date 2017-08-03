@@ -15,17 +15,20 @@ class App extends Component {
     $.getJSON(url,
     function (result) {
       that.setState({content:result});
+      window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
     });
   }
+
+  componentDidUpdate() {
+    window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
+  }
+  
   render() {
     if (this.state.content.hasOwnProperty("type") && this.state.content.type === "tag") {
       var that = this;
       function spawnContent() {
         return {__html: that.state.content.tag.html};
       }
-      // THIS IS A TOTAL KLUDGE.
-      // NEVER DO THIS.
-      setTimeout(function(){window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);}(), 1000);
       return (
         <div dangerouslySetInnerHTML={spawnContent()}>
         </div>
