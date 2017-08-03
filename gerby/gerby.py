@@ -2,6 +2,7 @@ import os
 import json
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template
+from flask.ext.jsonpify import jsonify
 import time
 
 from peewee import *
@@ -74,7 +75,7 @@ def show_tags():
 @app.route("/api/")
 def api_show_tags():
   tags = all_tags()
-  return json.dumps({"tags": [model_to_dict(t) for t in tags]})
+  return jsonify({"tags": [model_to_dict(t) for t in tags]})
 
 def tag_data(tag):
   tag = Tag.get(Tag.tag == tag)
@@ -129,10 +130,10 @@ def show_tag(tag):
 def api_show_tag(tag):
   tag, data = tag_data(tag)
   if tag.type == "chapter":
-    return json.dumps({"chapter": model_to_dict(data["chapter"]), "sections": [model_to_dict(s) for s in data["sections"]]})
+    return jsonify({"type": "chapter", "chapter": model_to_dict(data["chapter"]), "sections": [model_to_dict(s) for s in data["sections"]]})
   else:
     bcrumb = [model_to_dict(d) for d in data["breadcrumb"]] if data["breadcrumb"] is not None else []
-    return json.dumps({"tag": model_to_dict(data["tag"]), 
+    return jsonify({"type": "tag", "tag": model_to_dict(data["tag"]), 
                      "breadcrumb": bcrumb,
                      "proofs": [model_to_dict(p) for p in data["proofs"]]})
 
@@ -149,7 +150,7 @@ def show_chapters():
 @app.route("/api/browse")
 def api_show_chapters():
   chapters = get_chapters()
-  return json.dumps({"chapters": [model_to_dict(c) for c in chapters]})
+  return jsonify({"chapters": [model_to_dict(c) for c in chapters]})
 
 # THESE ARE STUBS
 def get_search():
@@ -168,4 +169,4 @@ def show_search():
 @app.route("/api/search")
 def api_show_search():
   results = get_search()
-  return json.dumps({"results": [model_to_dict(r) for r in results]})
+  return jsonify({"results": [model_to_dict(r) for r in results]})

@@ -53,9 +53,24 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 <script type="text/javascript" src="main.js"></script>
 <script type="text/javascript">
-$.ajax({
-    url: "127.0.0.1:5000/",
-    success: function (result) {$("main").html(result);}
-});
+var pathname = window.location.href.split("?")[1];
+var url = "http://127.0.0.1:5000/api/" + pathname + "?callback=?";
+console.log(url);
+$.getJSON(url,
+    function (result) {
+        if (result.type === "tag") {
+        $("#main").html(result.tag.html);
+        }
+      else if (result.type === "chapter") {
+        var output = "";
+        var N = result.sections.length;
+        for (var i = 0; i < N; i++) {
+          output += "<p>" + result.sections[i].tag + " points to Section " + result.sections[i].ref + "</p>";
+        }
+        $("#main").html(output);
+      }
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+);
 </script>
 </html>
