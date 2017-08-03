@@ -1,0 +1,101 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
+@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+
+body {
+  font-family: Georgia, Arial, sans-serif;
+  font-size: 15px;
+  padding: 0;
+  margin: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+header {
+  z-index: 1;
+}
+
+h1 {
+  z-index: 1;
+  background-color: #d9d8d1;
+  position: fixed;
+  font-weight: normal;
+  top: 0;
+  margin: 0;
+  padding: .5em;
+  height: 23px;
+  width: 100%;
+  font-weight: normal;
+  font-size: 20px;
+  background-image: url('/static/stacks.png');
+  background-repeat: no-repeat;
+  background-position: 3px 3px;
+  padding-left: 45px;
+}
+
+form#quicksearch input {
+  background-color: #edece6;
+  margin: 0;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+nav a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+ul#mobile-nav-1 {
+  margin: 0;
+  padding: 0 1em 0 0;
+  top: 0;
+  position: fixed;
+  right: 0;
+  list-style-type: none;
+  z-index: 1;
+}
+
+ul#mobile-nav-1 li {
+  display: inline-block;
+}
+
+ul#mobile-nav-1 li a {
+  padding: .7em .5em;
+}
+
+ul#mobile-nav-2 {
+  background-color: #edece6;
+  position: absolute;
+  top: 25px;
+  width: 100%;
+  text-align: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+ul#mobile-nav-2 li {
+  display: inline-block;
+  padding: .5em 1em;
+  margin: 0;
+}
+
+div#body {
+  margin: 90px auto 1em auto;
+  padding: 0 1em;
+  max-width: 600px;
+}
+
+ul.breadcrumb {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul.breadcrumb li + li:before {
+  content: ">  ";
+}
