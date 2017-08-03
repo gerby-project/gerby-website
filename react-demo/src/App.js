@@ -50,7 +50,9 @@ class App extends Component {
         var N = this.state.content.sections.length;
         var output = [];
         for (var i = 0; i < N; i++){
-          output.push(<p><a href={"/tag/" + this.state.content.sections[i].tag}>{this.state.content.sections[i].tag}</a> points to {this.state.content.sections[i].ref}</p>)
+          output.push(<p>
+            <a href={"/tag/" + this.state.content.sections[i].tag}>Tag {this.state.content.sections[i].tag}</a> points to Section {this.state.content.sections[i].ref}
+            </p>)
         }
         return (
           <div>{output}</div>
