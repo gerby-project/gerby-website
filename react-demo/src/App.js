@@ -30,16 +30,7 @@ class App extends Component {
   render() {
     if (this.state.content.hasOwnProperty("type") && this.state.content.type === "tag") {
       var that = this;
-      function spawnStatement() {
-        return {__html: that.state.content.tag.html};
-      }
-      function spawnProof(i) {
-        return {__html: that.state.content.proofs[i].html}
-      }
-      var proofs = [];
-      for (var i = 0; i < that.state.content.proofs.length; i++) {
-        proofs.push(<div key={i} dangerouslySetInnerHTML={spawnProof(i)} />)
-      }
+      let proofs = this.state.content.proofs.map((p) => <div key={p.html} dangerouslySetInnerHTML={ {__html:p.html} } />);
       let bcrumbs = null;
       if (this.state.content.breadcrumb.length > 0) {
         let listItems = this.state.content.breadcrumb.map((b) => 
@@ -50,19 +41,15 @@ class App extends Component {
         <div>
           <h2>Tag {this.state.content.tag.tag}</h2>
         {bcrumbs}        
-        <div dangerouslySetInnerHTML={spawnStatement()} />
+        <div dangerouslySetInnerHTML={ {__html: this.state.content.tag.html} } />
         {proofs}
         </div>
       );
     }
     else if (this.state.content.hasOwnProperty("type") && this.state.content.type === "chapter") {
-        var N = this.state.content.sections.length;
-        var output = [];
-        for (i = 0; i < N; i++){
-          output.push(<p key={i}>
-            <a href={"/tag/" + this.state.content.sections[i].tag}>Tag {this.state.content.sections[i].tag}</a> points to Section {this.state.content.sections[i].ref}
-            </p>)
-        }
+      let output=this.state.content.sections.map((s) => <p key={s.tag+s.ref}>
+            <a href={"/tag/" + s.tag}>Tag {s.tag}</a> points to Section {s.ref}
+            </p>);  
         return (
           <div>
             <h2>Tag {this.state.content.chapter.tag}: Chapter {this.state.content.chapter.ref}</h2>
