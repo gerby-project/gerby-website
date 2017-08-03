@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import $ from 'jquery';
 
@@ -34,23 +34,21 @@ class App extends Component {
       }
       var proofs = [];
       for (var i = 0; i < that.state.content.proofs.length; i++) {
-        proofs.push(<div dangerouslySetInnerHTML={spawnProof(i)}></div>)
+        proofs.push(<div key={i} dangerouslySetInnerHTML={spawnProof(i)} />)
       }
 
       return (
         <div>
-        <div dangerouslySetInnerHTML={spawnStatement()}>
-        </div>
+        <div dangerouslySetInnerHTML={spawnStatement()} />
         {proofs}
         </div>
       );
     }
     else if (this.state.content.hasOwnProperty("type") && this.state.content.type === "chapter") {
-      console.log(this.state.content.sections);
         var N = this.state.content.sections.length;
         var output = [];
-        for (var i = 0; i < N; i++){
-          output.push(<p>
+        for (i = 0; i < N; i++){
+          output.push(<p key={i}>
             <a href={"/tag/" + this.state.content.sections[i].tag}>Tag {this.state.content.sections[i].tag}</a> points to Section {this.state.content.sections[i].ref}
             </p>)
         }
