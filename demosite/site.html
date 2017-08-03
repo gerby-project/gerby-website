@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <title>Stacks Project</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <link rel="stylesheet" type="text/css" href="tag.css">
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      extensions: ['tex2jax.js'],
+      preferredFont: "STIX",
+      jax: ['input/TeX','output/HTML-CSS'],
+      TeX: {extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'],
+      TagSide: 'left'},
+      tex2jax: {
+        inlineMath: [['$','$']],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      },
+      'HTML-CSS': { scale: 85 }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+</head>
+<body>
+  <header>
+    <h1>The Stacks Project</h1>
+  </header>
+  <nav>
+    <ul id="mobile-nav-1">
+      <li><a href="/browse">browse</a>
+      <li>
+        <form id="quicksearch">
+          <input type="search" name="quicksearchfield" id="quicksearchfield">
+          <!--<button type="submit">-->
+        </form>
+        <!--<li><a href="/search">search</a>-->
+    </ul>
+
+    <ul id="mobile-nav-2">
+      <li><a href="#">about</a>
+      <li><a href="#">tags</a>
+      <li><a href="#">bibliography</a>
+      <li><a href="#">comments</a>
+      <li><a href="#">blog</a>
+    </ul>
+  </nav>
+  <div id="body">
+    <section id="main">
+    </section>
+    <section id="meta">
+    </section>
+  </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript">
+$.ajax({
+    url: "127.0.0.1:5000/",
+    success: function (result) {$("main").html(result);}
+});
+</script>
+</html>

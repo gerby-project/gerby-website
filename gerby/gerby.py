@@ -1,12 +1,14 @@
 import os
+import json
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template
 import time
 
 from peewee import *
 from playhouse.sqlite_ext import *
+from playhouse.shortcuts import model_to_dict
 
-FILENAME = "htt.sqlite"
+FILENAME = "stacks.sqlite"
 
 db = SqliteExtDatabase(FILENAME)
 
@@ -62,14 +64,19 @@ app.config.update(dict(
   DATABASE=os.path.join(app.root_path, "stacks.sqlite"),
 ))
 
+def all_tags():
+  return Tag.select()
+
 @app.route("/")
 def show_tags():
-  tags = Tag.select()
+  return render_template("show_tags.html", tags=all_tags())
 
-  return render_template("show_tags.html", tags=tags)
+@app.route("/api/")
+def api_show_tags():
+  tags = all_tags()
+  return json.dumps({"tags": [model_to_dict(t) for t in tags]})
 
-@app.route("/tag/<string:tag>")
-def show_tag(tag):
+def tag_data(tag):
   tag = Tag.get(Tag.tag == tag)
 
   if tag.type == "chapter":
@@ -82,7 +89,7 @@ def show_tag(tag):
     for section in sections:
       section.tags = [tag for tag in tags if tag.ref.startswith(section.ref + ".")]
 
-    return render_template("show_chapter.html", chapter=tag, sections=sections)
+    return tag, {"chapter": tag, "sections": sections}
 
   else:
     # TODO maybe always generate the breadcrumb data, but only pass it if at least 3 levels deep?
@@ -107,20 +114,58 @@ def show_tag(tag):
 
     proofs = Proof.select().where(Proof.tag == tag.tag)
 
-    return render_template("show_tag.html", tag=tag, breadcrumb=breadcrumb, proofs=proofs)
+    return tag, {"tag": tag, "breadcrumb": breadcrumb, "proofs": proofs}
+
+
+@app.route("/tag/<string:tag>")
+def show_tag(tag):
+  tag, data = tag_data(tag)
+  if tag.type == "chapter":
+    return render_template("show_chapter.html", chapter=data["chapter"], sections=data["sections"])
+  else:
+    return render_template("show_tag.html", tag=data["tag"], breadcrumb=data["breadcrumb"], proofs=data["proofs"])
+
+@app.route("/api/tag/<string:tag>")
+def api_show_tag(tag):
+  tag, data = tag_data(tag)
+  if tag.type == "chapter":
+    return json.dumps({"chapter": model_to_dict(data["chapter"]), "sections": [model_to_dict(s) for s in data["sections"]]})
+  else:
+    bcrumb = [model_to_dict(d) for d in data["breadcrumb"]] if data["breadcrumb"] is not None else []
+    return json.dumps({"tag": model_to_dict(data["tag"]), 
+                     "breadcrumb": bcrumb,
+                     "proofs": [model_to_dict(p) for p in data["proofs"]]})
+
+def get_chapters():
+  chapters = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "chapter")
+  return sorted(chapters)
+
 
 @app.route("/browse")
 def show_chapters():
-  chapters = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "chapter")
-  chapters = sorted(chapters)
+  return render_template("show_chapters.html", chapters=get_chapters())
 
-  return render_template("show_chapters.html", chapters=chapters)
 
-@app.route("/search")
-def show_search():
+@app.route("/api/browse")
+def api_show_chapters():
+  chapters = get_chapters()
+  return json.dumps({"chapters": [model_to_dict(c) for c in chapters]})
+
+# THESE ARE STUBS
+def get_search():
   # TODO not sure whether this is an efficient query: only fulltext and docid is quick apparently
   # TODO can we use TagSearch.docid and Tag.rowid or something?
   # TODO can we match on a single column? maybe we need two tables?
   query = "Eilenberg"
   results = Tag.select(Tag, TagSearch, TagSearch.rank().alias("score")).join(TagSearch, on=(Tag.tag == TagSearch.tag).alias("search")).where(TagSearch.match(query), Tag.type.not_in(["chapter", "section", "subsection"]))
+  return results
+
+@app.route("/search")
+def show_search():
+  results = get_search()
   return render_template("show_search.html", results=results)
+
+@app.route("/api/search")
+def api_show_search():
+  results = get_search()
+  return json.dumps({"results": [model_to_dict(r) for r in results]})
