@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 import './App.css';
 import $ from 'jquery';
 
+function titleCase(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 class App extends Component {
   componentWillMount() {
     this.state = {content: {}};
@@ -36,9 +40,16 @@ class App extends Component {
       for (var i = 0; i < that.state.content.proofs.length; i++) {
         proofs.push(<div key={i} dangerouslySetInnerHTML={spawnProof(i)} />)
       }
-
+      let bcrumbs = null;
+      if (this.state.content.breadcrumb.length > 0) {
+        let listItems = this.state.content.breadcrumb.map((b) => 
+      <li><a href={"/tag/" + b.tag}>{titleCase(b.type) + " " + b.ref}</a></li>);
+        bcrumbs = <ul className="breadcrumb">{listItems}</ul>
+      }
       return (
         <div>
+          <h2>Tag {this.state.content.tag.tag}</h2>
+        {bcrumbs}        
         <div dangerouslySetInnerHTML={spawnStatement()} />
         {proofs}
         </div>
@@ -53,7 +64,10 @@ class App extends Component {
             </p>)
         }
         return (
+          <div>
+            <h2>Tag {this.state.content.chapter.tag}: Chapter {this.state.content.chapter.ref}</h2>
           <div>{output}</div>
+          </div>
         )
     }
     else {
