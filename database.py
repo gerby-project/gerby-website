@@ -48,7 +48,8 @@ class Dependency(BaseModel):
   tag = ForeignKeyField(Tag, related_name="from")
   to = ForeignKeyField(Tag, related_name="to")
 
-class Extra(BaseModel):
+class Extra(BaseModel): # contains extra information such as slogans
+  # TODO right now it doesn't say the *type* of extra information
   tag = ForeignKeyField(Tag)
   html = TextField(null=True)
 
@@ -207,10 +208,6 @@ names = list()
 
 for key, item in context["Gerby"].items():
   if "title" in item and key in labels:
-    # TODO pickle does not reconstruct plasTeX.TeXFragment, which is used for some labels with accents...
-    if "TeX" in item["title"]:
-      print(item)
-
     names.append({"tag" : labels[key], "name" : item["title"]})
 
 with db.atomic():
