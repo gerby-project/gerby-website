@@ -146,9 +146,8 @@ for filename in footnoteFiles:
     value = f.read()
 
   label = filename.split(".")[0]
-  pieces = filename.split("-")
 
-  Footnote.insert({Footnote.label: label, Footnote.html: value}).execute()
+  Footnote.create(label=label, html=value)
 
 # create search table
 log.info("Populating the search table")
