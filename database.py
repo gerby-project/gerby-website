@@ -53,6 +53,10 @@ class Extra(BaseModel): # contains extra information such as slogans
   tag = ForeignKeyField(Tag)
   html = TextField(null=True)
 
+class Footnote(BaseModel):
+  label = CharField(unique=True, primary_key=True)
+  html = TextField(null=True)
+
 # TODO maybe just put this in Tag?
 class LabelName(BaseModel):
   tag = ForeignKeyField(Tag)
@@ -69,6 +73,7 @@ if not os.path.isfile(FILENAME):
 files = [f for f in os.listdir(PATH) if os.path.isfile(os.path.join(PATH, f)) and f != "index"] # index is always created
 tagFiles = [filename for filename in files if filename.endswith(".tag")]
 proofFiles = [filename for filename in files if filename.endswith(".proof")]
+footnoteFiles = [filename for filename in files if filename.endswith(".footnote")]
 
 extras = ("slogan", "history")
 extraFiles = [filename for filename in files if filename.endswith(extras)]
@@ -130,6 +135,20 @@ for filename in proofFiles:
   proof.html = value
   proof.save()
 
+# import footnotes
+log.info("Importing footnotes")
+if Footnote.table_exists():
+  Footnote.drop_table()
+db.create_table(Footnote)
+
+for filename in footnoteFiles:
+  with open(os.path.join(PATH, filename)) as f:
+    value = f.read()
+
+  label = filename.split(".")[0]
+  pieces = filename.split("-")
+
+  Footnote.insert({Footnote.label: label, Footnote.html: value})
 
 # create search table
 log.info("Populating the search table")
