@@ -1,7 +1,6 @@
 import os
-import sqlite3
+import re
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template
-import time
 
 from peewee import *
 from playhouse.sqlite_ext import *
@@ -45,6 +44,10 @@ class Dependency(BaseModel):
   tag = ForeignKeyField(Tag, related_name="from")
   to = ForeignKeyField(Tag, related_name="to")
 
+class Footnote(BaseModel):
+  label = CharField(unique=True, primary_key=True)
+  html = TextField(null=True)
+
 class Extra(BaseModel):
   tag = ForeignKeyField(Tag)
   html = TextField(null=True)
@@ -68,7 +71,42 @@ def show_tags():
 
   return render_template("show_tags.html", tags=tags)
 
+"""
+static pages
+"""
+@app.route("/about")
+def show_about():
+  return render_template("static/about.html")
+
+"""
+dynamic pages
+"""
+@app.route("/browse")
+def show_chapters():
+  chapters = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "chapter")
+  chapters = sorted(chapters)
+
+  return render_template("show_chapters.html", chapters=chapters)
+
+@app.route("/search", methods = ["GET"])
+def show_search():
+  # TODO not sure whether this is an efficient query: only fulltext and docid is quick apparently
+  # TODO can we use TagSearch.docid and Tag.rowid or something?
+  # TODO can we match on a single column? maybe we need two tables?
+
+  #/search/?query=...
+  print(request.args)
+
+  # TODO suggestion by Max: make sure that if someone searches for a tag in the search field, you return the tag
+  # = get rid of the tag lookup field
+  # TODO suggestion by Brian: implement different spellings of words, à la Google
+
+  query = "Eilenberg"
+  results = Tag.select(Tag, TagSearch, TagSearch.rank().alias("score")).join(TagSearch, on=(Tag.tag == TagSearch.tag).alias("search")).where(TagSearch.match(query), Tag.type.not_in(["chapter", "section", "subsection"]))
+  return render_template("show_search.html", results=results)
+
 @app.route("/tag/<string:tag>")
+# TODO we also need to support the old format of links!
 def show_tag(tag):
   tag = Tag.get(Tag.tag == tag)
 
@@ -107,20 +145,22 @@ def show_tag(tag):
 
     proofs = Proof.select().where(Proof.tag == tag.tag)
 
-    return render_template("show_tag.html", tag=tag, breadcrumb=breadcrumb, proofs=proofs)
+    # handle footnotes
+    """<a class="footnotemark" href="#{{ obj.id }}" id="{{ obj.id }}-mark"><sup>{{ obj.mark.attributes.num }}</sup></a>"""
+    pattern = re.compile("class=\"footnotemark\" href=\"#(a[0-9]+)\"")
 
-@app.route("/browse")
-def show_chapters():
-  chapters = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "chapter")
-  chapters = sorted(chapters)
+    html = tag.html + "".join([proof.html for proof in proofs])
 
-  return render_template("show_chapters.html", chapters=chapters)
+    labels = pattern.findall(html)
+    for number, label in enumerate(labels):
+      # TODO this is not how regexes should be used... (if you need test material when fixing this, see tag 05QM)
+      old = re.search(r"id=\"" + label + "-mark\"><sup>([0-9]+)</sup>", html).group(1)
+      html = html.replace(
+          "id=\"" + label + "-mark\"><sup>" + old + "</sup>",
+          "id=\"" + label + "-mark\"><sup>" + str(number + 1) + "</sup>")
+      # make the HTML pretty (and hide plasTeX id's)
+      html = html.replace(label, "footnote-" + str(number + 1))
 
-@app.route("/search")
-def show_search():
-  # TODO not sure whether this is an efficient query: only fulltext and docid is quick apparently
-  # TODO can we use TagSearch.docid and Tag.rowid or something?
-  # TODO can we match on a single column? maybe we need two tables?
-  query = "Eilenberg"
-  results = Tag.select(Tag, TagSearch, TagSearch.rank().alias("score")).join(TagSearch, on=(Tag.tag == TagSearch.tag).alias("search")).where(TagSearch.match(query), Tag.type.not_in(["chapter", "section", "subsection"]))
-  return render_template("show_search.html", results=results)
+    footnotes = Footnote.select().where(Footnote.label << labels)
+
+    return render_template("show_tag.html", tag=tag, breadcrumb=breadcrumb, html=html, footnotes=footnotes)

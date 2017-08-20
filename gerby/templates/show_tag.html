@@ -10,10 +10,15 @@
 {% endif %}
 
 <div class="html">
-  {{ tag.html | safe }}
-  {% for proof in proofs %}
-    {{ proof.html | safe }}
-  {% endfor %}
+  {{ html | safe }}
+
+  {% if footnotes %}
+    <section id="footnotes">
+    {% for footnote in footnotes %}
+      <div id="footnote-{{ loop.index }}"><a href="#footnote-{{ loop.index }}-mark">[{{ loop.index }}]</a> {{ footnote.html | safe }}</div>
+    {% endfor %}
+    </section>
+  {% endif %}
 </div>
 {% endblock %}
 
