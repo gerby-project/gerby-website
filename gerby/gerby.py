@@ -25,7 +25,10 @@ class Tag(BaseModel):
 
   # allows us to sort tags according to their reference
   def __gt__(self, other):
-    return tuple(map(int, self.ref.split("."))) > tuple(map(int, other.ref.split(".")))
+    try:
+      return tuple(map(int, self.ref.split("."))) > tuple(map(int, other.ref.split(".")))
+    except ValueError:
+      return 0 # just do something, will need to implement a better version
 
 class TagSearch(FTSModel):
   tag = SearchField()
