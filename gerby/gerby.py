@@ -111,14 +111,32 @@ def show_tag(tag):
   tag = Tag.get(Tag.tag == tag)
 
   if tag.type == "chapter":
-    sections = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "section", Tag.ref.startswith(tag.ref + "."))
-    sections = sorted(sections)
+    sectionCommands = ["section", "subsection", "subsubsection"] # so we assume that the top level is chapter
+    # we ignore this for now, and do things by hand...
 
-    # to avoid n+1 query we select all tags at once and then let Python figure it out
-    tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type != "section")
+    def depth(tag):
+      return len(tag.ref.split("."))
+
+    tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN.LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."))
     tags = sorted(tags)
+
+    chapter = []
+
+    sections = [tag for tag in tags if tag.type == "section"]
     for section in sections:
-      section.tags = [tag for tag in tags if tag.ref.startswith(section.ref + ".")]
+      section.children = []
+
+      for tag in tags:
+        if tag.ref.startswith(section.ref + ".") and depth(tag) == depth(section) + 1:
+          section.children.append(tag)
+
+      for child in section.children:
+        if child.type == "subsection":
+          child.children = []
+
+          for tag in tags:
+            if tag.ref.startswith(child.ref) and depth(tag) == depth(child) + 1:
+              child.children.append(tag)
 
     return render_template("show_chapter.html", chapter=tag, sections=sections)
 

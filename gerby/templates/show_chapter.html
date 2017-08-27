@@ -2,13 +2,11 @@
 {% block body %}
 <h2>{{ chapter.tag }}</h2>
 <ul>
-  {% for section in sections %}
-  <li><a href="{{ tagURL(section.tag) }}">Tag {{ section.tag }}</a> points to Section {{ section.ref }}: {{ section.labelname.name }}
-    <ul>
-    {% for tag in section.tags %}
-    <li><a href="{{ tagURL( tag.tag) }}">Tag {{ tag.tag }}</a> points to {{ tag.type|capitalize }} {{ tag.ref }}</a>
-    {% endfor %}
-  </ul>
+  {% for section in sections recursive %}
+    <li>{{ section.type | capitalize }} <a href="{{ tagURL(section.tag) }}">{{ section.ref }}</a>{% if section.labelname.name %}: {{ section.labelname.name }}{% endif %}
+    {% if section.children %}
+      <ul>{{ loop(section.children) }}</ul>
+    {% endif %}
   {% endfor %}
 </ul>
 {% endblock %}
