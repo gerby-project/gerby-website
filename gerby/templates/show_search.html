@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block body %}
+<ol>
+  {% for result in results %}
+    <li>{{ result.type | capitalize }} <a href="{{ tagURL(result.tag) }}">{{ result.ref }}</a>
+    {#{% if result.labelname.name %}: {{ result.labelname.name }}{% endif %}#}
+  {% endfor %}
+</ol>
+{% endblock %}
