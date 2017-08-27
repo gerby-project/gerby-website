@@ -65,15 +65,13 @@ app.config.update(dict(
   DATABASE=os.path.join(app.root_path, "stacks.sqlite"),
 ))
 
-@app.route("/")
-def show_tags():
-  tags = Tag.select()
-
-  return render_template("show_tags.html", tags=tags)
-
 """
 static pages
 """
+@app.route("/")
+def show_tags():
+  return render_template("static/about.html")
+
 @app.route("/about")
 def show_about():
   return render_template("static/about.html")
