@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {# TODO there might be mathematics and even HTML in here... #}
-{# ideally we'd have the Unicode output from plasTeX here, at least for the mathematics #}
+{# ideally we'd have the Unicode output from plasTeX here? #}
 {% block title %}Chapter {{ chapter.ref }}: {{ chapter.labelname.name }}{% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 
 <ul>
   {% for section in sections recursive %}
-    <li>{{ section.type | capitalize }} <a href="{{ tagURL(section.tag) }}">{{ section.ref }}</a>{% if section.labelname.name %}: {{ section.labelname.name }}{% endif %}
+    <li>{{ section.type | capitalize }} <a href="{{ tagURL(section.tag) }}">{{ section.ref }}</a>{% if section.labelname.name %}: {{ section.labelname.name | safe }}{% endif %}
     {% if section.children %}
       <ul>{{ loop(section.children) }}</ul>
     {% endif %}

@@ -119,6 +119,8 @@ def show_tag(tag):
   tag = Tag.get(Tag.tag == tag)
 
   if tag.type == "chapter":
+    chapter = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.tag == tag).get()
+
     sectionCommands = ["section", "subsection", "subsubsection"] # so we assume that the top level is chapter
     # we ignore this for now, and do things by hand...
 
@@ -128,9 +130,8 @@ def show_tag(tag):
     tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN.LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."))
     tags = sorted(tags)
 
-    chapter = []
-
     sections = [tag for tag in tags if tag.type == "section"]
+
     for section in sections:
       section.children = []
 
@@ -146,7 +147,7 @@ def show_tag(tag):
             if tag.ref.startswith(child.ref) and depth(tag) == depth(child) + 1:
               child.children.append(tag)
 
-    return render_template("show_chapter.html", chapter=tag, sections=sections)
+    return render_template("show_chapter.html", chapter=chapter, sections=sections)
 
   else:
     # TODO maybe always generate the breadcrumb data, but only pass it if at least 3 levels deep?
