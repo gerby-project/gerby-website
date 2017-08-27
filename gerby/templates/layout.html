@@ -1,28 +1,33 @@
 <!doctype html>
 <html>
 <head>
-  <title>Stacks Project</title>
+  <meta charset="utf-8">
+
+  <title>{% block title %}{% endblock %}&mdash;Stacks Project</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tag.css') }}">
+
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       extensions: ['tex2jax.js'],
-      preferredFont: "STIX",
-      jax: ['input/TeX','output/HTML-CSS'],
-      TeX: {extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'],
-      TagSide: 'left'},
+      jax: ['input/TeX','output/commonHTML'],
+      TeX: {extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'], TagSide: 'left'},
       tex2jax: {
         inlineMath: [['$','$']],
         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
       },
-      'HTML-CSS': { scale: 85 }
+      'HTML-CSS': { scale: 100 }
     });
   </script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+  <script type="text/javascript" src="/static/MathJax/MathJax.js"></script>
+
+  <link rel="icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
+  <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
 </head>
+
 <body>
   <header>
-    <h1>The Stacks Project</h1>
+    <h1><a href="/">The Stacks Project</a></h1>
   </header>
   <nav>
     <ul id="mobile-nav-1">
@@ -32,17 +37,15 @@
           <input type="search" name="quicksearchfield" id="quicksearchfield">
           <!--<button type="submit">-->
         </form>
-        <!--<li><a href="/search">search</a>-->
     </ul>
 
     <ul id="mobile-nav-2">
-      <li><a href="#">about</a>
-      <li><a href="#">tags</a>
-      <li><a href="#">bibliography</a>
-      <li><a href="#">comments</a>
-      <li><a href="#">blog</a>
+      <li><a href="/about">about</a>
+      <li><a href="/browse">tags</a>
+      <!--<li><a href="/bibliography">bibliography</a>-->
     </ul>
   </nav>
+
   <div id="body">
     <section id="main">
       {% macro tagURL(tag) -%}/tag/{{ tag }}{%- endmacro %}

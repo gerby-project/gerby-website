@@ -2,12 +2,30 @@
 @import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
 
+@media only screen and (min-device-width: 480px) {
+  -webkit-text-size-adjust: 150%;
+}
+
+@media only screen and (min-device-width: 768px) {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* PRINT
+ * add tag to plasTeX output
+ * mimick the PDF as much as possible!
+ * = use Computer Modern as font
+ */
+
+html {
+  padding: 0;
+  margin: 0;
+}
+
 body {
   font-family: Georgia, Arial, sans-serif;
   font-size: 15px;
   padding: 0;
   margin: 0;
-  -webkit-text-size-adjust: 100%;
 }
 
 header {
@@ -21,15 +39,23 @@ h1 {
   font-weight: normal;
   top: 0;
   margin: 0;
-  padding: .5em;
-  height: 23px;
+  height: 2em;
   width: 100%;
   font-weight: normal;
   font-size: 20px;
+  vertical-align: middle;
+}
+
+h1 a {
+  display: block;
+  height: 100%;
+  padding-left: 45px;
+  padding-top: .4em;
   background-image: url('/static/stacks.png');
   background-repeat: no-repeat;
   background-position: 3px 3px;
-  padding-left: 45px;
+  color: black;
+  text-decoration: none;
 }
 
 form#quicksearch input {
@@ -88,7 +114,7 @@ ul#mobile-nav-2 li {
 div#body {
   margin: 90px auto 1em auto;
   padding: 0 1em;
-  max-width: 600px;
+  max-width: 60em;
 }
 
 ul.breadcrumb {
@@ -98,4 +124,14 @@ ul.breadcrumb {
 
 ul.breadcrumb li + li:before {
   content: ">  ";
+}
+
+@media (max-width: 480px) {
+  h1 a {
+    color: transparent;
+  }
+
+  ul#mobile-nav-2 li {
+    padding: .5em;
+  }
 }
