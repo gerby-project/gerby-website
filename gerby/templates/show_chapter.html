@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
+
+{# TODO there might be mathematics and even HTML in here... #}
+{# ideally we'd have the Unicode output from plasTeX here, at least for the mathematics #}
+{% block title %}Chapter {{ chapter.ref }}: {{ chapter.labelname.name }}{% endblock %}
+
 {% block body %}
-<h2>{{ chapter.tag }}</h2>
+<h2>Chapter {{ chapter.ref }}: {{ chapter.labelname.name }}</h2>
+
 <ul>
   {% for section in sections recursive %}
     <li>{{ section.type | capitalize }} <a href="{{ tagURL(section.tag) }}">{{ section.ref }}</a>{% if section.labelname.name %}: {{ section.labelname.name }}{% endif %}
