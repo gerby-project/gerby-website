@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
+
+{% block title %}Tag {{ tag.tag }}{% endblock %}
+
 {% block body %}
-<h2>{{ tag.tag }}</h2>
+<h2>Tag {{ tag.tag }}</h2>
+
 {% if breadcrumb %}
   <ul class="breadcrumb">
   {% for parent in breadcrumb %}
@@ -21,4 +25,3 @@
   {% endif %}
 </div>
 {% endblock %}
-
