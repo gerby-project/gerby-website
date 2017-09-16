@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}Bibliography entry{% endblock %}
+
+{% block body %}
+  {% for field in entry.fields %}
+    <dt>{{ field }}
+    <dd>{{ entry.fields[field] }}
+  {% endfor %}
+  </ul>
+{% endblock %}

@@ -4,8 +4,9 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 
 from peewee import *
 from playhouse.sqlite_ext import *
+import bibtexparser
 
-FILENAME = "htt.sqlite"
+FILENAME = "stacks.sqlite"
 
 db = SqliteExtDatabase(FILENAME)
 
@@ -58,6 +59,20 @@ class Extra(BaseModel):
 class LabelName(BaseModel):
   tag = ForeignKeyField(Tag)
   name = CharField()
+
+class BibliographyEntry(BaseModel):
+  key = CharField(unique=True, primary_key=True)
+  entrytype = CharField()
+
+class Citation(BaseModel):
+  tag = ForeignKeyField(Tag)
+  key = ForeignKeyField(BibliographyEntry)
+
+class BibliographyField(BaseModel):
+  key = ForeignKeyField(BibliographyEntry)
+  field = CharField()
+  value = CharField()
+
 
 
 # Flask setup code
@@ -191,3 +206,25 @@ def show_tag(tag):
     footnotes = Footnote.select().where(Footnote.label << labels)
 
     return render_template("show_tag.html", tag=tag, breadcrumb=breadcrumb, html=html, footnotes=footnotes)
+
+@app.route("/bibliography")
+def show_bibliography():
+  entries = BibliographyEntry.select()
+
+  for entry in entries:
+    fields = BibliographyField.select().where(BibliographyField.key == entry.key)
+    for field in fields:
+      setattr(entry, field.field, field.value)
+
+  return render_template("show_bibliography.html", entries=entries)
+
+@app.route("/bibliography/<string:key>")
+def show_entry(key):
+  entry = BibliographyEntry.get(BibliographyEntry.key == key)
+
+  fields = BibliographyField.select().where(BibliographyField.key == entry.key)
+  entry.fields = dict()
+  for field in fields:
+    entry.fields[field.field] = field.value
+
+  return render_template("show_entry.html", entry=entry)

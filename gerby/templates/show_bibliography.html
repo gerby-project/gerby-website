@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Bibliography{% endblock %}
+
+{% block body %}
+  <ul class="entries">
+  {% for entry in entries %}
+    <li>{{ entry.author}}, <a href="/bibliography/{{ entry.key }}">{{ entry.title }}</a>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
