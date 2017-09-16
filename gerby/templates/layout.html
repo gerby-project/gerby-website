@@ -10,7 +10,7 @@
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       extensions: ['tex2jax.js'],
-      jax: ['input/TeX','output/commonHTML'],
+      jax: ['input/TeX','output/HTML-CSS'],
       TeX: {extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'], TagSide: 'left'},
       tex2jax: {
         inlineMath: [['$','$']],
@@ -19,7 +19,9 @@
       'HTML-CSS': { scale: 100 }
     });
   </script>
-  <script type="text/javascript" src="/static/MathJax/MathJax.js"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js">
+  </script>
 
   <link rel="icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
   <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
