@@ -6,16 +6,22 @@ import os
 import os.path
 import logging, sys
 import pickle
+import bibtexparser
 
 logging.basicConfig(stream=sys.stdout)
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 
-PATH = "htt"
-FILENAME = "htt.sqlite"
-PAUX = "htt.paux"
-TAGS = "tags.htt"
+PATH = "book"
+FILENAME = "stacks.sqlite"
+PAUX = "book.paux"
+TAGS = "tags"
+
+#PATH = "htt"
+#FILENAME = "htt.sqlite"
+#PAUX = "htt.paux"
+#TAGS = "tags.htt"
 
 db = SqliteExtDatabase(FILENAME)
 
@@ -62,6 +68,19 @@ class LabelName(BaseModel):
   tag = ForeignKeyField(Tag)
   name = CharField()
 
+class BibliographyEntry(BaseModel):
+  key = CharField(unique=True, primary_key=True)
+  entrytype = CharField()
+
+class Citation(BaseModel):
+  tag = ForeignKeyField(Tag)
+  key = ForeignKeyField(BibliographyEntry)
+
+class BibliographyField(BaseModel):
+  key = ForeignKeyField(BibliographyEntry)
+  field = CharField()
+  value = CharField()
+
 
 # create database if it doesn't exist already
 if not os.path.isfile(FILENAME):
@@ -71,9 +90,12 @@ if not os.path.isfile(FILENAME):
 
 # the information on disk
 files = [f for f in os.listdir(PATH) if os.path.isfile(os.path.join(PATH, f)) and f != "index"] # index is always created
+
 tagFiles = [filename for filename in files if filename.endswith(".tag")]
 proofFiles = [filename for filename in files if filename.endswith(".proof")]
 footnoteFiles = [filename for filename in files if filename.endswith(".footnote")]
+# TODO make sure that plasTeX copies the used .bib files to the output folder
+bibliographyFiles = [filename for filename in files if filename.endswith(".bib")]
 
 extras = ("slogan", "history")
 extraFiles = [filename for filename in files if filename.endswith(extras)]
@@ -86,6 +108,7 @@ with open(TAGS) as f:
   tags = dict([line.split(",") for line in tags if "," in line])
   labels = {item: key for key, item in tags.items()}
 
+"""
 # import tags
 log.info("Importing tags")
 for filename in tagFiles:
@@ -232,3 +255,34 @@ with db.atomic():
   chunk = 100 # despite its name, Model.insert_many cannot insert too many at the same time
   for i in range(0, len(names), chunk):
     LabelName.insert_many(names[i:i+chunk]).execute()
+"""
+
+# import bibliography
+if BibliographyEntry.table_exists():
+  BibliographyEntry.drop_table()
+db.create_table(BibliographyEntry)
+
+if BibliographyField.table_exists():
+  BibliographyField.drop_table()
+db.create_table(BibliographyField)
+
+for bibliographyFile in bibliographyFiles:
+  with open(bibliographyFile) as f:
+    contents = f.read()
+
+  bibtex = bibtexparser.loads(contents)
+
+  for entry in bibtex.entries:
+    BibliographyEntry.create(entrytype = entry["ENTRYTYPE"], key = entry["ID"])
+
+    for field, value in entry.items():
+      # bibtexparser puts auto-generated fields in uppercase
+      if not field.islower():
+        continue
+
+      BibliographyField.create(key = entry["ID"], field = field, value = value)
+
+# managing citations
+if Citation.table_exists():
+  Citation.drop_table()
+db.create_table(Citation)
