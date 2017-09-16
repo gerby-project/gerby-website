@@ -108,7 +108,6 @@ with open(TAGS) as f:
   tags = dict([line.split(",") for line in tags if "," in line])
   labels = {item: key for key, item in tags.items()}
 
-"""
 # import tags
 log.info("Importing tags")
 for filename in tagFiles:
@@ -255,7 +254,6 @@ with db.atomic():
   chunk = 100 # despite its name, Model.insert_many cannot insert too many at the same time
   for i in range(0, len(names), chunk):
     LabelName.insert_many(names[i:i+chunk]).execute()
-"""
 
 # import bibliography
 if BibliographyEntry.table_exists():
