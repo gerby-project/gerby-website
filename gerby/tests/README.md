@@ -15,5 +15,6 @@ To run this script:
   where your `PATH` variable can find.
   3. Change the parameters `database` and `url` in `find_tex_errors.py` as
   needed.
-  4. Run `python find_tex_errors.py`.
+  4. Run your Flask app.
+  5. Run `python find_tex_errors.py`.
 
