@@ -11,7 +11,13 @@
     MathJax.Hub.Config({
       extensions: ['tex2jax.js'],
       jax: ['input/TeX','output/HTML-CSS'],
-      TeX: {extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'], TagSide: 'left'},
+      TeX: {
+        extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'],
+        Macros: {
+          linebreak: ["", 1, ""],
+          }
+        TagSide: 'left'
+      },
       tex2jax: {
         inlineMath: [['$','$']],
         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],

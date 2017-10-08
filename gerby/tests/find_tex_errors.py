@@ -1,24 +1,37 @@
 from sqlite3 import connect
 from selenium import webdriver
+from time import sleep
 
 database = "../stacks.sqlite"
 url = "http://localhost:5000"
+setup_done_flag = """
+window.done = false;
+MathJax.Hub.Queue(function() { window.done = true; })
+"""
 find_tex_errors = """
-allJax = MathJax.Hub.getAllJax();
-errors = [];
-for (i = 0; i < allJax.length; i++) {
-    if(allJax[i].texError) {
-        errors.push(allJax[i].originalText);
+if(window.done) {
+    allJax = MathJax.Hub.getAllJax();
+    errors = [];
+    for (i = 0; i < allJax.length; i++) {
+        if(allJax[i].texError) {
+            errors.push(allJax[i].originalText);
+        }
     }
+    return errors;
+} else {
+    return -1;
 }
-return errors;
 """
 
 def get_tex_errors_on_tag(tag,browser=None):
     if browser is None:
         browser = webdriver.Firefox()
     browser.get("{0}/tag/{1}".format(url,tag))
+    browser.execute_script(setup_done_flag)
     errors = browser.execute_script(find_tex_errors)
+    while errors == -1:
+        sleep(1)
+        errors = browser.execute_script(find_tex_errors)
     if browser is None:
         browser.quit()
     return errors
