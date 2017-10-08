@@ -273,6 +273,8 @@ for bibliographyFile in bibliographyFiles:
   for entry in bibtex.entries:
     BibliographyEntry.create(entrytype = entry["ENTRYTYPE"], key = entry["ID"])
 
+    entry = bibtexparser.customization.convert_to_unicode(entry) # TODO once 0.7.0 is released this will have to change
+
     for field, value in entry.items():
       # bibtexparser puts auto-generated fields in uppercase
       if not field.islower():
