@@ -1,20 +1,7 @@
 from peewee import *
 from playhouse.sqlite_ext import *
 
-import re
-import os
-import os.path
-import logging, sys
-import pickle
-import bibtexparser
-
 import gerby.config as config
-
-
-logging.basicConfig(stream=sys.stdout)
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
-
 
 db = SqliteExtDatabase(config.DATABASE)
 

@@ -1,7 +1,7 @@
-PATH = "book"
+PATH = "stacks"
 DATABASE = "stacks.sqlite"
-PAUX = "book.paux"
-TAGS = "tags"
+PAUX = "stacks.paux"
+TAGS = "stacks.tags"
 
 #PATH = "htt"
 #DATABASE = "htt.sqlite"
