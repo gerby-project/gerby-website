@@ -6,9 +6,9 @@ from peewee import *
 from playhouse.sqlite_ext import *
 import bibtexparser
 
-FILENAME = "stacks.sqlite"
+import gerby.config as config
 
-db = SqliteExtDatabase(FILENAME)
+db = SqliteExtDatabase(config.DATABASE)
 
 # TODO this should be taken from a different package?
 # TODO or should the tools and the server be in the same package?
