@@ -7,81 +7,13 @@ from playhouse.sqlite_ext import *
 import bibtexparser
 
 import gerby.config as config
+from gerby.database import *
 
 db = SqliteExtDatabase(config.DATABASE)
-
-# TODO this should be taken from a different package?
-# TODO or should the tools and the server be in the same package?
-class BaseModel(Model):
-  class Meta:
-    database = db
-
-class Tag(BaseModel):
-  tag = CharField(unique=True, primary_key=True)
-  label = CharField(unique=True, null=True)
-  active = BooleanField(null=True)
-  ref = CharField(null=True)
-  type = CharField(null=True)
-  html = TextField(null=True)
-
-  # allows us to sort tags according to their reference
-  def __gt__(self, other):
-    try:
-      return tuple(map(int, self.ref.split("."))) > tuple(map(int, other.ref.split(".")))
-    except ValueError:
-      return 0 # just do something, will need to implement a better version
-
-class TagSearch(FTSModel):
-  tag = SearchField()
-  html = SearchField() # HTML of the statement or (sub)section
-  full = SearchField() # HTML of the statement including the proof (if relevant)
-
-  class Meta:
-    database = db
-
-class Proof(BaseModel):
-  tag = ForeignKeyField(Tag, related_name = "proofs")
-  html = TextField(null=True)
-  number = IntegerField()
-
-class Dependency(BaseModel):
-  tag = ForeignKeyField(Tag, related_name="from")
-  to = ForeignKeyField(Tag, related_name="to")
-
-class Footnote(BaseModel):
-  label = CharField(unique=True, primary_key=True)
-  html = TextField(null=True)
-
-class Extra(BaseModel):
-  tag = ForeignKeyField(Tag)
-  html = TextField(null=True)
-
-class LabelName(BaseModel):
-  tag = ForeignKeyField(Tag)
-  name = CharField()
-
-class BibliographyEntry(BaseModel):
-  key = CharField(unique=True, primary_key=True)
-  entrytype = CharField()
-
-class Citation(BaseModel):
-  tag = ForeignKeyField(Tag)
-  key = ForeignKeyField(BibliographyEntry)
-
-class BibliographyField(BaseModel):
-  key = ForeignKeyField(BibliographyEntry)
-  field = CharField()
-  value = CharField()
-
-
 
 # Flask setup code
 app = Flask(__name__)
 app.config.from_object(__name__)
-
-app.config.update(dict(
-  DATABASE=os.path.join(app.root_path, "stacks.sqlite"),
-))
 
 """
 static pages
