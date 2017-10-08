@@ -265,7 +265,7 @@ if BibliographyField.table_exists():
 db.create_table(BibliographyField)
 
 for bibliographyFile in bibliographyFiles:
-  with open(bibliographyFile) as f:
+  with open(os.path.join(PATH, bibliographyFile)) as f:
     contents = f.read()
 
   bibtex = bibtexparser.loads(contents)
