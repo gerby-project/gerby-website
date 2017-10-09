@@ -3,10 +3,42 @@ from flask import render_template
 from gerby.gerby import app
 from gerby.database import *
 
+headings = ["chapter", "section", "subsection", "subsubsection"]
+
+# turn a flat list into a tree based on tag.ref length
+def combine(tags):
+  level = min([len(tag.ref.split(".")) for tag in tags])
+
+  output = []
+  for tag in tags:
+    if len(tag.ref.split(".")) == level:
+      output.append(tag)
+    else:
+      if not hasattr(output[-1], "children"):
+        output[-1].children = []
+
+      output[-1].children.append(tag)
+
+  for tag in output:
+    if hasattr(tag, "children"):
+      combine(tag.children)
+
+  return output
+
+def tree(parent):
+  tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(parent.ref + "."), Tag.type << headings)
+  tags = sorted(tags)
+
+  return combine(tags)
+
+
 @app.route("/tag/<string:tag>")
 # TODO we also need to support the old format of links!
 def show_tag(tag):
   tag = Tag.get(Tag.tag == tag)
+
+  if tag.type in headings:
+    tree(tag)
 
   if tag.type == "chapter":
     chapter = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.tag == tag).get()
