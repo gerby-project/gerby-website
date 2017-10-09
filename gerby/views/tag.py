@@ -25,20 +25,32 @@ def combine(tags):
 
   return output
 
-def tree(parent):
+def getTree(parent):
   tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(parent.ref + "."), Tag.type << headings)
   tags = sorted(tags)
 
   return combine(tags)
 
+def getBreadcrumb(tag):
+  pieces = tag.ref.split(".")
+  output = []
+  refs = [".".join(pieces[0:i]) for i in range(len(pieces))]
+
+  # one has to pay attention to numbered lists
+  tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref << refs, Tag.type << headings)
+
+  return sorted(tags)
 
 @app.route("/tag/<string:tag>")
 # TODO we also need to support the old format of links!
 def show_tag(tag):
   tag = Tag.get(Tag.tag == tag)
 
+  getBreadcrumb(tag)
+
   if tag.type in headings:
-    tree(tag)
+    tree = getTree(tag)
+
 
   if tag.type == "chapter":
     chapter = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.tag == tag).get()
