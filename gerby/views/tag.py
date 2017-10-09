@@ -46,7 +46,7 @@ def show_tag(tag):
   # if the tag is section-like: decide whether we output a table of contents or generate all output
   # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
   if tag.type in headings:
-    tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
+    tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."))
     tags = sorted(tags)
 
     # if we are below the cutoff: generate all data
