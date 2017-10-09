@@ -7,7 +7,7 @@ headings = ["chapter", "section", "subsection", "subsubsection"]
 
 # turn a flat list into a tree based on tag.ref length
 def combine(tags):
-  level = min([len(tag.ref.split(".")) for tag in tags])
+  level = min([len(tag.ref.split(".")) for tag in tags], default=0)
 
   output = []
   for tag in tags:
