@@ -16,6 +16,17 @@
 <div class="html">
   {{ html | safe }}
 
+  {% if tree %}
+    <ul class="tree">
+    {% for item in tree recursive %}
+      <li>{{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}
+      {% if item.children %}
+        <ul>{{ loop(item.children) }}</ul>
+      {% endif %}
+    {% endfor %}
+    </ul>
+  {% endif %}
+
   {% if footnotes %}
     <section id="footnotes">
     {% for footnote in footnotes %}
