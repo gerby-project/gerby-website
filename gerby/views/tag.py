@@ -21,7 +21,7 @@ def combine(tags):
 
   for tag in output:
     if hasattr(tag, "children"):
-      combine(tag.children)
+      tag.children = combine(tag.children)
 
   return output
 
