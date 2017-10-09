@@ -8,7 +8,7 @@
 {% if breadcrumb %}
   <ul class="breadcrumb">
   {% for parent in breadcrumb %}
-    <li><a href="{{ tagURL(parent.tag) }}" data-tag="{{ parent.tag }}">{{ parent.type | capitalize }} {{ parent.ref }}: {{ parent.labelname.name }}</a>
+    <li><a href="{{ tagURL(parent.tag) }}">{{ parent.type | capitalize }} {{ parent.ref }}: {{ parent.labelname.name }}</a>
   {% endfor %}
   </ul>
 {% endif %}

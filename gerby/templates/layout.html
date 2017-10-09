@@ -29,6 +29,8 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js">
   </script>
 
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
   <link rel="icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
   <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
 </head>
@@ -63,6 +65,17 @@
     <section id="meta">
     </section>
   </div>
+
+  <script type="text/javascript">
+var link = $("#mobile-nav-2").append("<li><a href='#'>toggle</a>")
+link.click(function() {
+  $("*[data-tag]").each(function(index, reference) {
+    var value = $(reference).attr("data-tag");
+    $(reference).attr("data-tag", $(reference).text())
+    $(reference).text(value);
+  });
+});
+  </script>
 
 </body>
 </html>
