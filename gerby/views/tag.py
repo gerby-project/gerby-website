@@ -14,10 +14,14 @@ def combine(tags):
     if len(tag.ref.split(".")) == level:
       output.append(tag)
     else:
-      if not hasattr(output[-1], "children"):
-        output[-1].children = []
-
-      output[-1].children.append(tag)
+      # consider "theorem 3.2.0.1": it should go with 3.2, not the non-existent 3.2.0
+      if len(output) == 0:
+        output.append(tag)
+      # just normal structure here
+      else:
+        if not hasattr(output[-1], "children"):
+          output[-1].children = []
+        output[-1].children.append(tag)
 
   for tag in output:
     if hasattr(tag, "children"):
