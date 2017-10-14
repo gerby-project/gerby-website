@@ -41,7 +41,10 @@ def getBreadcrumb(tag):
 
 def getNeighbours(tag):
   pieces = tag.ref.split(".")
-  pieces[-1] = int(pieces[-1])
+  try:
+    pieces[-1] = int(pieces[-1])
+  except ValueError:
+    return (None, None) # TODO deal with appendices
 
   # left
   pieces[-1] = pieces[-1] - 1
