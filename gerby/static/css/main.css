@@ -32,7 +32,7 @@ header {
   z-index: 1;
 }
 
-h1 {
+header h1 {
   z-index: 1;
   background-color: #d9d8d1;
   position: fixed;
@@ -46,7 +46,7 @@ h1 {
   vertical-align: middle;
 }
 
-h1 a {
+header h1 a {
   display: block;
   height: 100%;
   padding-left: 45px;
@@ -127,7 +127,7 @@ ul.breadcrumb li + li:before {
 }
 
 @media (max-width: 480px) {
-  h1 a {
+  header h1 a {
     color: transparent;
   }
 
