@@ -41,3 +41,15 @@ div.html article.env-proof p.qed {
   float: right;
   margin-top: -0em;
 }
+
+div.html div.equation span.equation-label {
+  float: left;
+}
+
+div.html div.equation span.equation-label::before {
+  content: "(";
+}
+
+div.html div.equation span.equation-label::after {
+  content: ")";
+}
