@@ -187,6 +187,7 @@ with db.atomic():
     LabelName.insert_many(names[i:i+chunk]).execute()
 
 # import bibliography
+log.info("Importing bibliography")
 if BibliographyEntry.table_exists():
   BibliographyEntry.drop_table()
 db.create_table(BibliographyEntry)
