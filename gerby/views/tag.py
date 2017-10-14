@@ -54,8 +54,9 @@ def show_tag(tag):
     tags = sorted(tags)
 
     # if we are below the cutoff: generate all data
-    if headings.index(tag.type) >= headings.index(config.UNIT):
-      html = tag.html + "".join([item.html for item in tags])
+    html = tag.html
+    if headings.index(tag.type) > headings.index(config.UNIT):
+      html = html + "".join([item.html for item in tags])
 
   # it's a tag (maybe with proofs)
   else:
