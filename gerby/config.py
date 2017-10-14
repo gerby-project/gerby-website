@@ -7,6 +7,7 @@ UNIT = "section"
 #PATH = "htt"
 #DATABASE = "htt.sqlite"
 #PAUX = "htt.paux"
-#TAGS = "tags.htt"
+#TAGS = "htt.tags"
+#UNIT = "subsection"
 
 
