@@ -20,7 +20,16 @@ class Tag(BaseModel):
   # allows us to sort tags according to their reference
   def __gt__(self, other):
     try:
-      return tuple(map(int, self.ref.split("."))) > tuple(map(int, other.ref.split(".")))
+      for (i, j) in zip(self.ref.split("."), other.ref.split(".")):
+        if i.isdigit() and j.isdigit():
+          if int(i) != int(j): return int(i) > int(j)
+        elif i.isdigit() and not j.isdigit():
+          return False
+        elif not i.isdigit() and j.isdigit():
+          return True
+        else:
+          if i != j: return i > j
+
     except ValueError:
       return 0 # just do something, will need to implement a better version
 
