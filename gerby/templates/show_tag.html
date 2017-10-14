@@ -13,6 +13,15 @@
   </ul>
 {% endif %}
 
+<ul class="neighbours">
+{% if neighbours[0] %}
+  <li><a href="{{ tagURL(neighbours[0].tag) }}">{{ neighbours[0].type | capitalize }} <span data-tag="{{ neighbours[0].tag }}">{{ neighbours[0].ref }}</span></a>
+{% endif %}
+{% if neighbours[1] %}
+  <li><a href="{{ tagURL(neighbours[1].tag) }}">{{ neighbours[1].type | capitalize }} <span data-tag="{{ neighbours[1].tag }}">{{ neighbours[1].ref }}</span></a>
+{% endif %}
+</ul>
+
 <div class="html">
   {{ html | safe }}
 

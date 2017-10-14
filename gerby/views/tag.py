@@ -39,6 +39,28 @@ def getBreadcrumb(tag):
 
   return sorted(tags)
 
+def getNeighbours(tag):
+  pieces = tag.ref.split(".")
+  pieces[-1] = int(pieces[-1])
+
+  # left
+  pieces[-1] = pieces[-1] - 1
+  left = ".".join(map(str, pieces))
+  try:
+    left = Tag.get(Tag.ref == left)
+  except Tag.DoesNotExist:
+    left = None
+
+  # right
+  pieces[-1] = pieces[-1] + 2
+  right = ".".join(map(str, pieces))
+  try:
+    right = Tag.get(Tag.ref == right)
+  except Tag.DoesNotExist:
+    right = None
+
+  return (left, right)
+
 @app.route("/tag/<string:tag>")
 # TODO we also need to support the old format of links!
 def show_tag(tag):
@@ -46,6 +68,7 @@ def show_tag(tag):
 
   html = ""
   breadcrumb = getBreadcrumb(tag)
+  neighbours = getNeighbours(tag)
 
   # if the tag is section-like: decide whether we output a table of contents or generate all output
   # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
@@ -80,19 +103,15 @@ def show_tag(tag):
 
   footnotes = Footnote.select().where(Footnote.label << labels)
 
+  tree = None
   # if it's a heading
   if tag.type in headings and headings.index(tag.type) < headings.index(config.UNIT):
     tree = combine(tags)
 
-    return render_template("show_tag.html",
-                           tag=tag,
-                           breadcrumb=breadcrumb,
-                           html=html,
-                           footnotes=footnotes,
-                           tree=tree)
-  else:
-    return render_template("show_tag.html",
-                           tag=tag,
-                           breadcrumb=breadcrumb,
-                           html=html,
-                           footnotes=footnotes)
+  return render_template("show_tag.html",
+                         tag=tag,
+                         breadcrumb=breadcrumb,
+                         neighbours=neighbours,
+                         html=html,
+                         footnotes=footnotes,
+                         tree=tree)
