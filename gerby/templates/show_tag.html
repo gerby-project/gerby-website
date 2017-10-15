@@ -15,12 +15,13 @@
 
 <ul class="neighbours">
 {% if neighbours[0] %}
-  <li><a href="{{ tagURL(neighbours[0].tag) }}">{{ neighbours[0].type | capitalize }} <span data-tag="{{ neighbours[0].tag }}">{{ neighbours[0].ref }}</span></a>
+  <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}">previous {{ neighbours[0].type }}</a>
 {% endif %}
 {% if neighbours[1] %}
-  <li><a href="{{ tagURL(neighbours[1].tag) }}">{{ neighbours[1].type | capitalize }} <span data-tag="{{ neighbours[1].tag }}">{{ neighbours[1].ref }}</span></a>
+  <li class="right"><a href="{{ tagURL(neighbours[1].tag) }}">next {{ neighbours[1].type }}</a>
 {% endif %}
 </ul>
+<br style="clear:both">
 
 <div class="html">
   {{ html | safe }}

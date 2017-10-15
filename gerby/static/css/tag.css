@@ -1,3 +1,29 @@
+ul.neighbours {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul.neighbours li {
+  padding: 0;
+  margin: 0;
+}
+
+ul.neighbours li.left {
+  float: left;
+}
+
+ul.neighbours li.left a:before {
+  content: "<< ";
+}
+
+ul.neighbours li.right {
+  float: right;
+}
+
+ul.neighbours li.right a:after {
+  content: " >>";
+}
+
 div.html {
   line-height: 130%;
 }
