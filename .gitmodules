@@ -1,0 +1,3 @@
+[submodule "gerby/static/jquery-bonsai"]
+	path = gerby/static/jquery-bonsai
+	url = https://github.com/aexmachina/jquery-bonsai.git
