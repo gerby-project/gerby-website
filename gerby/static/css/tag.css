@@ -93,3 +93,13 @@ div.html ul.tree li.has-children > .thumb:after,
 div.html ul.tree li.has-children.expanded > .thumb:after {
   font-size: 1.3em;
 }
+
+div.html div.expand-all i.separator {
+  display: block;
+}
+
+div.html div.expand-all a {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
