@@ -28,12 +28,18 @@
   {% if tree %}
     <ul class="tree">
     {% for item in tree recursive %}
-      <li>{{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}
+      {% if loop.depth <= 1 %}<li class="expanded">{% else %}<li>{% endif %}
+      {{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}
       {% if item.children %}
         <ul>{{ loop(item.children) }}</ul>
       {% endif %}
     {% endfor %}
     </ul>
+    <script type="text/javascript">
+$("ul.tree").bonsai({
+  addExpandAll: true,
+});
+    </script>
   {% endif %}
 
   {% if footnotes %}

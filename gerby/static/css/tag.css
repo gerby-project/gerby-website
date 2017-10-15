@@ -53,3 +53,17 @@ div.html div.equation span.equation-label::before {
 div.html div.equation span.equation-label::after {
   content: ")";
 }
+
+div.html ul.tree li {
+  padding-top: .2em;
+  padding-bottom: .2em;
+}
+
+/* tweaks to jquery.bonsai.css */
+div.html ul.tree li .thumb {
+  padding: 1px 1em 2px 0;
+}
+div.html ul.tree li.has-children > .thumb:after,
+div.html ul.tree li.has-children.expanded > .thumb:after {
+  font-size: 1.3em;
+}
