@@ -22,13 +22,18 @@ class Tag(BaseModel):
     try:
       for (i, j) in zip(self.ref.split("."), other.ref.split(".")):
         if i.isdigit() and j.isdigit():
-          if int(i) != int(j): return int(i) > int(j)
+          if int(i) != int(j):
+            return int(i) > int(j)
         elif i.isdigit() and not j.isdigit():
           return False
         elif not i.isdigit() and j.isdigit():
           return True
         else:
-          if i != j: return i > j
+          if i != j:
+            return i > j
+
+      # if we got this far it should mean one is a substring of the other?
+      return len(self.ref) > len(other.ref)
 
     except ValueError:
       return 0 # just do something, will need to implement a better version
