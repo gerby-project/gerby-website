@@ -5,15 +5,13 @@
 {% block breadcrumb %}
 
 {% for parent in breadcrumb %}
-  <!-- TODO maybe only make the number clickable, to be consistent? -->
   <li{% if loop.last %} class="active"{% endif %}>{{ parent.type | capitalize }} <a href="{{ tagURL(parent.tag) }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.labelname.name %}: {{ parent.labelname.name }}{% endif %}
+  {% if loop.last %}(<a href="{{ tagURL(parent.tag) }}/cite">cite</a>){% endif %}
 {% endfor %}
 
 {% endblock %}
 
-{% block body %}
-<h2>Tag {{ tag.tag }}</h2>
-
+{% block neighbours %}
 <ul class="neighbours">
 {% if neighbours[0] %}
   <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}">previous {{ neighbours[0].type }}</a>
@@ -23,6 +21,11 @@
 {% endif %}
 </ul>
 <br style="clear:both">
+
+{% endblock %}
+
+{% block body %}
+<h2>Tag {{ tag.tag }}</h2>
 
 <div class="html">
   {{ html | safe }}

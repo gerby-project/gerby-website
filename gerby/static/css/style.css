@@ -47,8 +47,7 @@ ul.crumbs li + li::before {
 }
 
 ul.crumbs li  { float: left; }
-ul.crumbs li * { text-decoration: none; }
-ul.crumbs li a:hover { text-decoration: none; color: #1d5cb4; }
+ul.crumbs li a:hover { color: #1d5cb4; }
 ul.crumbs li.active { color: #636c72; }
 
 header.col {
