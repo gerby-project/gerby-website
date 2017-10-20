@@ -71,7 +71,32 @@
     </section>
 
     <section id="meta" class="col-4">
+      <!-- TODO make this sticky in the same way as the breadcrumb -->
       {% block neighbours %}{% endblock %}
+
+      <ul id="actions">
+        <li><a id="toggle-numbers" href="#">toggle numbering</a>
+        <li><a id="toggle-proofs" href="#">toggle proofs</a>
+      </ul>
+
+      <script type="text/javascript">
+$("a#toggle-numbers").click(function() {
+  $("*[data-tag]").each(function(index, reference) {
+    $(reference).toggleClass("tag");
+
+    var value = $(reference).attr("data-tag");
+    $(reference).attr("data-tag", $(reference).text())
+    $(reference).text(value);
+  });
+});
+
+$("a#toggle-proofs").click(function() {
+  $(".env-proof *").toggle();
+  // TODO maybe show something like "Proof. [hidden]"
+  // do want then to toggle individual proofs?
+  // TODO also: don't show proof toggle when there are no proofs
+});
+      </script>
       <!-- TODO implement toggle between proofs and no proofs, and numbers versus tags
         for inspiration, see https://ux.stackexchange.com/questions/1318/should-a-toggle-button-show-its-current-state-or-the-state-to-which-it-will-chan
 
@@ -81,16 +106,6 @@
       -->
     </section>
   </div>
-
-  <script type="text/javascript">
-link.click(function() {
-  $("*[data-tag]").each(function(index, reference) {
-    var value = $(reference).attr("data-tag");
-    $(reference).attr("data-tag", $(reference).text())
-    $(reference).text(value);
-  });
-});
-  </script>
 
 </body>
 </html>
