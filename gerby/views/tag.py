@@ -7,22 +7,34 @@ headings = ["chapter", "section", "subsection", "subsubsection"]
 
 # turn a flat list into a tree based on tag.ref length
 def combine(tags):
+  print("dealing with", [t.ref for t in tags])
   level = min([len(tag.ref.split(".")) for tag in tags], default=0)
+  print("level is", level)
 
   output = []
+  children = []
   for tag in tags:
+    # if we are at the bottom level (locally) we add it to the output
     if len(tag.ref.split(".")) == level:
       output.append(tag)
+    # if we have a 0 at on the position of the current level we also add it to the output
+    elif tag.ref.split(".")[level - 1] == "0":
+      output.append(tag)
     else:
-      # consider "theorem 3.2.0.1": it should go with 3.2, not the non-existent 3.2.0
-      if len(output) == 0:
-        output.append(tag)
-      # just normal structure here
-      else:
-        if not hasattr(output[-1], "children"):
-          output[-1].children = []
-        output[-1].children.append(tag)
+      children.append(tag)
 
+  # attach children to the correct parent
+  for tag in children:
+    # construct the reference for the parent
+    ref = ".".join([piece for piece in tag.ref.split(".")[0:level]])
+    for parent in output:
+      if parent.ref == ref:
+        # create children if necessary
+        if not hasattr(parent, "children"):
+          parent.children = []
+        parent.children.append(tag)
+
+  # recurse for all elements in output which have children
   for tag in output:
     if hasattr(tag, "children"):
       tag.children = combine(tag.children)
