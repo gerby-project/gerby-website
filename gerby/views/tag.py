@@ -35,8 +35,7 @@ def getBreadcrumb(tag):
   refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
   print(refs)
 
-  # one has to pay attention to numbered lists TODO
-  tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref << refs)
+  tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref << refs, ~(Tag.type << ["item"]))
 
   return sorted(tags)
 
