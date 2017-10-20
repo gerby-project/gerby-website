@@ -119,3 +119,15 @@ def show_tag(tag):
                          html=html,
                          footnotes=footnotes,
                          tree=tree)
+
+@app.route("/tag/<string:tag>/cite")
+def show_citation(tag):
+  tag = Tag.get(Tag.tag == tag)
+
+  breadcrumb = getBreadcrumb(tag)
+  neighbours = getNeighbours(tag)
+
+  return render_template("citation.html",
+                         tag=tag,
+                         breadcrumb=breadcrumb,
+                         neighbours=neighbours)

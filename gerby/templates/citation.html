@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}How to cite tag {{ tag.tag }}{% endblock %}
+
+{% block breadcrumb %}
+  {% for parent in breadcrumb %}
+    <li{% if loop.last %} class="active"{% endif %}>{{ parent.type | capitalize }} <a href="{{ tagURL(parent.tag) }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.labelname.name %}: {{ parent.labelname.name }}{% endif %}
+    {% if loop.last %}(<a href="{{ tagURL(parent.tag) }}/cite">cite</a>){% endif %}
+  {% endfor %}
+{% endblock %}
+
+{% block neighbours %}
+  <ul class="neighbours">
+  {% if neighbours[0] %}
+    <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}">previous {{ neighbours[0].type }}</a>
+  {% endif %}
+  {% if neighbours[1] %}
+    <li class="right"><a href="{{ tagURL(neighbours[1].tag) }}">next {{ neighbours[1].type }}</a>
+  {% endif %}
+  </ul>
+  <br style="clear:both">
+{% endblock %}
+
+{% block body %}
+  <h2>How to cite tag <span class="tag">{{ tag.tag }}</span></h2>
+
+  <p>You can use one of the following citations in your LaTeX code.
+  <ul id="citations">
+    <li><code>\cite[\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{Tag {{ tag.tag }}}]{stacks-project}</code>
+    <li><code>\cite[\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{{ tag.type | capitalize }} {{ tag.tag }}]{stacks-project}</code> <!-- TODO need to fix Jinja escaping... -->
+    <li><code>\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{Tag {{ tag.tag }}}</code>
+    <li><code>\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{{ tag.type | capitalize }} {{ tag.tag }}}</code>
+  </ul>
+
+  <p>You can use the following in your Bib(La)TeX file.
+  <!-- TODO also give biblatex, do this in a fancy layout too, because we can -->
+  <pre><code>@misc{stacks-project,
+  shorthand    = {Stacks},
+  author       = {The {Stacks Project Authors}},
+  title        = {Stacks Project},
+  howpublished = {\url{http://stacks.math.columbia.edu}},
+  year         = {2017}, <!-- TODO get current year from Python -->
+}</code></pre>
+{% endblock %}
+
