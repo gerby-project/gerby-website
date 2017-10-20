@@ -6,8 +6,7 @@
 
 {% for parent in breadcrumb %}
   <!-- TODO maybe only make the number clickable, to be consistent? -->
-  <!-- TODO make last one special and non-clickable -->
-  <li><a href="{{ tagURL(parent.tag) }}">{{ parent.type | capitalize }} <span data-tag="{{ parent.tag }}">{{ parent.ref }}</span>{% if parent.labelname.name %}: {{ parent.labelname.name }}{% endif %}</a>
+  <li{% if loop.last %} class="active"{% endif %}>{{ parent.type | capitalize }} <a href="{{ tagURL(parent.tag) }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.labelname.name %}: {{ parent.labelname.name }}{% endif %}
 {% endfor %}
 
 {% endblock %}

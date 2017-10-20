@@ -14,7 +14,11 @@ div.bounded {
 
 a {
   text-decoration: none;
-  color: black;
+  color: #1d5cb4;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .crumbs {
@@ -27,8 +31,12 @@ span.burger {
   float: right;
   font-size: 1.8em;
 }
+
 @media screen and (min-width: 540px) {
-span.burger { display: none; } }
+  span.burger {
+    display: none;
+  }
+}
 
 ul.crumbs li + li::before {
   display: inline-block;
@@ -39,8 +47,8 @@ ul.crumbs li + li::before {
 }
 
 ul.crumbs li  { float: left; }
-ul.crumbs li * { text-decoration: none; color: black; }
-ul.crumbs li a:hover { text-decoration: none;color: blue; }
+ul.crumbs li * { text-decoration: none; }
+ul.crumbs li a:hover { text-decoration: none; color: #1d5cb4; }
 ul.crumbs li.active { color: #636c72; }
 
 header.col {
