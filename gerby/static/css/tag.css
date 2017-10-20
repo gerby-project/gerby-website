@@ -108,7 +108,21 @@ div.html div.expand-all i.separator {
 }
 
 div.html div.expand-all a {
-  color: blue;
   cursor: pointer;
+  color: #1d5cb4;
+}
+
+div.html div.expand-all a:hover {
+  color: #1d5cb4;
   text-decoration: underline;
+}
+
+div.html div.expand-all a.all:before {
+  content: '▾▾ ';
+  white-space: pre;
+}
+
+div.html div.expand-all a.none:before {
+  content: '▸▸  ';
+  white-space: pre;
 }

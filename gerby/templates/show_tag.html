@@ -20,7 +20,7 @@
   <li class="right"><a href="{{ tagURL(neighbours[1].tag) }}">next {{ neighbours[1].type }}</a>
 {% endif %}
 </ul>
-<br style="clear:both">
+{% if neighbours[0] or neighbours[1] %}<br style="clear:both">{% endif %}
 
 {% endblock %}
 
