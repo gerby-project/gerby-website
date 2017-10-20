@@ -70,10 +70,11 @@
   </nav>
 
   <div class="row" id="content">
-    <section id="main">
+    <section id="main" class="col">
       {% block body %}{% endblock %}
     </section>
-    <section id="meta">
+    <section id="meta" class="col-4">
+      {% block neighbours %}{% endblock %}
     </section>
   </div>
 
