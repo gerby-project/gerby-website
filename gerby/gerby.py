@@ -35,7 +35,9 @@ def show_chapters():
 
   return render_template("show_chapters.html", chapters=chapters)
 
+app.jinja_env.add_extension('jinja2.ext.do')
 
 import gerby.views.bibliography
 import gerby.views.search
 import gerby.views.tag
+
