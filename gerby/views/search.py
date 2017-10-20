@@ -26,5 +26,5 @@ def show_search():
 
   results = Tag.select(Tag, TagSearch, TagSearch.rank().alias("score")).join(TagSearch, on=(Tag.tag == TagSearch.tag).alias("search")).where(TagSearch.match(request.args["query"]), Tag.type.not_in(["chapter", "section", "subsection"]))
   results = sorted(results)
-  return render_template("show_search.html", results=results)
+  return render_template("show_search.html", query=request.args["query"], results=results)
 

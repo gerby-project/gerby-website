@@ -3,9 +3,19 @@
 {% block title %}Search{% endblock %}
 
 {% block body %}
+<h2>Search</h2>
+<form action="/search">
+  <label for="query">Keywords</label>
+  <input type="search" class="form-control" name="query" id="query" placeholder="keywords or tags" value="{{ query | e }}">
+</form>
+
+<hr>
+
+<h2>{{ results | length }} result{% if (results | length) != 1 %}s{% endif %}</h2>
+
 <ol>
   {% for result in results %}
-    <li>{{ result.type | capitalize }} <a href="{{ tagURL(result.tag) }}">{{ result.ref }}</a>
+    <li>{{ result.type | capitalize }} <a href="{{ tagURL(result.tag) }}" data-tag="{{ result.tag }}">{{ result.ref }}</a>
     {#{% if result.labelname.name %}: {{ result.labelname.name }}{% endif %}#}
   {% endfor %}
 </ol>

@@ -89,7 +89,7 @@ nav#header {
   padding-top: 3px;
 }
 
-form#searchform input {
+form#quicksearch input {
   border-radius: 5px;
   border-style: solid;
   border-width: 0;
@@ -146,5 +146,6 @@ section#meta {
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: 1.4em;
+  font-weight: bold;
 }
