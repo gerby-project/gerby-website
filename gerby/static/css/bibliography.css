@@ -1,0 +1,21 @@
+dl.entry {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: visible;
+}
+
+dl.entry dt {
+  flex: 0 0 20%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+dl.entry dd {
+  flex: 0 0 80%;
+  margin-left: auto;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

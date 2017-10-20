@@ -3,9 +3,19 @@
 {% block title %}Bibliography entry{% endblock %}
 
 {% block body %}
-  {% for field in entry.fields %}
-    <dt>{{ field }}
-    <dd>{{ entry.fields[field] }}
-  {% endfor %}
-  </ul>
+  <dl class="entry">
+    <!-- Bootstrap 4 removes dl-horizontal, right now there is an approximation of this TODO improve: fixed width for labels e.g. is necessary -->
+    {% if "author" in entry.fields %}
+      <dt>author</dt>
+      <dd>{{ entry.fields["author"] }}</dd>
+    {% endif %}
+    {% if "title" in entry.fields %}
+      <dt>title</dt>
+      <dd>{{ entry.fields["title"] }}</dd>
+    {% endif %}
+    {% if "eprint" in entry.fields %}{# assume it's arXiv #}
+      <dt>arXiv</dt>
+      <dd><a href="https://arxiv.org/abs/{{ entry.fields["eprint"] }}">{{ entry.fields["eprint"] }}</a>
+    {% endif %}
+  </dl>
 {% endblock %}
