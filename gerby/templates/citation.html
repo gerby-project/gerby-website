@@ -24,6 +24,8 @@
 {% block body %}
   <h2>How to cite tag <span class="tag">{{ tag.tag }}</span></h2>
 
+  <p>Go <a href="{{ tagURL(tag.tag) }}">back to the tag page</a>.
+
   <p>You can use one of the following citations in your LaTeX code.
   <ul id="citations">
     <li><code>\cite[\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{Tag {{ tag.tag }}}]{stacks-project}</code>
