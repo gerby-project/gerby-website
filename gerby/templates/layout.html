@@ -58,10 +58,6 @@
     <ul class="crumbs col-11">
       <li class="crumb"><a href="/browse">Table of contents</a></li>
       {% block breadcrumb %}{% endblock %}
-      <!--
-      <li class="crumb"><a href="#">Chapter 3: the fppf site</a></li>
-      <li class="crumb active">Section 3.2: fppf torsors</li>
-      -->
     </ul>
 
     <div class="col-1">
@@ -73,8 +69,16 @@
     <section id="main" class="col">
       {% block body %}{% endblock %}
     </section>
+
     <section id="meta" class="col-4">
       {% block neighbours %}{% endblock %}
+      <!-- TODO implement toggle between proofs and no proofs, and numbers versus tags
+        for inspiration, see https://ux.stackexchange.com/questions/1318/should-a-toggle-button-show-its-current-state-or-the-state-to-which-it-will-chan
+
+        i.e. I want something like
+        proofs    off [ |x] on
+        labels   tags [ |x] numbers
+      -->
     </section>
   </div>
 
