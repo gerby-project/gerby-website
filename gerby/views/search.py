@@ -10,8 +10,8 @@ def show_search():
   # TODO can we use TagSearch.docid and Tag.rowid or something?
   # TODO can we match on a single column? maybe we need two tables?
 
-  # TODO suggestion by Max: make sure that if someone searches for a tag in the search field, you return the tag
-  # = get rid of the tag lookup field
+  # TODO we need to have complete (sub)sections and chapters in the database: we don't want to collate these things on the fly! (this is to be done in tools/)
+
   # TODO suggestion by Brian: implement different spellings of words, à la Google
 
   # return empty page (for now)
