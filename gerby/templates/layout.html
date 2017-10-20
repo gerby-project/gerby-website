@@ -49,12 +49,19 @@
       <h1><a href="/">The Stacks Project</a></h1>
     </header>
 
-    <form class="col" id="searchform">
-      <input type="text" placeholder=" keywords or tags"></input>
-    </form>
+    <nav id="header">
+      <ul id="quicklinks">
+        <li><a href="/bibliography">bibliography</a>
+        <li><a href="#">blog</a>
+      </ul>
+
+      <form id="searchform">
+        <input type="text" placeholder=" keywords or tags"></input>
+      </form>
+    </nav>
   </div>
 
-  <nav class="row topbar sticky-top">
+  <nav id="second-bar" class="row topbar sticky-top">
     <ul class="crumbs col-11">
       <li class="crumb"><a href="/browse">Table of contents</a></li>
       {% block breadcrumb %}{% endblock %}
@@ -65,6 +72,8 @@
      </div>
   </nav>
 
+  {% block hamburger %}{% endblock %}
+
   <div class="row" id="content">
     <section id="main" class="col">
       {% block body %}{% endblock %}
@@ -74,9 +83,16 @@
       <!-- TODO make this sticky in the same way as the breadcrumb -->
       {% block neighbours %}{% endblock %}
 
+      <p>This is on <a href="#">page 48</a> of the <a href="#">pdf</a>.
+
+      <p>The code for this tag can be found on <a href="#">line&nbsp;382 of <var>etale.tex</var></a>
+
+      <p><strong>Actions</strong>
       <ul id="actions">
         <li><a id="toggle-numbers" href="#">toggle numbering</a>
         <li><a id="toggle-proofs" href="#">toggle proofs</a>
+        <li><a href="#">statistics</a>
+        <li><a href="#">history</a>
       </ul>
 
       <script type="text/javascript">

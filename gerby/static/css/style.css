@@ -77,11 +77,12 @@ div.main {
 div.topbar {
   background-color: #d9d8d1;
 }
+
 div.inner-top {
   padding: 10px;
 }
 
-form#searchform {
+nav#header {
   padding: 0;
   margin: 0;
   position: relative;
@@ -92,10 +93,22 @@ form#searchform input {
   border-radius: 5px;
   border-style: solid;
   border-width: 0;
-  float: right;
 }
 
-nav {
+nav#header > * {
+  display: inline-block;
+}
+
+nav#header ul#quicklinks {
+  margin: 0 20px 0 0;
+}
+
+nav#header ul#quicklinks li {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+nav#second-bar {
   padding: 10px;
   background-color: #edece6;
 }
@@ -109,7 +122,7 @@ section#main {
 }
 
 section#meta {
-  padding: 0;
+  padding: 0 10px;
 }
 
 @media screen and (min-width: 740px) {
@@ -120,6 +133,10 @@ section#meta {
 
 @media screen and (max-width: 740px) {
   section#meta {
+    display: none;
+  }
+
+  ul#quicklinks {
     display: none;
   }
 }
