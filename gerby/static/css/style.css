@@ -23,8 +23,8 @@ a:hover {
 
 .crumbs {
   padding: 0;
-  margin: 0;
   list-style: none;
+  margin: auto 0;
 }
 
 span.burger {
