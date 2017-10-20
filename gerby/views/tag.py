@@ -32,10 +32,11 @@ def combine(tags):
 def getBreadcrumb(tag):
   pieces = tag.ref.split(".")
   output = []
-  refs = [".".join(pieces[0:i]) for i in range(len(pieces))]
+  refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
+  print(refs)
 
-  # one has to pay attention to numbered lists
-  tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref << refs, Tag.type << headings)
+  # one has to pay attention to numbered lists TODO
+  tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref << refs)
 
   return sorted(tags)
 

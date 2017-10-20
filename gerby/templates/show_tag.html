@@ -2,16 +2,18 @@
 
 {% block title %}Tag {{ tag.tag }}{% endblock %}
 
+{% block breadcrumb %}
+
+{% for parent in breadcrumb %}
+  <!-- TODO maybe only make the number clickable, to be consistent? -->
+  <!-- TODO make last one special and non-clickable -->
+  <li><a href="{{ tagURL(parent.tag) }}">{{ parent.type | capitalize }} <span data-tag="{{ parent.tag }}">{{ parent.ref }}</span>{% if parent.labelname.name %}: {{ parent.labelname.name }}{% endif %}</a>
+{% endfor %}
+
+{% endblock %}
+
 {% block body %}
 <h2>Tag {{ tag.tag }}</h2>
-
-{% if breadcrumb %}
-  <ul class="breadcrumb">
-  {% for parent in breadcrumb %}
-    <li><a href="{{ tagURL(parent.tag) }}">{{ parent.type | capitalize }} <span data-tag="{{ parent.tag }}">{{ parent.ref }}</span>: {{ parent.labelname.name }}</a>
-  {% endfor %}
-  </ul>
-{% endif %}
 
 <ul class="neighbours">
 {% if neighbours[0] %}
