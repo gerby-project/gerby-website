@@ -112,7 +112,17 @@ div#content {
 }
 
 section#main {
+  padding: 0;
 }
 
 section#meta {
+  padding: 0;
+}
+
+.tag {
+  font-family: "Inconsolata", monospace;
+}
+
+h2 {
+  font-size: 1.5em;
 }

@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block body %}
-<h2>Tag {{ tag.tag }}</h2>
+<h2>Tag <span class="tag">{{ tag.tag }}</span></h2>
 
 <div class="html">
   {{ html | safe }}
@@ -56,7 +56,4 @@ $("ul.tree").bonsai({
   {% endif %}
 </div>
 
-<script type="text/javascript">
-var link = $("#mobile-nav-2").append("<li><a href='#'>toggle</a>")
-</script>
 {% endblock %}

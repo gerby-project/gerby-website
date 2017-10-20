@@ -27,8 +27,19 @@ ul.neighbours li.right a:after {
 div.html {
 }
 
+div.html h1 {
+  font-size: 1.6em;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
 div.html h2 {
-  font-size: 1.1em;
+  font-size: 1.4em;
+  margin-bottom: 1em;
+}
+
+div.html h3 {
+  font-size: 1.2em;
   margin-bottom: 1em;
 }
 
@@ -51,6 +62,9 @@ div.html a.environment-identifier:hover {
 
 div.html a.environment-identifier span.named {
   font-weight: normal;
+}
+
+div.html li p {
 }
 
 div.html article.env-proof {
