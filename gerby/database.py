@@ -75,9 +75,9 @@ class BibliographyEntry(BaseModel):
 
   def __gt__(self, other):
     if hasattr(self, "author") and hasattr(other, "author"):
-      return self.author > other.author
+      return self.author.lower() > other.author.lower()
     else:
-      return self.key > other.key
+      return self.key.lower() > other.key.lower()
 
 class Citation(BaseModel):
   tag = ForeignKeyField(Tag)
