@@ -46,8 +46,7 @@ ul.crumbs li + li::before {
   content: "/";
 }
 
-ul.crumbs li  { float: left; }
-ul.crumbs li a:hover { color: #1d5cb4; }
+ul.crumbs li { float: left; }
 ul.crumbs li.active { color: #636c72; }
 
 header.col {
