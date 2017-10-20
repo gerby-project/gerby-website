@@ -73,6 +73,12 @@ class BibliographyEntry(BaseModel):
   key = CharField(unique=True, primary_key=True)
   entrytype = CharField()
 
+  def __gt__(self, other):
+    if hasattr(self, "author") and hasattr(other, "author"):
+      return self.author > other.author
+    else:
+      return self.key > other.key
+
 class Citation(BaseModel):
   tag = ForeignKeyField(Tag)
   key = ForeignKeyField(BibliographyEntry)

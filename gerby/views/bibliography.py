@@ -12,6 +12,8 @@ def show_bibliography():
     for field in fields:
       setattr(entry, field.field, field.value)
 
+  entries = sorted(entries)
+
   return render_template("show_bibliography.html", entries=entries)
 
 @app.route("/bibliography/<string:key>")
