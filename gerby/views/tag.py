@@ -7,9 +7,7 @@ headings = ["chapter", "section", "subsection", "subsubsection"]
 
 # turn a flat list into a tree based on tag.ref length
 def combine(tags):
-  print("dealing with", [t.ref for t in tags])
   level = min([len(tag.ref.split(".")) for tag in tags], default=0)
-  print("level is", level)
 
   output = []
   children = []
@@ -45,7 +43,6 @@ def getBreadcrumb(tag):
   pieces = tag.ref.split(".")
   output = []
   refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
-  print(refs)
 
   tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref << refs, ~(Tag.type << ["item"]))
 
