@@ -85,13 +85,12 @@ def show_tag(tag):
   # if the tag is section-like: decide whether we output a table of contents or generate all output
   # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
   if tag.type in headings:
-    tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."))
-    tags = sorted(tags)
-
-    # if we are below the cutoff: generate all data
     html = tag.html
-    if headings.index(tag.type) > headings.index(config.UNIT):
-      html = html + "".join([item.html for item in tags])
+
+    # if we are below the cutoff: generate all data below it too
+    if headings.index(tag.type) >= headings.index(config.UNIT):
+      tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
+      html = html + "".join([item.html for item in sorted(tags)])
 
   # it's a tag (maybe with proofs)
   else:
@@ -118,7 +117,8 @@ def show_tag(tag):
   tree = None
   # if it's a heading
   if tag.type in headings and headings.index(tag.type) < headings.index(config.UNIT):
-    tree = combine(tags)
+    tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."))
+    tree = combine(sorted(tags))
 
   return render_template("show_tag.html",
                          tag=tag,
