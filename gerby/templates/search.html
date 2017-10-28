@@ -24,7 +24,7 @@
       {{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}
 
       {% if item.type not in headings %}
-        <div class="html preview">
+        <div class="html preview tex2jax_ignore">
           {{ item.html | safe }}
         </div>
       {% endif %}
@@ -41,8 +41,13 @@ $("ul.tree").bonsai({
 
 // CSS doesn't have a parent selector so we mimick it in jQuery
 $("ul.tree li div.preview").parent().prepend("<span class='previewable'>&#128269;</span>")
+
 $("span.previewable").click(function(e) {
-  $(e.target).siblings("div.preview").toggle()
+  $(e.target).siblings("div.preview").toggle();
+
+  // update MathJax
+  $(e.target).siblings("div.preview").removeClass("tex2jax_ignore");
+  MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 });
     </script>
   {% endif %}
