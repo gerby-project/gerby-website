@@ -58,7 +58,7 @@
       </ul>
 
       <form id="quicksearch" action="/search">
-        <input type="search" name="query" placeholder=" keywords or tags"></input>
+        <input type="search" name="query" placeholder="keywords or a tag"{% if not search %} autofocus{% endif %}></input>
       </form>
     </nav>
   </div>
