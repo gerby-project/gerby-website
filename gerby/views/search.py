@@ -26,20 +26,19 @@ def show_search():
   # nope, we perform a search instead
   tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
 
-  results = Tag.select(Tag.tag, Tag.html, Tag.ref, Tag.type, LabelName.name) \
-               .join(LabelName, JOIN_LEFT_OUTER) \
+  results = Tag.select(Tag.ref) \
                .where(Tag.tag << tags, ~(Tag.type << tag.headings))
 
   references = set()
   for result in results:
     pieces = result.ref.split(".")
-    references.update([".".join(pieces[0:i]) for i in range(len(pieces))])
+    references.update([".".join(pieces[0:i]) for i in range(len(pieces) + 1)])
 
-  references = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name) \
-                  .join(LabelName, JOIN_LEFT_OUTER) \
-                  .where(Tag.ref << references)
+  complete = Tag.select(Tag.tag, Tag.ref, Tag.html, Tag.type, LabelName.name) \
+                .join(LabelName, JOIN_LEFT_OUTER) \
+                .where(Tag.ref << references, ~(Tag.type << ["item"]))
 
-  tree = tag.combine(sorted(list(results) + list(references)))
+  tree = tag.combine(list(sorted(complete)))
   return render_template("search.html",
                          query=request.args["query"],
                          count=len(results),
