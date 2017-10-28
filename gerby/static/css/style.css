@@ -149,3 +149,40 @@ h2 {
   font-size: 1.4em;
   font-weight: bold;
 }
+
+a[href^="https://github.com"],
+a[href^="https://doi.org"],
+a[href^="https://arxiv.org"],
+a[href^="https://mathscinet.ams.org"],
+a[href*="pdf"],
+a[href*="rss"] {
+  background-repeat: no-repeat;
+  background-position: center right;
+  padding-right: 18px;
+  min-height: 16px;
+  background-size: 16px;
+}
+
+a[href^="https://github.com"] {
+  background-image: url("../images/icon.github.png");
+}
+
+a[href^="https://doi.org"] {
+  background-image: url("../images/icon.doi.png");
+}
+
+a[href^="https://arxiv.org"] {
+  background-image: url("../images/icon.arxiv.png");
+}
+
+a[href^="https://mathscinet.ams.org"] {
+  background-image: url("../images/icon.ams.png");
+}
+
+a[href*="pdf"] {
+  background-image: url("../images/icon.pdf.png");
+}
+
+a[href*="rss"] {
+  background-image: url("../images/icon.rss.png");
+}
