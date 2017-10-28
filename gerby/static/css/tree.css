@@ -1,0 +1,34 @@
+ul.tree li {
+  padding-top: .2em;
+  padding-bottom: .2em;
+}
+
+/* tweaks to jquery.bonsai.css */
+ul.tree li div.thumb {
+  padding: 1px 1em 2px 0;
+}
+
+div.expand-all i.separator {
+  display: block;
+}
+
+div.expand-all a {
+  cursor: pointer;
+  color: #1d5cb4;
+}
+
+div.expand-all a:hover {
+  color: #1d5cb4;
+  text-decoration: underline;
+}
+
+div.expand-all a.all:before {
+  content: '▾▾ ';
+  white-space: pre;
+}
+
+div.expand-all a.none:before {
+  content: '▸▸  ';
+  white-space: pre;
+}
+
