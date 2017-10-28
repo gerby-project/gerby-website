@@ -13,12 +13,32 @@
 
 <hr>
 
-<h2>{{ results | length }} result{% if (results | length) != 1 %}s{% endif %}</h2>
+<h2>{{ count }} result{% if count != 1 %}s{% endif %}</h2>
 
 <ol>
+
+  {% if tree %}
+    <ul class="tree">
+    {% for item in tree recursive %}
+      <li class="expanded">
+      {{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}
+      {% if item.children %}
+        <ul>{{ loop(item.children) }}</ul>
+      {% endif %}
+    {% endfor %}
+    </ul>
+    <script type="text/javascript">
+$("ul.tree").bonsai({
+  addExpandAll: true,
+});
+    </script>
+  {% endif %}
+
+  <!--
   {% for result in results %}
     <li>{{ result.type | capitalize }} <a href="{{ tagURL(result.tag) }}" data-tag="{{ result.tag }}">{{ result.ref }}</a>
     {#{% if result.labelname.name %}: {{ result.labelname.name }}{% endif %}#}
   {% endfor %}
+  -->
 </ol>
 {% endblock %}

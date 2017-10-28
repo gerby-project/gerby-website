@@ -23,7 +23,25 @@ def show_search():
   if tag.isTag(request.args["query"]):
     return redirect("tag/" + request.args["query"])
 
-  results = Tag.select(Tag, TagSearch, TagSearch.rank().alias("score")).join(TagSearch, on=(Tag.tag == TagSearch.tag).alias("search")).where(TagSearch.match(request.args["query"]), Tag.type.not_in(["chapter", "section", "subsection"]))
-  results = sorted(results)
-  return render_template("show_search.html", query=request.args["query"], results=results)
+  # nope, we perform a search instead
+  tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
+
+  results = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name) \
+               .join(LabelName, JOIN_LEFT_OUTER) \
+               .where(Tag.tag << tags, ~(Tag.type << tag.headings))
+
+  references = set()
+  for result in results:
+    pieces = result.ref.split(".")
+    references.update([".".join(pieces[0:i]) for i in range(len(pieces))])
+
+  references = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name) \
+                  .join(LabelName, JOIN_LEFT_OUTER) \
+                  .where(Tag.ref << references)
+
+  tree = tag.combine(sorted(list(results) + list(references)))
+  return render_template("search.html",
+                         query=request.args["query"],
+                         count=len(results),
+                         tree=tree)
 

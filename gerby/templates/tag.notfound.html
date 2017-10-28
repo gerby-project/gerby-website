@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}Tag {{ tag }} does not exist{% endblock %}
+
+{# {% block breadcrumb %} #}
+
+{% block body %}
+<h2>Tag <span class="tag">{{ tag }}</span> does not exist</h2>
+
+<p>The tag you requested does not exist.</p>
+{% endblock %}

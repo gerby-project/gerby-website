@@ -45,7 +45,6 @@ def combine(tags):
 
 def getBreadcrumb(tag):
   pieces = tag.ref.split(".")
-  output = []
   refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
 
   tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref << refs, ~(Tag.type << ["item"]))
