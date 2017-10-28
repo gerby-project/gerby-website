@@ -38,7 +38,7 @@
   {% if tree %}
     <ul class="tree">
     {% for item in tree recursive %}
-      {% if loop.depth <= 1 %}<li class="expanded">{% else %}<li>{% endif %}
+      {% if loop.depth <= depth %}<li class="expanded">{% else %}<li>{% endif %}
       {{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}
       {% if item.children %}
         <ul>{{ loop(item.children) }}</ul>

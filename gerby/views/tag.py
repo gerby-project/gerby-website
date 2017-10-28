@@ -126,7 +126,8 @@ def show_tag(tag):
                          neighbours=neighbours,
                          html=html,
                          footnotes=footnotes,
-                         tree=tree)
+                         tree=tree,
+                         depth=config.DEPTH)
 
 @app.route("/tag/<string:tag>/cite")
 def show_citation(tag):
