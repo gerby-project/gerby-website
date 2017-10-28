@@ -3,5 +3,8 @@ div.preview {
 }
 
 span.previewable {
+  display: block;
+  float: left;
+  margin-right: 3px;
   cursor: pointer;
 }

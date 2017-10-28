@@ -21,7 +21,7 @@
     <ul class="tree">
     {% for item in tree recursive %}
       <li class="expanded">
-      {{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}
+      <span class="preview-title">{{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.labelname.name %}: {{ item.labelname.name | safe }}{% endif %}</span>
 
       {% if item.type not in headings %}
         <div class="html preview tex2jax_ignore">
@@ -44,6 +44,7 @@ $("ul.tree li div.preview").parent().prepend("<span class='previewable'>&#128269
 
 $("span.previewable").click(function(e) {
   $(e.target).siblings("div.preview").toggle();
+  $(e.target).siblings("span.preview-title").toggle();
 
   // update MathJax
   $(e.target).siblings("div.preview").removeClass("tex2jax_ignore");
