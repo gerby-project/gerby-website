@@ -93,36 +93,3 @@ div.html div.equation span.equation-label::after {
   content: ")";
 }
 
-div.html ul.tree li {
-  padding-top: .2em;
-  padding-bottom: .2em;
-}
-
-/* tweaks to jquery.bonsai.css */
-div.html ul.tree li div.thumb {
-  padding: 1px 1em 2px 0;
-}
-
-div.html div.expand-all i.separator {
-  display: block;
-}
-
-div.html div.expand-all a {
-  cursor: pointer;
-  color: #1d5cb4;
-}
-
-div.html div.expand-all a:hover {
-  color: #1d5cb4;
-  text-decoration: underline;
-}
-
-div.html div.expand-all a.all:before {
-  content: '▾▾ ';
-  white-space: pre;
-}
-
-div.html div.expand-all a.none:before {
-  content: '▸▸  ';
-  white-space: pre;
-}

@@ -26,7 +26,7 @@ def show_search():
   # nope, we perform a search instead
   tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
 
-  results = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name) \
+  results = Tag.select(Tag.tag, Tag.html, Tag.ref, Tag.type, LabelName.name) \
                .join(LabelName, JOIN_LEFT_OUTER) \
                .where(Tag.tag << tags, ~(Tag.type << tag.headings))
 
@@ -43,5 +43,6 @@ def show_search():
   return render_template("search.html",
                          query=request.args["query"],
                          count=len(results),
-                         tree=tree)
+                         tree=tree,
+                         headings=tag.headings)
 
