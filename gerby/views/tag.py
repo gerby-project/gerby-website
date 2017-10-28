@@ -3,7 +3,11 @@ from flask import render_template
 from gerby.gerby import app
 from gerby.database import *
 
-headings = ["chapter", "section", "subsection", "subsubsection"]
+headings = ["part", "chapter", "section", "subsection", "subsubsection"]
+
+# validate whether something is (potentially) a tag
+def isTag(string):
+  return len(string) == 4
 
 # turn a flat list into a tree based on tag.ref length
 def combine(tags):
@@ -76,7 +80,13 @@ def getNeighbours(tag):
 @app.route("/tag/<string:tag>")
 # TODO we also need to support the old format of links!
 def show_tag(tag):
-  tag = Tag.get(Tag.tag == tag)
+  if not isTag(tag):
+    return render_template("tag.invalid.html", tag=tag)
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return render_template("tag.notfound.html", tag=tag)
 
   html = ""
   breadcrumb = getBreadcrumb(tag)
@@ -120,7 +130,7 @@ def show_tag(tag):
     tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref.startswith(tag.ref + "."))
     tree = combine(sorted(tags))
 
-  return render_template("show_tag.html",
+  return render_template("tag.show.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
                          neighbours=neighbours,

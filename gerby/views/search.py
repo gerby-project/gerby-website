@@ -1,6 +1,7 @@
 from flask import redirect, render_template, request
 
 from gerby.gerby import app
+from gerby.views import tag
 from gerby.database import *
 
 
@@ -19,10 +20,8 @@ def show_search():
     return render_template("show_search.html", results=[])
 
   # it might be a tag!
-  if len(request.args["query"]) == 4:
-    tag = Tag.select(Tag.tag).where(Tag.tag == request.args["query"])
-    if tag.count() == 1:
-      return redirect("tag/" + request.args["query"])
+  if tag.isTag(request.args["query"]):
+    return redirect("tag/" + request.args["query"])
 
   results = Tag.select(Tag, TagSearch, TagSearch.rank().alias("score")).join(TagSearch, on=(Tag.tag == TagSearch.tag).alias("search")).where(TagSearch.match(request.args["query"]), Tag.type.not_in(["chapter", "section", "subsection"]))
   results = sorted(results)
