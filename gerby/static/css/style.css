@@ -64,7 +64,6 @@ header h1 a {
   background-repeat: no-repeat;
   background-position: 0px 0px;
   background-size: 24px;
-  image-rendering: pixelated;
   color: black;
   text-decoration: none;
 }
