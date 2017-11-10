@@ -181,13 +181,13 @@ section#meta {
   padding: 0 calc(10rem / 14);
 }
 
-@media screen and (max-resolution: 2.1dppx) {
+@media screen and (max-resolution: 192dpi) {
   div#burger-restaurant {
     display: none;
   }
 }
 
-@media screen and (min-resolution: 2.2dppx) {
+@media screen and (min-resolution: 193dpi) {
   section#meta {
     display: none;
   }
