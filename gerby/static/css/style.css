@@ -6,6 +6,12 @@ html {
   font-size: 14px;
 }
 
+@media (min-resolution: 2.1dppx) {
+  html {
+    font-size: 25px;
+  }
+}
+
 body {
   font-family: "Droid Sans", Arial, sans-serif;
   color: #000;
@@ -175,13 +181,13 @@ section#meta {
   padding: 0 calc(10rem / 14);
 }
 
-@media screen and (min-width: 740px) {
+@media screen and (max-resolution: 2.1dppx) {
   div#burger-restaurant {
     display: none;
   }
 }
 
-@media screen and (max-width: 740px) {
+@media screen and (min-resolution: 2.1dppx) {
   section#meta {
     display: none;
   }
