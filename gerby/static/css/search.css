@@ -5,6 +5,6 @@ div.preview {
 span.previewable {
   display: block;
   float: left;
-  margin-right: 3px;
+  margin-right: calc(3rem / 14);
   cursor: pointer;
 }

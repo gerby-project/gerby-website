@@ -1,11 +1,11 @@
 ul.tree li {
-  padding-top: .2em;
-  padding-bottom: .2em;
+  padding-top: .2rem;
+  padding-bottom: .2rem;
 }
 
 /* tweaks to jquery.bonsai.css */
 ul.tree li div.thumb {
-  padding: 1px 1em 2px 0;
+  padding: 1px 1rem 2px 0;
 }
 
 div.expand-all i.separator {

@@ -2,14 +2,17 @@
 @import url(https://fonts.googleapis.com/css?family=Droid+Sans+Mono);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
 
-body {
-  font-family: "Droid Sans", Arial, sans-serif;
-  color: #000;
+html {
   font-size: 14px;
 }
 
+body {
+  font-family: "Droid Sans", Arial, sans-serif;
+  color: #000;
+}
+
 div.bounded {
-  max-width: 980px;
+  max-width: calc(980rem / 14);
 }
 
 a {
@@ -37,22 +40,22 @@ label#burger-icon {
 label#burger-icon span {
   display: block;
   position: relative;
-  width: 1.6em;
-  height: 3px;
-  border-radius: 3px;
+  width: calc(23rem / 14);
+  height: calc(3rem / 14);
+  border-radius: calc(3rem / 14);
   background-color: black;
-  margin-top: 5px;
+  margin-top: calc(5rem / 14);
   transition: all 0.1s ease-in-out;
 }
 
 input#burger-input:checked + label#burger-icon span#top-bun {
   transform: rotate(-45deg);
-  margin-top: 10px;
+  margin-top: calc(10rem / 14);
 }
 
 input#burger-input:checked + label#burger-icon span#meat {
   transform: rotate(45deg);
-  margin-top: -3px;
+  margin-top: -calc(3rem / 14);
 }
 
 input#burger-input:checked + label#burger-icon span#bottom-bun {
@@ -67,10 +70,10 @@ input#burger-input:checked + label#burger-icon + div#burger {
 div#burger {
   display: none;
   position: absolute;
-  width: 250px;
-  top: 30px;
-  margin-left: -235px;
-  padding: 5px;
+  width: calc(250rem / 14);
+  top: calc(30rem / 14);
+  margin-left: calc(-235rem / 14);
+  padding: calc(5rem / 14);
   background-color: #f9f8f4;
   z-index: 2;
 }
@@ -99,26 +102,26 @@ header h1 {
   float: left;
   padding: 0;
   margin: 0;
-  margin-top: 3px;
-  font-size: 22px;
+  margin-top: calc(3rem / 14);
+  font-size: calc(22rem / 14);
   font-weight: bold;
 }
 
 header h1 a {
   display: block;
-  padding-left: 30px;
+  padding-left: calc(30rem / 14);
   height: 100%;
   background-image: url('/static/stacks.png');
   background-repeat: no-repeat;
-  background-position: 0px 0px;
-  background-size: 24px;
+  background-position: 0 0;
+  background-size: calc(24rem / 14);
   color: black;
   text-decoration: none;
 }
 
 div.main {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: calc(20rem / 14);
+  padding-right: calc(20rem / 14);
 }
 
 div.topbar {
@@ -126,18 +129,18 @@ div.topbar {
 }
 
 div.inner-top {
-  padding: 10px;
+  padding: calc(10rem / 14);
 }
 
 nav#header {
   padding: 0;
   margin: 0;
   position: relative;
-  padding-top: 3px;
+  padding-top: calc(3rem / 14);
 }
 
 form#quicksearch input {
-  border-radius: 5px;
+  border-radius: calc(5rem / 14);
   border-style: solid;
   border-width: 0;
 }
@@ -147,21 +150,21 @@ nav#header > * {
 }
 
 nav#header ul#quicklinks {
-  margin: 0 20px 0 0;
+  margin: 0 calc(20rem / 14) 0 0;
 }
 
 nav#header ul#quicklinks li {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: calc(10rem / 14);
 }
 
 nav#second-bar {
-  padding: 10px;
+  padding: calc(10rem / 14);
   background-color: #edece6;
 }
 
 div#content {
-  padding: 10px;
+  padding: calc(10rem / 14);
 }
 
 section#main {
@@ -169,7 +172,7 @@ section#main {
 }
 
 section#meta {
-  padding: 0 10px;
+  padding: 0 calc(10rem / 14);
 }
 
 @media screen and (min-width: 740px) {
@@ -209,9 +212,9 @@ a[href*="pdf"],
 a[href*="rss"] {
   background-repeat: no-repeat;
   background-position: center right;
-  padding-right: 18px;
-  min-height: 16px;
-  background-size: 16px;
+  padding-right: calc(18rem / 14);
+  min-height: calc(16rem / 14);
+  background-size: calc(16rem / 14);
 }
 
 a[href^="https://github.com"] {

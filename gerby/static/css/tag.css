@@ -28,19 +28,19 @@ div.html {
 }
 
 div.html h1 {
-  font-size: 1.6em;
+  font-size: 1.6rem;
   font-weight: bold;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 
 div.html h2 {
-  font-size: 1.4em;
-  margin-bottom: 1em;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
 }
 
 div.html h3 {
-  font-size: 1.2em;
-  margin-bottom: 1em;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 div.html article.env-theorem,
@@ -68,7 +68,7 @@ div.html li p {
 }
 
 div.html article.env-proof {
-  margin-top: 1em;
+  margin-top: 1rem;
 }
 
 div.html article.env-proof p:nth-of-type(1),
@@ -78,7 +78,7 @@ div.html article.env-proof p:nth-of-type(2) {
 
 div.html article.env-proof p.qed {
   float: right;
-  margin-top: -0em;
+  margin-top: 0;
 }
 
 div.html div.equation span.equation-label {
