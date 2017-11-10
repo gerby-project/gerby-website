@@ -6,7 +6,7 @@ html {
   font-size: 14px;
 }
 
-@media (min-resolution: 2.1dppx) {
+@media (min-resolution: 200dpi) {
   html {
     font-size: 25px;
   }
@@ -181,13 +181,11 @@ section#meta {
   padding: 0 calc(10rem / 14);
 }
 
-@media screen and (max-resolution: 192dpi) {
-  div#burger-restaurant {
-    display: none;
-  }
+div#burger-restaurant {
+  display: none;
 }
 
-@media screen and (min-resolution: 193dpi) {
+@media screen and (min-resolution: 200dpi) {
   section#meta {
     display: none;
   }
