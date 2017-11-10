@@ -50,12 +50,12 @@ label#burger-icon span {
 
 input#burger-input:checked + label#burger-icon span#top-bun {
   transform: rotate(-45deg);
-  margin-top: calc(10rem / 14);
+  margin-top: calc(8rem / 14);
 }
 
 input#burger-input:checked + label#burger-icon span#meat {
   transform: rotate(45deg);
-  margin-top: -calc(3rem / 14);
+  margin-top: calc(-3rem / 14);
 }
 
 input#burger-input:checked + label#burger-icon span#bottom-bun {
