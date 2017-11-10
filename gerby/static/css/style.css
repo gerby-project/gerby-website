@@ -31,8 +31,7 @@ input#burger-input {
   display: none;
 }
 
-label#burger-icon label {
-  padding-right: 5px;
+label#burger-icon {
 }
 
 label#burger-icon span {
