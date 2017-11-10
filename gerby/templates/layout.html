@@ -72,8 +72,24 @@
     </ul>
 
     <div class="col-1">
-      <span class="burger">&#9776;</span>
+      <input type="checkbox" id="burger-input"></input>
+
+      <label id="burger-icon" for="burger-input">
+        <span id="top-bun"></span>
+        <span id="meat"></span>
+        <span id="bottom-bun"></span>
+      </label>
+
+      <div id="burger">
+        more text outside
+        <ul>
+          <li>hi
+          <li>hello
+          <li>longer piece of text
+        </ul>
+      </div>
     </div>
+
   </nav>
 
   {% block hamburger %}{% endblock %}
