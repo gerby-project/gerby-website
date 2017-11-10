@@ -71,7 +71,7 @@
       {% block breadcrumb %}{% endblock %}
     </ul>
 
-    <div class="col-1">
+    <div class="col-1" id="burger-restaurant">
       <input type="checkbox" id="burger-input"></input>
 
       <label id="burger-icon" for="burger-input">
@@ -87,12 +87,12 @@
           <li>hello
           <li>longer piece of text
         </ul>
+
+        {% block hamburger %}{% endblock %}
       </div>
     </div>
 
   </nav>
-
-  {% block hamburger %}{% endblock %}
 
   <div class="row" id="content">
     <section id="main" class="col">

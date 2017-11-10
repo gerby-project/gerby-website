@@ -173,7 +173,7 @@ section#meta {
 }
 
 @media screen and (min-width: 740px) {
-  span.burger {
+  div#burger-restaurant {
     display: none;
   }
 }
@@ -185,6 +185,10 @@ section#meta {
 
   ul#quicklinks {
     display: none;
+  }
+
+  div#burger-restaurant {
+    display: block;
   }
 }
 
