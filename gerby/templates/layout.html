@@ -8,12 +8,7 @@
 
 <title>{% block title %}{% endblock %}&mdash;Stacks Project</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bibliography.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tag.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tree.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/search.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/browse.css') }}">
 
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -66,7 +61,7 @@
   </div>
 
   <nav id="second-bar" class="row topbar sticky-top">
-    <ul class="crumbs col-11">
+    <ul class="col-11" id="crumbs">
       <li class="crumb"><a href="/browse">Table of contents</a></li>
       {% block breadcrumb %}{% endblock %}
     </ul>
@@ -99,7 +94,7 @@
       {% block body %}{% endblock %}
     </section>
 
-    <section id="meta" class="col-4">
+    <section id="meta" class="col-lg-4 col-md-4 col-xl-4">
       {% block neighbours %}{% endblock %}
 
       <p>This is on <a href="#">page 48</a> of the <a href="#">pdf</a>.

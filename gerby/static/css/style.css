@@ -2,15 +2,42 @@
 @import url(https://fonts.googleapis.com/css?family=Droid+Sans+Mono);
 @import url(https://fonts.googleapis.com/css?family=Inconsolata);
 
+@import url("bibliography.css");
+@import url("browse.css");
+@import url("search.css");
+@import url("tag.css");
+@import url("tree.css");
+
 html {
-  font-size: 14px;
+  font-size: 25px;
 }
 
-@media (min-resolution: 200dpi) {
+section#meta,
+ul#quicklinks {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-resolution: 192dpi) {
   html {
-    font-size: 25px;
+    font-size: 14px;
   }
 }
+
+@media (min-width: 992px) {
+  section#meta {
+    display: block;
+  }
+
+  ul#quicklinks {
+    display: inline-block;
+  }
+
+  div#burger-restaurant {
+    display: none;
+  }
+}
+
+
 
 body {
   font-family: "Droid Sans", Arial, sans-serif;
@@ -30,17 +57,18 @@ a:hover {
   text-decoration: underline;
 }
 
-.crumbs {
+ul#crumbs {
   padding: 0;
   list-style: none;
   margin: auto 0;
 }
 
-input#burger-input {
-  display: none;
+div#burger-restaurant {
+  text-align: right;
 }
 
-label#burger-icon {
+input#burger-input {
+  display: none;
 }
 
 label#burger-icon span {
@@ -84,7 +112,7 @@ div#burger {
   z-index: 2;
 }
 
-ul.crumbs li + li::before {
+ul#crumbs li + li::before {
   display: inline-block;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
@@ -92,11 +120,11 @@ ul.crumbs li + li::before {
   content: "/";
 }
 
-ul.crumbs li {
+ul#crumbs li {
   float: left;
 }
 
-ul.crumbs li.active {
+ul#crumbs li.active {
   color: #636c72;
 }
 
@@ -179,24 +207,6 @@ section#main {
 
 section#meta {
   padding: 0 calc(10rem / 14);
-}
-
-div#burger-restaurant {
-  display: none;
-}
-
-@media screen and (min-resolution: 200dpi) {
-  section#meta {
-    display: none;
-  }
-
-  ul#quicklinks {
-    display: none;
-  }
-
-  div#burger-restaurant {
-    display: block;
-  }
 }
 
 .tag {
