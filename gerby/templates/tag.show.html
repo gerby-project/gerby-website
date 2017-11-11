@@ -11,12 +11,8 @@
 
 {% endblock %}
 
-{% block hamburger %}
-  <ul>
-  </ul>
-{% endblock %}
+{% macro neighboursMacro(neighbours) %}
 
-{% block neighbours %}
 <ul class="neighbours">
 {% if neighbours[0] %}
   <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}">previous {{ neighbours[0].type }}</a>
@@ -27,7 +23,16 @@
 </ul>
 {% if neighbours[0] or neighbours[1] %}<br style="clear:both">{% endif %}
 
+{% endmacro %}
+
+{% block neighbours %}
+  {{ neighboursMacro(neighbours) }}
 {% endblock %}
+
+{% block hamburger %}
+  {{ neighboursMacro(neighbours) }}
+{% endblock %}
+
 
 {% block body %}
 <h2>Tag <span class="tag">{{ tag.tag }}</span></h2>
