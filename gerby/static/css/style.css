@@ -40,7 +40,7 @@ ul#quicklinks {
     display: inline-block;
   }
 
-  div#burger-restaurant {
+  div#burger {
     display: none;
   }
 }
@@ -67,14 +67,21 @@ ul#crumbs {
   padding: 0;
   list-style: none;
   margin: auto 0;
+  vertical-align: center;
+  min-width: 2rem;
 }
 
-div#burger-restaurant {
+div#burger {
   text-align: right;
 }
 
 input#burger-input {
   display: none;
+}
+
+label#burger-icon {
+  margin-bottom: 0 !important;
+  height: calc(6rem / 4);
 }
 
 label#burger-icon span {
@@ -84,18 +91,18 @@ label#burger-icon span {
   height: calc(3rem / 14);
   border-radius: calc(3rem / 14);
   background-color: black;
-  margin-top: calc(5rem / 14);
+  margin-top: calc(4rem / 14);
   transition: all 0.1s ease-in-out;
 }
 
 input#burger-input:checked + label#burger-icon span#top-bun {
   transform: rotate(-45deg);
-  margin-top: calc(8rem / 14);
+  margin-top: calc(9rem / 14);
 }
 
 input#burger-input:checked + label#burger-icon span#meat {
   transform: rotate(45deg);
-  margin-top: calc(-3rem / 14);
+  margin-top: calc(-2rem / 14);
 }
 
 input#burger-input:checked + label#burger-icon span#bottom-bun {
@@ -103,11 +110,11 @@ input#burger-input:checked + label#burger-icon span#bottom-bun {
   transform: rotate(45deg);
 }
 
-input#burger-input:checked + label#burger-icon + div#burger {
+input#burger-input:checked + label#burger-icon + div#burger-content {
   display: block;
 }
 
-div#burger {
+div#burger-content {
   display: none;
   position: absolute;
   width: calc(250rem / 14);
