@@ -12,6 +12,10 @@ html {
   font-size: 25px;
 }
 
+nav#header > * {
+  display: inline-block;
+}
+
 section#meta,
 ul#quicklinks {
   display: none;
@@ -36,8 +40,6 @@ ul#quicklinks {
     display: none;
   }
 }
-
-
 
 body {
   font-family: "Droid Sans", Arial, sans-serif;
@@ -177,10 +179,6 @@ form#quicksearch input {
   border-radius: calc(5rem / 14);
   border-style: solid;
   border-width: 0;
-}
-
-nav#header > * {
-  display: inline-block;
 }
 
 nav#header ul#quicklinks {
