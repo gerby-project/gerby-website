@@ -57,10 +57,12 @@ div.bounded {
 a {
   text-decoration: none;
   color: #1d5cb4;
+  transition: color 0.2s ease;
 }
 
 a:hover {
   text-decoration: underline;
+  color: #0d1cb4;
 }
 
 ul#crumbs {
