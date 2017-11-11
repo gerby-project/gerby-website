@@ -25,6 +25,7 @@ ul.neighbours li.right a:after {
 }
 
 div.html {
+  overflow: scroll;
 }
 
 div.html h1 {
