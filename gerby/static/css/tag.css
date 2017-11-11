@@ -25,7 +25,11 @@ ul.neighbours li.right a:after {
 }
 
 div.html {
-  overflow: scroll;
+  overflow-x: scroll;
+}
+
+div.html::-webkit-scrollbar {
+  display: none;
 }
 
 div.html h1 {
