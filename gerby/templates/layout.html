@@ -5,6 +5,7 @@
 {% macro tagURL(tag) -%}/tag/{{ tag }}{%- endmacro %}
 
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>{% block title %}{% endblock %}&mdash;Stacks Project</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -64,12 +65,12 @@
   </div>
 
   <nav id="second-bar" class="row topbar sticky-top">
-    <ul class="col-11" id="crumbs">
+    <ul class="col-9 col-sm-10 col-md-10 col-lg-12 col-xl-12" id="crumbs">
       <li class="crumb"><a href="/browse">Table of contents</a></li>
       {% block breadcrumb %}{% endblock %}
     </ul>
 
-    <div class="col-1" id="burger">
+    <div class="col-3 col-sm-2 col-md-2" id="burger">
       <input type="checkbox" id="burger-input"></input>
 
       <label id="burger-icon" for="burger-input">
