@@ -174,7 +174,7 @@ div.main {
   padding-right: calc(20rem / 14);
 }
 
-div.topbar {
+div#first-bar {
   background-color: #d9d8d1;
 }
 
