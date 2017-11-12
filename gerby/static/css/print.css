@@ -1,0 +1,38 @@
+@media print {
+  html {
+    font-size: 16px;
+  }
+
+  /* TODO fix logo */
+
+  nav#header,
+  div#burger,
+  section#meta {
+    display: none;
+  }
+
+  ul#crumbs li,
+  ul#crumbs li.active {
+    display: block;
+    float: none;
+    margin-left: 0;
+    padding 0;
+    color: black;
+  }
+
+  ul#crumbs li + li::before {
+    display: none;
+  }
+
+  ul#crumbs li:first-child {
+    display: none;
+  }
+
+  span#citation {
+    display: none;
+  }
+
+  a {
+    color: black;
+  }
+}

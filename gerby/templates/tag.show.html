@@ -10,7 +10,7 @@
 
 {% for parent in breadcrumb %}
   <li{% if loop.last %} class="active"{% endif %}>{{ parent.type | capitalize }} <a href="{{ tagURL(parent.tag) }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.labelname.name %}: {{ parent.labelname.name }}{% endif %}
-  {% if loop.last %}(<a href="{{ tagURL(parent.tag) }}/cite">cite</a>){% endif %}
+  {% if loop.last %}<span id="citation">(<a href="{{ tagURL(parent.tag) }}/cite">cite</a>)</span>{% endif %}
 {% endfor %}
 
 {% endblock %}

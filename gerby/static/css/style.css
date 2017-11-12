@@ -21,13 +21,13 @@ ul#quicklinks {
   display: none;
 }
 
-@media (min-width: 768px) and (-webkit-max-device-pixel-ratio: 2) {
+@media screen and (min-width: 768px) and (-webkit-max-device-pixel-ratio: 2) {
   html {
     font-size: 17px;
   }
 }
 
-@media (min-width: 992px) {
+@media screen and (min-width: 992px) {
   html {
     font-size: 14px;
   }
@@ -125,6 +125,7 @@ div#burger-content {
   padding: calc(5rem / 14);
   background-color: #f9f8f4;
   z-index: 2;
+  text-align: left;
 }
 
 ul#crumbs li + li::before {
