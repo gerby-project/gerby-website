@@ -5,6 +5,7 @@
 {% macro tagURL(tag) -%}/tag/{{ tag }}{%- endmacro %}
 
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>{% block title %}{% endblock %}&mdash;Stacks Project</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
