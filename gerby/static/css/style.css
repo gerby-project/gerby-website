@@ -9,7 +9,7 @@
 @import url("tree.css");
 
 html {
-  font-size: 30px;
+  font-size: 16px;
 }
 
 nav#header > * {
@@ -21,16 +21,8 @@ ul#quicklinks {
   display: none;
 }
 
-@media (min-width: 768px) and (-webkit-max-device-pixel-ratio: 2) {
-  html {
-    font-size: 17px;
-  }
-}
 
 @media (min-width: 992px) {
-  html {
-    font-size: 14px;
-  }
   section#meta {
     display: block;
   }
