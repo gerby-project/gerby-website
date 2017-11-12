@@ -2,6 +2,10 @@
 
 {% block title %}Tag {{ tag.tag }}{% endblock %}
 
+{% block head %}
+  <script type="text/javascript" src="/static/js/toggle.js"></script>
+{% endblock %}
+
 {% block breadcrumb %}
 
 {% for parent in breadcrumb %}
