@@ -169,6 +169,10 @@ div#first-bar {
   background-color: #d9d8d1;
 }
 
+div.side-sticker {
+  top: 40px;
+}
+
 div.inner-top {
   padding: calc(10rem / 14);
 }
