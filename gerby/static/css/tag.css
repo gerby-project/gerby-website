@@ -98,3 +98,11 @@ div.html div.equation span.equation-label::before {
 div.html div.equation span.equation-label::after {
   content: ")";
 }
+
+span.toggle {
+  display: block;
+}
+
+span.toggle input {
+  margin-right: .5em;
+}
