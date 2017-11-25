@@ -7,6 +7,7 @@ $(document).ready(function() {
   $("section#meta").append("<input type='radio' class='toggle-numbering' name='meta-toggle-numbering' value='meta-toggle-tags' id='meta-toggle-tags'><label for='meta-toggle-tags'>show tags</label>")
 
   $("input[type=radio][class=toggle-numbering]").on("change", function() {
+    // the actual toggle
     $("*[data-tag]").each(function(index, reference) {
       $(reference).toggleClass("tag");
 
@@ -14,8 +15,11 @@ $(document).ready(function() {
       $(reference).attr("data-tag", $(reference).text())
       $(reference).text(value);
     });
-  });
 
-  // TODO link the two buttons as in https://stackoverflow.com/questions/23350062/jquery-how-to-auto-sync-groups-of-radio-buttons
-  // TODO
+    // synchronise the other radio buttons: use presence of tag class
+    if ($("*[data-tag]").hasClass("tag"))
+      $("input[value$=-toggle-tags]").prop("checked", true);
+    else
+      $("input[value$=-toggle-numbers]").prop("checked", true);
+  });
 });
