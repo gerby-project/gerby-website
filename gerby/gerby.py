@@ -19,7 +19,7 @@ static pages
 """
 @app.route("/")
 def show_tags():
-  return render_template("static/about.html")
+  return render_template("static/index.html")
 
 @app.route("/about")
 def show_about():
