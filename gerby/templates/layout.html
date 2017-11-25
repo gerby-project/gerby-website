@@ -44,16 +44,6 @@
   <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
 
   <script type="text/javascript">
-$("a#toggle-numbers").click(function() {
-$("*[data-tag]").each(function(index, reference) {
-$(reference).toggleClass("tag");
-
-var value = $(reference).attr("data-tag");
-$(reference).attr("data-tag", $(reference).text())
-$(reference).text(value);
-});
-});
-
 $("a#toggle-proofs").click(function() {
 $(".env-proof *").toggle();
 // TODO maybe show something like "Proof. [hidden]"

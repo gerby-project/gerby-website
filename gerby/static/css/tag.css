@@ -106,3 +106,7 @@ span.toggle {
 span.toggle input {
   margin-right: .5em;
 }
+
+span.toggle label {
+  margin-bottom: .2em;
+}
