@@ -30,6 +30,7 @@
       'HTML-CSS': { scale: 100 }
     });
   </script>
+
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js">
   </script>
@@ -41,6 +42,33 @@
 
   <link rel="icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
   <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
+
+  <script type="text/javascript">
+$("a#toggle-numbers").click(function() {
+$("*[data-tag]").each(function(index, reference) {
+$(reference).toggleClass("tag");
+
+var value = $(reference).attr("data-tag");
+$(reference).attr("data-tag", $(reference).text())
+$(reference).text(value);
+});
+});
+
+$("a#toggle-proofs").click(function() {
+$(".env-proof *").toggle();
+// TODO maybe show something like "Proof. [hidden]"
+// do want then to toggle individual proofs?
+// TODO also: don't show proof toggle when there are no proofs
+});
+  </script>
+  <!-- TODO implement toggle between proofs and no proofs, and numbers versus tags
+	for inspiration, see https://ux.stackexchange.com/questions/1318/should-a-toggle-button-show-its-current-state-or-the-state-to-which-it-will-chan
+
+	i.e. I want something like
+	proofs    off [ |x] on
+	labels   tags [ |x] numbers
+  -->
+
 
   {% block head %}{% endblock %}
 </head>
@@ -90,48 +118,23 @@
     <section id="main" class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
       {% block body %}{% endblock %}
     </section>
+	<div class="col-lg-4 col-xl-4">
+	  <div class="row topbar sticky-top side-sticker" >
+		<section id="meta">
+      	{% block neighbours %}{% endblock %}
 
-    <section id="meta" class="col-lg-4 col-xl-4">
-      {% block neighbours %}{% endblock %}
+      	<p>This is on <a href="#">page 48</a> of the <a href="#">pdf</a>.</p>
 
-      <p>This is on <a href="#">page 48</a> of the <a href="#">pdf</a>.
+      	<p>The code for this tag can be found on <a href="#">line&nbsp;382 of <var>etale.tex</var></a></p>
 
-      <p>The code for this tag can be found on <a href="#">line&nbsp;382 of <var>etale.tex</var></a>
-
-      <p><strong>Actions</strong>
-      <ul id="actions">
-        <li><a id="toggle-numbers" href="#">toggle numbering</a>
-        <li><a id="toggle-proofs" href="#">toggle proofs</a>
-        <li><a href="#">statistics</a>
-        <li><a href="#">history</a>
-      </ul>
-
-      <script type="text/javascript">
-$("a#toggle-numbers").click(function() {
-  $("*[data-tag]").each(function(index, reference) {
-    $(reference).toggleClass("tag");
-
-    var value = $(reference).attr("data-tag");
-    $(reference).attr("data-tag", $(reference).text())
-    $(reference).text(value);
-  });
-});
-
-$("a#toggle-proofs").click(function() {
-  $(".env-proof *").toggle();
-  // TODO maybe show something like "Proof. [hidden]"
-  // do want then to toggle individual proofs?
-  // TODO also: don't show proof toggle when there are no proofs
-});
-      </script>
-      <!-- TODO implement toggle between proofs and no proofs, and numbers versus tags
-        for inspiration, see https://ux.stackexchange.com/questions/1318/should-a-toggle-button-show-its-current-state-or-the-state-to-which-it-will-chan
-
-        i.e. I want something like
-        proofs    off [ |x] on
-        labels   tags [ |x] numbers
-      -->
-    </section>
+      	<p style="clear:right;"><strong>Actions</strong></p>
+      	<ul id="actions">
+          	<li><a id="toggle-numbers" href="#">toggle numbering</a></li>
+        	<li><a id="toggle-proofs" href="#">toggle proofs</a></li>
+        	<li><a href="#">statistics</a></li>
+        	<li><a href="#">history</a></li>
+      	</ul>
+    </section></div></div>
   </div>
 
 </body>

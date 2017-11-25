@@ -169,6 +169,10 @@ div#first-bar {
   background-color: #d9d8d1;
 }
 
+div.side-sticker {
+  top: 45px;
+}
+
 div.inner-top {
   padding: calc(10rem / 14);
 }
@@ -209,7 +213,7 @@ section#main {
 }
 
 section#meta {
-  padding: 0 calc(10rem / 14);
+  padding: 0 calc(10rem / 14) 0 calc(5rem / 4);
 }
 
 .tag {
