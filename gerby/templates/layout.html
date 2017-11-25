@@ -118,23 +118,11 @@ $(".env-proof *").toggle();
     <section id="main" class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
       {% block body %}{% endblock %}
     </section>
-	<div class="col-lg-4 col-xl-4">
-	  <div class="row topbar sticky-top side-sticker" >
-		<section id="meta">
-      	{% block neighbours %}{% endblock %}
-
-      	<p>This is on <a href="#">page 48</a> of the <a href="#">pdf</a>.</p>
-
-      	<p>The code for this tag can be found on <a href="#">line&nbsp;382 of <var>etale.tex</var></a></p>
-
-      	<p style="clear:right;"><strong>Actions</strong></p>
-      	<ul id="actions">
-          	<li><a id="toggle-numbers" href="#">toggle numbering</a></li>
-        	<li><a id="toggle-proofs" href="#">toggle proofs</a></li>
-        	<li><a href="#">statistics</a></li>
-        	<li><a href="#">history</a></li>
-      	</ul>
-    </section></div></div>
+	  <div class="col-lg-4 col-xl-4">
+	    <section id="meta" class="row topbar sticky-top">
+        {% block sidebar %}{% endblock %}
+      </section>
+    </div>
   </div>
 
 </body>

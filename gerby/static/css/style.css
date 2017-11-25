@@ -169,10 +169,6 @@ div#first-bar {
   background-color: #d9d8d1;
 }
 
-div.side-sticker {
-  top: 45px;
-}
-
 div.inner-top {
   padding: calc(10rem / 14);
 }
@@ -213,6 +209,8 @@ section#main {
 }
 
 section#meta {
+  top: 45px;
+  z-index: 0;
   padding: 0 calc(10rem / 14) 0 calc(5rem / 4);
 }
 
@@ -230,7 +228,8 @@ a[href^="https://doi.org"],
 a[href^="https://arxiv.org"],
 a[href^="https://mathscinet.ams.org"],
 a[href*="pdf"],
-a[href*="rss"] {
+a[href*="rss"],
+a[href*="atom"] {
   background-repeat: no-repeat;
   background-position: center right;
   padding-right: calc(18rem / 14);
@@ -258,7 +257,8 @@ a[href*="pdf"] {
   background-image: url("../images/icon.pdf.png");
 }
 
-a[href*="rss"] {
+a[href*="rss"],
+a[href*="atom"] {
   background-image: url("../images/icon.rss.png");
 }
 

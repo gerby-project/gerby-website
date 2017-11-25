@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+<ul id="index-select">
+  <li id="index-browse"><a href="/browse">browse<img src="/static/images/toc.svg"></a>
+  <li id="index-search"><a href="/search">search<img src="/static/images/search.svg"></a>
+  <li id="index-about"><a href="/about"><img src="/static/images/info.svg">about</a>
+  <li id="index-blog"><a href="#"><img src="/static/images/blog.svg">blog</a>
+</ul>
+{% endblock %}
+
+{% block sidebar %}
+<h2><a href="https://github.com/stacks/stacks-project/commits/master.atom">Recent changes</a></h2>
+<ul>
+  <li>24 November 2017:<br> <a href="https://github.com/stacks/stacks-project/commit/e880896adf3eef4a61c8b46f029d6be72934659a">Strengthen two lemmas</a></li>
+  <li>23 November 2017:<br> <a href="https://github.com/stacks/stacks-project/commit/45c63b74d38aaaa21b0bbeb1551bce64d8acf2cb">Move a lemma and use it more often</a></li>
+  <li>14 November 2017:<br> <a href="https://github.com/stacks/stacks-project/commit/2775bd34bbf4420323a4ea4abe3b7196537dc19e">Fix index in exercise</a></li>
+  <li>13 November 2017:<br> <a href="https://github.com/stacks/stacks-project/commit/69b31626c35672540bc04331a31c712381c06797">Fix mistake in dualizing</a></li>
+  <li>12 November 2017:<br> <a href="https://github.com/stacks/stacks-project/commit/42e2c6f8b429bec48fb27242677f883e5eff27b1">Tags: Added new tags</a></li>
+</ul>
+
+<h2><a href="http://math.columbia.edu/~dejong/wordpress/?feed=rss2">Recent blog posts</a></h2>
+<ul>
+  <li>14 August 2017: <a href="http://math.columbia.edu/~dejong/wordpress/?p=4184">Mgbar</a></li>
+  <li>9 July 2017: <a href="http://math.columbia.edu/~dejong/wordpress/?p=4181">6000 pages</a></li>
+  <li>7 July 2017: <a href="http://math.columbia.edu/~dejong/wordpress/?p=4177">Yet another update and …</a></li>
+  <li>17 February 2017: <a href="http://math.columbia.edu/~dejong/wordpress/?p=4172">Updated again</a></li>
+  <li>26 January 2017: <a href="http://math.columbia.edu/~dejong/wordpress/?p=4167">Workshop</a></li>
+</ul>
+
+<h2><a href="/recent-comments.xml">Recent comments</a></h2>
+<ul>
+  <li>23 November 2017:<br> Fei Hu on <a title="in section 32.35 Frobenii" href="/tag/0CC6#comment-3007">tag 0CC6</a></li>
+  <li>21 November 2017:<br> Noah Olander on <a title="in section 32.34 Coherent sheaves on projective space" href="/tag/08A9#comment-3006">tag 08A9</a></li>
+  <li>21 November 2017:<br> James Waldron on <a title="in section 49.15 Glueing and squishing" href="/tag/0C1N#comment-3005">tag 0C1N</a></li>
+  <li>21 November 2017:<br> James Waldron on <a title="in section 49.15 Glueing and squishing" href="/tag/0C1M#comment-3004">tag 0C1M</a></li>
+  <li>17 November 2017:<br> Herman Rohrbach on <a title="in section 12.3 Preadditive and additive categories" href="/tag/09SE#comment-3003">tag 09SE</a></li>
+  <li>17 November 2017:<br> Herman Rohrbach on <a title="in section 12.3 Preadditive and additive categories" href="/tag/09SE#comment-3002">tag 09SE</a></li>
+</ul>
+
+<p>The Stacks project now consists of
+<ul>
+  <li>586340 lines of code
+  <li>17728 tags (58 inactive tags)
+  <li>2860 sections
+  <li>107 chapters
+  <li>6126 pages
+  <li>171 slogans
+</ul>
+{% endblock %}

@@ -29,14 +29,9 @@
 
 {% endmacro %}
 
-{% block neighbours %}
-  {{ neighboursMacro(neighbours) }}
-{% endblock %}
-
 {% block hamburger %}
   {{ neighboursMacro(neighbours) }}
 {% endblock %}
-
 
 {% block body %}
 <h2>Tag <span class="tag">{{ tag.tag }}</span></h2>
@@ -70,4 +65,7 @@ $("ul.tree").bonsai({
   {% endif %}
 </div>
 
+{% endblock %}
+
+{% block sidebar %}
 {% endblock %}
