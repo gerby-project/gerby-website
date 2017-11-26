@@ -148,3 +148,17 @@ def show_citation(tag):
                          tag=tag,
                          breadcrumb=breadcrumb,
                          neighbours=neighbours)
+
+@app.route("/tag/<string:tag>/statistics")
+def show_statistics(tag):
+  tag = Tag.get(Tag.tag == tag)
+
+  breadcrumb = getBreadcrumb(tag)
+  neighbours = getNeighbours(tag)
+
+  return render_template("tag.statistics.html",
+                         tag=tag,
+                         breadcrumb=breadcrumb,
+                         neighbours=neighbours,
+                         dependencies = sorted(Dependency.select().where(Dependency.to == tag.tag)))
+
