@@ -156,9 +156,15 @@ def show_statistics(tag):
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
 
+  dependencies = sorted(Dependency.select().where(Dependency.to == tag.tag))
+
+  for dependency in dependencies:
+    ref = ".".join(dependency.tag.ref.split(".")[0:-1])
+    dependency.parent = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName, JOIN_LEFT_OUTER).where(Tag.ref == ref, ~(Tag.type << ["item"])).get()
+
   return render_template("tag.statistics.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
                          neighbours=neighbours,
-                         dependencies = sorted(Dependency.select().where(Dependency.to == tag.tag)))
+                         dependencies = dependencies)
 
