@@ -37,7 +37,7 @@
 <h2>Statistics for tag <span class="tag">{{ tag.tag }}</span></h2>
 
 {% if dependencies | length > 0 %}
-<h3>Tags using this result</h3>
+<h3 name="dependencies">Tags using this result</h3>
 <ul>
 {% for dependency in dependencies %}
   <li><a href="/tag/{{ dependency.tag.tag }}">{{ dependency.tag.type | capitalize }} <span data-tag="{{ dependency.tag.tag }}">{{ dependency.tag.ref }}</span></a> in ...

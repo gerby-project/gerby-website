@@ -74,9 +74,9 @@ $("ul.tree").bonsai({
 
   <div id="information">
   {% if dependencies | length == 1 %}
-    There is <a href="#">{{ dependencies | length }} tag depending on this tag</a>.
+    There is <a href="/tag/{{ tag.tag }}/statistics#dependencies">1 tag depending on this tag</a>.
   {% elif dependencies | length > 1 %}
-    There are <a href="#">{{ dependencies | length }} tags depending on this tag</a>.
+    There are <a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tags depending on this tag</a>.
   {% endif %}
   </div>
 {% endblock %}
