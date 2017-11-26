@@ -121,8 +121,6 @@ def show_tag(tag):
     # make the HTML pretty (and hide plasTeX id's)
     html = html.replace(label, "footnote-" + str(number + 1))
 
-  footnotes = Footnote.select().where(Footnote.label << labels)
-
   tree = None
   # if it's a heading
   if tag.type in headings and headings.index(tag.type) < headings.index(config.UNIT):
@@ -134,7 +132,8 @@ def show_tag(tag):
                          breadcrumb=breadcrumb,
                          neighbours=neighbours,
                          html=html,
-                         footnotes=footnotes,
+                         footnotes=Footnote.select().where(Footnote.label << labels),
+                         dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
                          depth=config.DEPTH)
 

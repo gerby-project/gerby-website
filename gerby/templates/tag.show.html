@@ -68,5 +68,13 @@ $("ul.tree").bonsai({
 {% endblock %}
 
 {% block sidebar %}
+  <div id="interaction">
   {{ neighboursMacro(neighbours) }}
+  </div>
+
+  <div id="information">
+  {% if dependencies | length > 0 %}
+    There are {{ dependencies | length }} tags depending on this tag.
+  {% endif %}
+  </div>
 {% endblock %}
