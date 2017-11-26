@@ -1,5 +1,6 @@
 import os, os.path, time
 import urllib.request
+import feedparser
 import re
 from flask import Flask, render_template
 
@@ -15,27 +16,47 @@ db = SqliteExtDatabase(config.DATABASE)
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-def update_feeds():
-  feeds = {
-      "blog": "http://math.columbia.edu/~dejong/wordpress/?feed=rss2",
-      "github": "https://github.com/stacks/stacks-project/commits/master.atom",
-    }
+feeds = {
+  "blog": {
+    "url": "http://math.columbia.edu/~dejong/wordpress/?feed=rss2",
+    "title": "Recent blog posts",
+    "link": "https://github.com/stacks/stacks-project/commits",
+  },
+  "github": {
+    "url": "https://github.com/stacks/stacks-project/commits/master.atom",
+    "title": "Recent changes",
+    "link": "http://math.columbia.edu/~dejong/wordpress",
+  },
+}
 
+def update_feeds():
   # make sure there is a directory
   if not os.path.exists("feeds"):
     os.makedirs("feeds")
 
   # update if needed
-  for feed in feeds:
-    path = "feeds/" + feed + ".feed"
+  for label, feed in feeds.items():
+    path = "feeds/" + label + ".feed"
     if not os.path.isfile(path) or time.time() - os.path.getmtime(path) > 3600:
-      urllib.request.urlretrieve(feeds[feed], path)
+      urllib.request.urlretrieve(feed["url"], path)
 
 @app.route("/")
 def show_tags():
   update_feeds()
 
-  return render_template("index.html")
+  updates = []
+  for label, feed in feeds.items():
+    update = {"title": "<a href='" + feed["link"] + "'>" + feed["title"] + "</a>", "entries": []}
+
+    d = feedparser.parse("feeds/" + label + ".feed")
+    for i in range(min(5, len(d.entries))):
+      entry = "<span class='date'>" + time.strftime("%d %b %Y", d.entries[i].updated_parsed) + "</span>: "
+      entry = entry + "<a href='" + d.entries[i].link + "'>" + d.entries[i].title + "</a>"
+      update["entries"].append(entry)
+
+    updates.append(update)
+
+  return render_template("index.html", updates=updates)
 
 @app.route("/about")
 def show_about():
