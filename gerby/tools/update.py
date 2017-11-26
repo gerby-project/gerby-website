@@ -141,7 +141,7 @@ if Dependency.table_exists():
 db.create_table(Dependency)
 
 for proof in Proof.select():
-  regex = re.compile(r'<a href=\"/tag/([0-9A-Z]{4})\">')
+  regex = re.compile(r'\"/tag/([0-9A-Z]{4})\"')
   with db.atomic():
     dependencies = regex.findall(proof.html)
 
