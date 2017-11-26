@@ -1,4 +1,5 @@
-import os
+import os, os.path, time
+import urllib.request
 import re
 from flask import Flask, render_template
 
@@ -14,20 +15,32 @@ db = SqliteExtDatabase(config.DATABASE)
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-"""
-static pages
-"""
+def update_feeds():
+  feeds = {
+      "blog": "http://math.columbia.edu/~dejong/wordpress/?feed=rss2",
+      "github": "https://github.com/stacks/stacks-project/commits/master.atom",
+    }
+
+  # make sure there is a directory
+  if not os.path.exists("feeds"):
+    os.makedirs("feeds")
+
+  # update if needed
+  for feed in feeds:
+    path = "feeds/" + feed + ".feed"
+    if not os.path.isfile(path) or time.time() - os.path.getmtime(path) > 3600:
+      urllib.request.urlretrieve(feeds[feed], path)
+
 @app.route("/")
 def show_tags():
+  update_feeds()
+
   return render_template("index.html")
 
 @app.route("/about")
 def show_about():
   return render_template("static/about.html")
 
-"""
-dynamic pages
-"""
 @app.route("/browse")
 def show_chapters():
   chapters = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "chapter")
