@@ -14,7 +14,7 @@ def show_bibliography():
 
   entries = sorted(entries)
 
-  return render_template("show_bibliography.html", entries=entries)
+  return render_template("bibliography.overview.html", entries=entries)
 
 @app.route("/bibliography/<string:key>")
 def show_entry(key):
@@ -25,4 +25,4 @@ def show_entry(key):
   for field in fields:
     entry.fields[field.field] = field.value
 
-  return render_template("show_entry.html", entry=entry)
+  return render_template("bibliography.entry.html", entry=entry)
