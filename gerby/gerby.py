@@ -17,17 +17,31 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 feeds = {
-  "blog": {
-    "url": "http://math.columbia.edu/~dejong/wordpress/?feed=rss2",
-    "title": "Recent blog posts",
-    "link": "https://github.com/stacks/stacks-project/commits",
-  },
   "github": {
     "url": "https://github.com/stacks/stacks-project/commits/master.atom",
     "title": "Recent changes",
+    "link": "https://github.com/stacks/stacks-project/commits",
+  },
+  "blog": {
+    "url": "http://math.columbia.edu/~dejong/wordpress/?feed=rss2",
+    "title": "Recent blog posts",
     "link": "http://math.columbia.edu/~dejong/wordpress",
   },
 }
+
+def get_statistics():
+  statistics = []
+
+  tags = Tag.select().count()
+  inactive = Tag.select().where(Tag.active == False).count()
+  statistics.append(str(tags) + " tags (" + str(inactive) + " inactive)")
+
+  statistics.append(str(Tag.select().where(Tag.type == "section").count()) + " sections")
+  statistics.append(str(Tag.select().where(Tag.type == "chapter").count()) + " chapters")
+
+  # TODO more statistics
+
+  return statistics
 
 def update_feeds():
   # make sure there is a directory
@@ -56,7 +70,9 @@ def show_tags():
 
     updates.append(update)
 
-  return render_template("index.html", updates=updates)
+  # TODO add recent comments here
+
+  return render_template("index.html", updates=updates, statistics=get_statistics())
 
 @app.route("/about")
 def show_about():
