@@ -55,6 +55,9 @@ class Dependency(BaseModel):
   tag = ForeignKeyField(Tag, related_name="from")
   to = ForeignKeyField(Tag, related_name="to")
 
+  def __gt__(self, other):
+    return self.tag > other.tag
+
 class Extra(BaseModel): # contains extra information such as slogans
   # TODO right now it doesn't say the *type* of extra information
   tag = ForeignKeyField(Tag)
