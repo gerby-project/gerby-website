@@ -14,7 +14,8 @@
       {% do letter.append(entry.author[0] | lower) %}
 
       {% if not loop.first %}</ul>{% endif %}
-      <h2 id="letter-{{ letter[-1] }}">{{ letter[-1] | upper }}</h2>
+      <a id="letter-{{ letter[-1] }}" class="header-offset"></a>
+      <h2>{{ letter[-1] | upper }}</h2>
       <ul class="entries">
     {% endif %}
 

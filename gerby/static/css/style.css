@@ -301,3 +301,10 @@ ul#index-select li#index-browse,
 ul#index-select li#index-search {
   text-align: right;
 }
+
+a.header-offset {
+  display: block;
+  position: relative;
+  top: -4em;
+  visibility: hidden;
+}
