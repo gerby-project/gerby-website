@@ -19,3 +19,29 @@ dl.entry dd {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+ul#letters {
+  list-style-type: none;
+}
+
+ul#letters li {
+  float: left;
+  font-size: 1.2em;
+  width: 2em;
+  height: 2em;
+  margin: .25em;
+  border: 1px solid black;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 2em;
+}
+
+ul#letters li a {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+ul#letters li a:hover {
+  background-color: #edece6;
+}

@@ -2,6 +2,10 @@
 
 {% block title %}Bibliography{% endblock %}
 
+{% block breadcrumb %}
+  <li><a href="/bibliography">Bibliography</a>
+{% endblock %}
+
 {% block body %}
   {% set letter = [""] %}{# Jinja needs a ridiculous hack for global variables #}
 
@@ -10,7 +14,7 @@
       {% do letter.append(entry.author[0] | lower) %}
 
       {% if not loop.first %}</ul>{% endif %}
-      <h2>{{ letter[-1] | upper }}</h2>
+      <h2 id="letter-{{ letter[-1] }}">{{ letter[-1] | upper }}</h2>
       <ul class="entries">
     {% endif %}
 
@@ -20,3 +24,16 @@
   </ul>
 {% endblock %}
 
+{% block sidebar %}
+  {% set letter = [""] %}{# Jinja needs a ridiculous hack for global variables #}
+
+  <ul id="letters">
+  {% for entry in entries if entry.author %}{# FDL wreaks havoc in the Stacks project bibliography so we filter on non-zero entry.author#}
+    {% if not entry.author[0] | lower == letter[-1] %}
+      {% do letter.append(entry.author[0] | lower) %}
+
+      <li><a href="#letter-{{ letter[-1] }}">{{ letter[-1] | upper }}</a>
+    {% endif %}
+  {% endfor %}
+  </ul>
+{% endblock %}
