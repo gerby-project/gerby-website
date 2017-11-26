@@ -88,20 +88,21 @@ $(".env-proof *").toggle();
       {% block breadcrumb %}{% endblock %}
     </ul>
 
-    <div class="col-2 col-sm-1 col-md-1" id="burger">
-      <input type="checkbox" id="burger-input"></input>
+    {% if self.hamburger() %}
+      <div class="col-2 col-sm-1 col-md-1" id="burger">
+        <input type="checkbox" id="burger-input"></input>
 
-      <label id="burger-icon" for="burger-input">
-        <span id="top-bun"></span>
-        <span id="meat"></span>
-        <span id="bottom-bun"></span>
-      </label>
+        <label id="burger-icon" for="burger-input">
+          <span id="top-bun"></span>
+          <span id="meat"></span>
+          <span id="bottom-bun"></span>
+        </label>
 
-      <div id="burger-content">
-        {% block hamburger %}{% endblock %}
+        <div id="burger-content">
+          {% block hamburger %}{% endblock %}
+        </div>
       </div>
-    </div>
-
+    {% endif %}
   </nav>
 
   <div class="row" id="content">
