@@ -16,6 +16,7 @@ class Tag(BaseModel):
   ref = CharField(null=True) # TODO unique=True?
   type = CharField(null=True)
   html = TextField(null=True)
+  name = TextField(null=True)
 
   # allows us to sort tags according to their reference
   def __gt__(self, other):
@@ -66,11 +67,6 @@ class Extra(BaseModel): # contains extra information such as slogans
 class Footnote(BaseModel):
   label = CharField(unique=True, primary_key=True)
   html = TextField(null=True)
-
-# TODO maybe just put this in Tag?
-class LabelName(BaseModel):
-  tag = ForeignKeyField(Tag)
-  name = CharField()
 
 class BibliographyEntry(BaseModel):
   key = CharField(unique=True, primary_key=True)

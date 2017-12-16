@@ -171,20 +171,14 @@ for filename in extraFiles:
 
 # import names of labels
 log.info("Importing names of tags")
-if LabelName.table_exists():
-  LabelName.drop_table()
-db.create_table(LabelName)
-
 names = list()
 
 for key, item in context["Gerby"].items():
   if "title" in item and key in labels:
     names.append({"tag" : labels[key], "name" : item["title"]})
 
-with db.atomic():
-  chunk = 100 # despite its name, Model.insert_many cannot insert too many at the same time
-  for i in range(0, len(names), chunk):
-    LabelName.insert_many(names[i:i+chunk]).execute()
+for entry in names:
+  Tag.update(name=entry["name"]).where(Tag.tag == entry["tag"]).execute()
 
 # import bibliography
 log.info("Importing bibliography")

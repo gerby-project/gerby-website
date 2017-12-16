@@ -34,8 +34,7 @@ def show_search():
     pieces = result.ref.split(".")
     references.update([".".join(pieces[0:i]) for i in range(len(pieces) + 1)])
 
-  complete = Tag.select(Tag.tag, Tag.ref, Tag.html, Tag.type, LabelName.name) \
-                .join(LabelName, JOIN_LEFT_OUTER) \
+  complete = Tag.select(Tag.tag, Tag.ref, Tag.html, Tag.type) \
                 .where(Tag.ref << references, ~(Tag.type << ["item"]))
 
   tree = tag.combine(list(sorted(complete)))

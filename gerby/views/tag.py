@@ -47,7 +47,7 @@ def getBreadcrumb(tag):
   pieces = tag.ref.split(".")
   refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
 
-  tags = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName).where(Tag.ref << refs, ~(Tag.type << ["item"]))
+  tags = Tag.select().where(Tag.ref << refs, ~(Tag.type << ["item"]))
 
   return sorted(tags)
 
@@ -98,7 +98,7 @@ def show_tag(tag):
 
     # if we are below the cutoff: generate all data below it too
     if headings.index(tag.type) >= headings.index(config.UNIT):
-      tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName).where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
+      tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
       html = html + "".join([item.html for item in sorted(tags)])
 
   # it's a tag (maybe with proofs)
@@ -124,7 +124,7 @@ def show_tag(tag):
   tree = None
   # if it's a heading
   if tag.type in headings and headings.index(tag.type) < headings.index(config.UNIT):
-    tags = Tag.select(Tag.tag, Tag.ref, Tag.type, Tag.html, LabelName.name).join(LabelName).where(Tag.ref.startswith(tag.ref + "."))
+    tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
     tree = combine(sorted(tags))
 
   return render_template("tag.show.html",
@@ -160,7 +160,7 @@ def show_statistics(tag):
 
   for dependency in dependencies:
     ref = ".".join(dependency.tag.ref.split(".")[0:-1])
-    dependency.parent = Tag.select(Tag.tag, Tag.ref, Tag.type, LabelName.name).join(LabelName).where(Tag.ref == ref, ~(Tag.type << ["item"])).get()
+    dependency.parent = Tag.select().where(Tag.ref == ref, ~(Tag.type << ["item"])).get()
 
   return render_template("tag.statistics.html",
                          tag=tag,
