@@ -17,7 +17,7 @@ def show_search():
 
   # return empty page (for now)
   if "query" not in request.args:
-    return render_template("search.html", results=[])
+    return render_template("search.html", count=0)
 
   # it might be a tag!
   if tag.isTag(request.args["query"]):

@@ -4,6 +4,21 @@
 
 {% block title %}Search{% endblock %}
 
+{% block head %}
+  <script type="text/javascript" src="/static/js/toggle.js"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/search">Search</a>
+{% endblock %}
+
+{% block sidebar %}
+  <div id="interaction"></div>
+{% endblock %}
+
+{% block hamburger %}
+{% endblock %}
+
 {% block body %}
 <h2>Search</h2>
 <form action="/search">
@@ -13,7 +28,7 @@
 
 <hr>
 
-<h2>{{ count }} result{% if count != 1 %}s{% endif %}</h2>
+<h2>{% if count == 0 %}No{% else %}{{ count }}{% endif %} result{% if count != 1 %}s{% endif %}</h2>
 
 <ol id="search-results">
 
@@ -34,6 +49,7 @@
       {% endif %}
     {% endfor %}
     </ul>
+
     <script type="text/javascript">
 $("ul.tree").bonsai({
   addExpandAll: true,
