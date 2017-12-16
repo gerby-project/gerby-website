@@ -224,6 +224,7 @@ for tag in Tag.select():
 
   with db.atomic():
     citations = regex.findall(tag.html)
+    citations = list(set(citations)) # make sure citations are inserted only once
 
     if len(citations) > 0:
       Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()

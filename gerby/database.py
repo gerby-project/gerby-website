@@ -83,7 +83,7 @@ class BibliographyEntry(BaseModel):
       return self.key.lower() > other.key.lower()
 
 class Citation(BaseModel):
-  tag = ForeignKeyField(Tag)
+  tag = ForeignKeyField(Tag, unique=True)
   key = ForeignKeyField(BibliographyEntry)
 
 class BibliographyField(BaseModel):
