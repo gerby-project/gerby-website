@@ -26,7 +26,7 @@ def show_search():
   # nope, we perform a search instead
   tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
 
-  results = Tag.select(Tag.ref) \
+  results = Tag.select() \
                .where(Tag.tag << tags, ~(Tag.type << tag.headings))
 
   references = set()
@@ -34,7 +34,7 @@ def show_search():
     pieces = result.ref.split(".")
     references.update([".".join(pieces[0:i]) for i in range(len(pieces) + 1)])
 
-  complete = Tag.select(Tag.tag, Tag.ref, Tag.html, Tag.type) \
+  complete = Tag.select() \
                 .where(Tag.ref << references, ~(Tag.type << ["item"]))
 
   tree = tag.combine(list(sorted(complete)))
