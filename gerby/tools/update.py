@@ -219,3 +219,12 @@ if Citation.table_exists():
   Citation.drop_table()
 db.create_table(Citation)
 
+for tag in Tag.select():
+  regex = re.compile(r'\"/bibliography/([0-9A-Za-z]+)\"')
+
+  with db.atomic():
+    citations = regex.findall(tag.html)
+
+    if len(citations) > 0:
+      Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()
+
