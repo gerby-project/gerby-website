@@ -3,7 +3,7 @@ import os
 import os.path
 import logging, sys
 import pickle
-import bibtexparser
+import pybtex.database
 
 from gerby.database import *
 import gerby.config as config
@@ -191,22 +191,17 @@ if BibliographyField.table_exists():
 db.create_table(BibliographyField)
 
 for bibliographyFile in bibliographyFiles:
-  with open(os.path.join(config.PATH, bibliographyFile)) as f:
-    contents = f.read()
+  bibtex = pybtex.database.parse_file(os.path.join(config.PATH, bibliographyFile))
 
-  bibtex = bibtexparser.loads(contents)
+  for key in bibtex.entries:
+    entry = bibtex.entries[key]
 
-  for entry in bibtex.entries:
-    BibliographyEntry.create(entrytype = entry["ENTRYTYPE"], key = entry["ID"])
+    BibliographyEntry.create(entrytype = entry.type, key = entry.key)
 
-    entry = bibtexparser.customization.convert_to_unicode(entry) # TODO once 0.7.0 is released this will have to change
+    for field in list(entry.rich_fields.keys()) + entry.persons.keys():
+      value = entry.rich_fields[field].render_as("html")
 
-    for field, value in entry.items():
-      # bibtexparser puts auto-generated fields in uppercase
-      if not field.islower():
-        continue
-
-      BibliographyField.create(key = entry["ID"], field = field, value = value)
+      BibliographyField.create(key = entry.key, field = field.lower(), value = value)
 
 # managing citations
 if Citation.table_exists():
