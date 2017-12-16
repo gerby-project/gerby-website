@@ -302,8 +302,13 @@ ul#index-select li img {
 }
 
 ul#index-select li#index-browse,
-ul#index-select li#index-search {
+ul#index-select li#index-search,
+ul#index-select li#index-bibliography {
   text-align: right;
+}
+
+ul#index-select a {
+  background-image: none;
 }
 
 a.header-offset {
