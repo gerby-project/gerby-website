@@ -24,9 +24,14 @@
       <dd>{{ entry.fields["year"] }}</dd>
     {% endif %}
 
-    {% if "journal" in entry.fields %}
+    {% if "journal" in entry.fields and not "fjournal" in entry.fields %}
       <dt>journal</dt>
       <dd>{{ entry.fields["journal"] | safe }}</dd>
+    {% endif %}
+
+    {% if "fjournal" in entry.fields %}
+      <dt>journal</dt>
+      <dd>{{ entry.fields["fjournal"] | safe }}</dd>
     {% endif %}
 
     {% if "publisher" in entry.fields %}
