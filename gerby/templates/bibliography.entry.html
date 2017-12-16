@@ -13,13 +13,45 @@
       <dt>author</dt>
       <dd>{{ entry.fields["author"] }}</dd>
     {% endif %}
+
     {% if "title" in entry.fields %}
       <dt>title</dt>
       <dd>{{ entry.fields["title"] }}</dd>
     {% endif %}
+
+    {% if "year" in entry.fields %}
+      <dt>year</dt>
+      <dd>{{ entry.fields["year"] }}</dd>
+    {% endif %}
+
+    {% if "journal" in entry.fields %}
+      <dt>journal</dt>
+      <dd>{{ entry.fields["journal"] }}</dd>
+    {% endif %}
+
+    {% if "volume" in entry.fields %}
+      <dt>volume</dt>
+      <dd>{{ entry.fields["volume"] }}</dd>
+    {% endif %}
+
+    {% if "number" in entry.fields %}
+      <dt>number</dt>
+      <dd>{{ entry.fields["number"] }}</dd>
+    {% endif %}
+
+    {% if "pages" in entry.fields %}
+      <dt>pages</dt>
+      <dd>{{ entry.fields["pages"] | replace("--", "&ndash;") | safe }}</dd>
+    {% endif %}
+
     {% if "eprint" in entry.fields %}{# assume it's arXiv #}
       <dt>arXiv</dt>
-      <dd><a href="https://arxiv.org/abs/{{ entry.fields["eprint"] }}">{{ entry.fields["eprint"] }}</a>
+      <dd><a href="https://arxiv.org/abs/{{ entry.fields["eprint"] }}">{{ entry.fields["eprint"] }}</a></dd>
+    {% endif %}
+
+    {% if "url" in entry.fields %}
+      <dt>url</dt>
+      <dd><a href="{{ entry.fields["url"] }}">{{ entry.fields["url"] }}</a></dd>
     {% endif %}
   </dl>
 {% endblock %}
