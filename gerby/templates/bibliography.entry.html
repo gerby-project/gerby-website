@@ -11,12 +11,12 @@
     <!-- Bootstrap 4 removes dl-horizontal, right now there is an approximation of this TODO improve: fixed width for labels e.g. is necessary -->
     {% if "author" in entry.fields %}
       <dt>author</dt>
-      <dd>{{ entry.fields["author"] }}</dd>
+      <dd>{{ entry.fields["author"] | safe }}</dd>
     {% endif %}
 
     {% if "title" in entry.fields %}
       <dt>title</dt>
-      <dd>{{ entry.fields["title"] }}</dd>
+      <dd>{{ entry.fields["title"] | safe }}</dd>
     {% endif %}
 
     {% if "year" in entry.fields %}
@@ -26,17 +26,17 @@
 
     {% if "journal" in entry.fields %}
       <dt>journal</dt>
-      <dd>{{ entry.fields["journal"] }}</dd>
+      <dd>{{ entry.fields["journal"] | safe }}</dd>
     {% endif %}
 
     {% if "publisher" in entry.fields %}
       <dt>publisher</dt>
-      <dd>{{ entry.fields["publisher"] }}</dd>
+      <dd>{{ entry.fields["publisher"] | safe }}</dd>
     {% endif %}
 
     {% if "series" in entry.fields %}
       <dt>series</dt>
-      <dd>{{ entry.fields["series"] }}</dd>
+      <dd>{{ entry.fields["series"] | safe }}</dd>
     {% endif %}
 
     {% if "volume" in entry.fields %}

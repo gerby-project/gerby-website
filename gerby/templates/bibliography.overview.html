@@ -19,7 +19,7 @@
       <ul class="entries">
     {% endif %}
 
-    <li>{{ entry.author}}, <a href="/bibliography/{{ entry.key }}">{{ entry.title }}</a>
+    <li>{{ entry.author | safe }}, <a href="/bibliography/{{ entry.key }}">{{ entry.title | safe }}</a>
     {% if loop.last %}</ul>{% endif %}
   {% endfor %}
   </ul>
