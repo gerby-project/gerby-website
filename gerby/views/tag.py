@@ -1,3 +1,5 @@
+import datetime
+
 from flask import render_template
 
 from gerby.gerby import app
@@ -147,7 +149,8 @@ def show_citation(tag):
   return render_template("tag.citation.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
-                         neighbours=neighbours)
+                         neighbours=neighbours,
+                         time=datetime.datetime.utcnow())
 
 @app.route("/tag/<string:tag>/statistics")
 def show_statistics(tag):
