@@ -1,3 +1,7 @@
+ol#search-results {
+  padding: 0;
+}
+
 div.preview {
   display: none;
 }
