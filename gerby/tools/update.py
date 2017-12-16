@@ -196,7 +196,8 @@ for bibliographyFile in bibliographyFiles:
   for key in bibtex.entries:
     entry = bibtex.entries[key]
 
-    BibliographyEntry.create(entrytype = entry.type, key = entry.key)
+    data = pybtex.database.BibliographyData({key: entry}) # we create a new object to output a single entry
+    BibliographyEntry.create(entrytype = entry.type, key = entry.key, code = data.to_string("bibtex"))
 
     for field in list(entry.rich_fields.keys()) + entry.persons.keys():
       value = entry.rich_fields[field].render_as("html")
