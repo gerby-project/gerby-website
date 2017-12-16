@@ -30,82 +30,93 @@
 {% endblock %}
 
 {% block body %}
-  <dl class="entry">
-    <!-- Bootstrap 4 removes dl-horizontal, right now there is an approximation of this TODO improve: fixed width for labels e.g. is necessary -->
-    {% if "author" in entry.fields %}
-      <dt>author</dt>
-      <dd>{{ entry.fields["author"] | safe }}</dd>
-    {% endif %}
+  <nav class="nav nav-tabs nav-fill" role="tablist">
+    <a class="nav-item nav-link active" data-toggle="tab" href="#entry-table" role="tab">entry</a>
+    <a class="nav-item nav-link" data-toggle="tab" href="#entry-code" role="tab">code</a>
+  </nav>
 
-    {% if "title" in entry.fields %}
-      <dt>title</dt>
-      <dd>{{ entry.fields["title"] | safe }}</dd>
-    {% endif %}
+  <div class="tab-content" id="entry-content">
+    <div class="tab-pane show active " id="entry-table" role="tabpanel">
+      <dl class="entry">
+        <!-- Bootstrap 4 removes dl-horizontal, right now there is an approximation of this TODO improve: fixed width for labels e.g. is necessary -->
+        {% if "author" in entry.fields %}
+          <dt>author</dt>
+          <dd>{{ entry.fields["author"] | safe }}</dd>
+        {% endif %}
 
-    {% if "year" in entry.fields %}
-      <dt>year</dt>
-      <dd>{{ entry.fields["year"] }}</dd>
-    {% endif %}
+        {% if "title" in entry.fields %}
+          <dt>title</dt>
+          <dd>{{ entry.fields["title"] | safe }}</dd>
+        {% endif %}
 
-    {% if "journal" in entry.fields and not "fjournal" in entry.fields %}
-      <dt>journal</dt>
-      <dd>{{ entry.fields["journal"] | safe }}</dd>
-    {% endif %}
+        {% if "year" in entry.fields %}
+          <dt>year</dt>
+          <dd>{{ entry.fields["year"] }}</dd>
+        {% endif %}
 
-    {% if "fjournal" in entry.fields %}
-      <dt>journal</dt>
-      <dd>{{ entry.fields["fjournal"] | safe }}</dd>
-    {% endif %}
+        {% if "journal" in entry.fields and not "fjournal" in entry.fields %}
+          <dt>journal</dt>
+          <dd>{{ entry.fields["journal"] | safe }}</dd>
+        {% endif %}
 
-    {% if "publisher" in entry.fields %}
-      <dt>publisher</dt>
-      <dd>{{ entry.fields["publisher"] | safe }}</dd>
-    {% endif %}
+        {% if "fjournal" in entry.fields %}
+          <dt>journal</dt>
+          <dd>{{ entry.fields["fjournal"] | safe }}</dd>
+        {% endif %}
 
-    {% if "series" in entry.fields %}
-      <dt>series</dt>
-      <dd>{{ entry.fields["series"] | safe }}</dd>
-    {% endif %}
+        {% if "publisher" in entry.fields %}
+          <dt>publisher</dt>
+          <dd>{{ entry.fields["publisher"] | safe }}</dd>
+        {% endif %}
 
-    {% if "volume" in entry.fields %}
-      <dt>volume</dt>
-      <dd>{{ entry.fields["volume"] }}</dd>
-    {% endif %}
+        {% if "series" in entry.fields %}
+          <dt>series</dt>
+          <dd>{{ entry.fields["series"] | safe }}</dd>
+        {% endif %}
 
-    {% if "number" in entry.fields %}
-      <dt>number</dt>
-      <dd>{{ entry.fields["number"] }}</dd>
-    {% endif %}
+        {% if "volume" in entry.fields %}
+          <dt>volume</dt>
+          <dd>{{ entry.fields["volume"] }}</dd>
+        {% endif %}
 
-    {% if "pages" in entry.fields %}
-      <dt>pages</dt>
-      <dd>{{ entry.fields["pages"] | replace("--", "&ndash;") | safe }}</dd>
-    {% endif %}
+        {% if "number" in entry.fields %}
+          <dt>number</dt>
+          <dd>{{ entry.fields["number"] }}</dd>
+        {% endif %}
 
-    {% if "eprint" in entry.fields %}{# assume it's arXiv #}
-      <dt>arXiv</dt>
-      <dd><a href="https://arxiv.org/abs/{{ entry.fields["eprint"] }}">{{ entry.fields["eprint"] }}</a></dd>
-    {% endif %}
+        {% if "pages" in entry.fields %}
+          <dt>pages</dt>
+          <dd>{{ entry.fields["pages"] | replace("--", "&ndash;") | safe }}</dd>
+        {% endif %}
 
-    {% if "url" in entry.fields %}
-      <dt>url</dt>
-      <dd><a href="{{ entry.fields["url"] }}">{{ entry.fields["url"] }}</a></dd>
-    {% endif %}
+        {% if "eprint" in entry.fields %}{# assume it's arXiv #}
+          <dt>arXiv</dt>
+          <dd><a href="https://arxiv.org/abs/{{ entry.fields["eprint"] }}">{{ entry.fields["eprint"] }}</a></dd>
+        {% endif %}
 
-    {% if "mrnumber" in entry.fields %}
-      <dt>MathSciNet
-      <dd><a href="https://mathscinet.ams.org/mathscinet-getitem?mr={{ entry.fields["mrnumber"] }}">MR{{ entry.fields["mrnumber"] }}</a>
-    {% endif %}
+        {% if "url" in entry.fields %}
+          <dt>url</dt>
+          <dd><a href="{{ entry.fields["url"] }}">{{ entry.fields["url"] }}</a></dd>
+        {% endif %}
 
-    {% if "doi" in entry.fields %}
-      <dt><abbr title="Document Object Identifier">DOI</abbr>
-      <dd><a href="https://doi.org/{{ entry.fields["doi"] }}"><code>doi:{{ entry.fields["mrnumber"] }}</code></a>
-    {% endif %}
-  </dl>
+        {% if "mrnumber" in entry.fields %}
+          <dt>MathSciNet
+          <dd><a href="https://mathscinet.ams.org/mathscinet-getitem?mr={{ entry.fields["mrnumber"] }}">MR{{ entry.fields["mrnumber"] }}</a>
+        {% endif %}
 
-  <pre><code>
+        {% if "doi" in entry.fields %}
+          <dt><abbr title="Document Object Identifier">DOI</abbr>
+          <dd><a href="https://doi.org/{{ entry.fields["doi"] }}"><code>doi:{{ entry.fields["mrnumber"] }}</code></a>
+        {% endif %}
+      </dl>
+    </div>
+
+    <div class="tab-pane" id="entry-code" role="tabpanel">
+      <pre><code>
 {{ entry.code }}
-  </code></pre>
+      </code></pre>
+    </div>
+  </div>
 
   <div id="citations-main">
     {{ citationsMacro(citations) }}
