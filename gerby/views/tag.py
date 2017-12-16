@@ -144,7 +144,7 @@ def show_citation(tag):
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
 
-  return render_template("citation.html",
+  return render_template("tag.citation.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
                          neighbours=neighbours)
