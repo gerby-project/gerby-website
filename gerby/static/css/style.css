@@ -312,3 +312,8 @@ a.header-offset {
   top: -4em;
   visibility: hidden;
 }
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
