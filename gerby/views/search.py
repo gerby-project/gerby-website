@@ -19,8 +19,8 @@ def show_search():
   if "query" not in request.args:
     return render_template("search.html", count=0)
 
-  # it might be a tag!
-  if tag.isTag(request.args["query"]):
+  # if the query is actually a tag we redirect
+  if tag.isTag(request.args["query"]) and Tag.select().where(Tag.tag == request.args["query"].upper()).exists():
     return redirect("tag/" + request.args["query"])
 
   # nope, we perform a search instead
