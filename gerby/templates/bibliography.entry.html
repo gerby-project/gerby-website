@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 
 {% macro citationsMacro(citations) %}
-  {% if citations | length == 1 %}
+  {% if citations | length == 0 %}
+    <p>This item is never cited.
+  {% elif citations | length == 1 %}
     <p>This item is referenced in 1 tag:
   {% elif citations | length > 1 %}
     <p>This item is referenced in {{ citations | length }} tags:
