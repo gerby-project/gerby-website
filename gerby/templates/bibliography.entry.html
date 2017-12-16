@@ -65,6 +65,10 @@
     {% endif %}
   </dl>
 
+  <pre><code>
+{{ entry.code }}
+  </code></pre>
+
   {% if citations | length == 1 %}
     <p>This item is referenced in 1 tag:
   {% elif citations | length > 1 %}

@@ -71,6 +71,7 @@ class Footnote(BaseModel):
 class BibliographyEntry(BaseModel):
   key = CharField(unique=True, primary_key=True)
   entrytype = CharField()
+  code = CharField()
 
   def __gt__(self, other):
     if hasattr(self, "author") and hasattr(other, "author"):
