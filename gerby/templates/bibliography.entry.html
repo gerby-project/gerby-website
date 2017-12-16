@@ -29,6 +29,16 @@
       <dd>{{ entry.fields["journal"] }}</dd>
     {% endif %}
 
+    {% if "publisher" in entry.fields %}
+      <dt>publisher</dt>
+      <dd>{{ entry.fields["publisher"] }}</dd>
+    {% endif %}
+
+    {% if "series" in entry.fields %}
+      <dt>series</dt>
+      <dd>{{ entry.fields["series"] }}</dd>
+    {% endif %}
+
     {% if "volume" in entry.fields %}
       <dt>volume</dt>
       <dd>{{ entry.fields["volume"] }}</dd>
