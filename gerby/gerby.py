@@ -80,7 +80,7 @@ def show_about():
 
 @app.route("/browse")
 def show_chapters():
-  chapters = Tag.select(Tag.tag, Tag.ref, LabelName.name).join(LabelName).where(Tag.type == "chapter")
+  chapters = Tag.select().where(Tag.type == "chapter")
   chapters = sorted(chapters)
 
   return render_template("show_chapters.html", chapters=chapters)
