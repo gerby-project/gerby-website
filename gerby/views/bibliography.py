@@ -25,4 +25,6 @@ def show_entry(key):
   for field in fields:
     entry.fields[field.field] = field.value
 
-  return render_template("bibliography.entry.html", entry=entry)
+  citations = Citation.select().join(Tag).where(Citation.key == entry.key).order_by(Tag.ref)
+
+  return render_template("bibliography.entry.html", entry=entry, citations=citations)

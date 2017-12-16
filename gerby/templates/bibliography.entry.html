@@ -64,4 +64,20 @@
       <dd><a href="{{ entry.fields["url"] }}">{{ entry.fields["url"] }}</a></dd>
     {% endif %}
   </dl>
+
+  {% if citations | length == 1 %}
+    <p>This item is referenced in 1 tag:
+  {% elif citations | length > 1 %}
+    <p>This item is referenced in {{ citations | length }} tags:
+  {% endif %}
+
+  {% if citations | length >= 1 %}
+    <ul>
+      {% for citation in citations %}
+        {# TODO maybe refactor this output type: it also appears in tag.show.html and maybe other places #}
+      <li>{{ citation["tag"].type | capitalize }} <a href="{{ tagURL(citation["tag"].tag) }}" data-tag="{{ citation["tag"].tag }}">{{ citation["tag"].ref }}</a>
+      {# TODO I can't get the join to work properly, just integrate LabelName in Tag and get rid of the necessity of joins! {% if citation["labelname"].name %}: {{ citation["labelname"].name | safe }}{% endif %}#}
+      {% endfor %}
+    </ul>
+  {% endif %}
 {% endblock %}
