@@ -4,6 +4,10 @@ from gerby.gerby import app
 from gerby.views import tag
 from gerby.database import *
 
+spelling = {
+    "quasicoherent": "quasi-coherent",
+    "quasicompact": "quasi-compact"
+    }
 
 @app.route("/search", methods = ["GET"])
 def show_search():
@@ -12,8 +16,6 @@ def show_search():
   # TODO can we match on a single column? maybe we need two tables?
 
   # TODO we need to have complete (sub)sections and chapters in the database: we don't want to collate these things on the fly! (this is to be done in tools/)
-
-  # TODO suggestion by Brian: implement different spellings of words, à la Google
 
   # return empty page (for now)
   if "query" not in request.args:
@@ -38,9 +40,20 @@ def show_search():
                 .where(Tag.ref << references, ~(Tag.type << ["item"]))
 
   tree = tag.combine(list(sorted(complete)))
+
+  # check whether we should suggest an alternative query, and build it if this is the case
+  misspellt = [keyword for keyword in spelling.keys() if keyword in request.args["query"]]
+  alternative = request.args["query"]
+
+  if len(results) == 0 and len(misspellt) != 0:
+    for keyword in misspellt:
+      alternative = alternative.replace(keyword, spelling[keyword])
+
   return render_template("search.html",
                          query=request.args["query"],
                          count=len(results),
                          tree=tree,
+                         misspellt=misspellt,
+                         alternative=alternative,
                          headings=tag.headings)
 
