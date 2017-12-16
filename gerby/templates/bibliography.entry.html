@@ -1,9 +1,30 @@
 {% extends "layout.html" %}
 
+{% macro citationsMacro(citations) %}
+  {% if citations | length == 1 %}
+    <p>This item is referenced in 1 tag:
+  {% elif citations | length > 1 %}
+    <p>This item is referenced in {{ citations | length }} tags:
+  {% endif %}
+
+  {% if citations | length >= 1 %}
+    <ul>
+      {% for citation in citations %}
+        {# TODO maybe refactor this output type: it also appears in tag.show.html and maybe other places #}
+        <li>{{ citation.tag.type | capitalize }} <a href="{{ tagURL(citation.tag.tag) }}" data-tag="{{ citation.tag.tag }}">{{ citation.tag.ref }}</a>{% if citation.tag.name %}: {{ citation.tag.name | safe }}{% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
+
 {% block title %}Bibliography entry{% endblock %}
 
 {% block breadcrumb %}
   <li><a href="/bibliography">Bibliography</a>
+{% endblock %}
+
+{% block sidebar %}
+  {{ citationsMacro(citations) }}
 {% endblock %}
 
 {% block body %}
@@ -76,7 +97,7 @@
 
     {% if "doi" in entry.fields %}
       <dt><abbr title="Document Object Identifier">DOI</abbr>
-      <dd><a href="https://doi.org/{{ entry.fields["doi"] }}"><code>doi:{{ entry.fields["doi"] }}</code></a>
+      <dd><a href="https://doi.org/{{ entry.fields["doi"] }}"><code>doi:{{ entry.fields["mrnumber"] }}</code></a>
     {% endif %}
   </dl>
 
@@ -84,18 +105,7 @@
 {{ entry.code }}
   </code></pre>
 
-  {% if citations | length == 1 %}
-    <p>This item is referenced in 1 tag:
-  {% elif citations | length > 1 %}
-    <p>This item is referenced in {{ citations | length }} tags:
-  {% endif %}
-
-  {% if citations | length >= 1 %}
-    <ul>
-      {% for citation in citations %}
-        {# TODO maybe refactor this output type: it also appears in tag.show.html and maybe other places #}
-        <li>{{ citation.tag.type | capitalize }} <a href="{{ tagURL(citation.tag.tag) }}" data-tag="{{ citation.tag.tag }}">{{ citation.tag.ref }}</a>{% if citation.tag.name %}: {{ citation.tag.name | safe }}{% endif %}
-      {% endfor %}
-    </ul>
-  {% endif %}
+  <div id="citations-main">
+    {{ citationsMacro(citations) }}
+  </div>
 {% endblock %}
