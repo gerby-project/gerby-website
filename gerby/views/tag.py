@@ -129,6 +129,9 @@ def show_tag(tag):
     tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
     tree = combine(sorted(tags))
 
+  # dealing with comments
+  comments = []
+
   return render_template("tag.show.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
@@ -137,6 +140,7 @@ def show_tag(tag):
                          footnotes=Footnote.select().where(Footnote.label << labels),
                          dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
+                         comments=comments,
                          depth=config.DEPTH)
 
 @app.route("/tag/<string:tag>/cite")

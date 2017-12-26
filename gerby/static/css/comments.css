@@ -1,0 +1,12 @@
+form#comment-form label {
+  width: calc(80rem / 14);
+  text-align: right;
+}
+
+form#comment-form textarea {
+  width: 100%;
+}
+
+form#comment-form input#comment-submit {
+  float: right;
+}
