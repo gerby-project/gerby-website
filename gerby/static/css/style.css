@@ -186,7 +186,7 @@ nav#header {
 
 form#quicksearch span#search-icon {
   position: relative;
-  left: calc(22rem / 14);
+  left: calc(24rem / 14);
   width: 0;
 }
 
@@ -194,7 +194,7 @@ form#quicksearch input {
   border-radius: calc(5rem / 14);
   border-style: solid;
   border-width: 0;
-  padding-left: calc(22rem / 14);
+  padding-left: calc(23rem / 14);
   padding-top: calc(5rem / 14);
   padding-bottom: calc(5rem / 14);
 }
