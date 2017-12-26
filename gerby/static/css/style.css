@@ -195,6 +195,8 @@ form#quicksearch input {
   border-style: solid;
   border-width: 0;
   padding-left: calc(22rem / 14);
+  padding-top: calc(5rem / 14);
+  padding-bottom: calc(5rem / 14);
 }
 
 nav#header ul#quicklinks {
@@ -282,14 +284,16 @@ a[href*="atom"] {
 }
 
 ul#index-select {
-  columns: 2;
   list-style-type: none;
   padding: 0;
-  margin-top: 2em;
+  margin: 0 auto;
+  max-width: calc(400rem / 14);
 }
 
 ul#index-select li {
-  font-size: 1.4em;
+  float: left;
+  width: 45%;
+  margin-left: 4px;
   margin-bottom: 1em;
   border: 2px solid black;
   border-radius: 6px;
@@ -304,13 +308,14 @@ ul#index-select li a {
 }
 
 ul#index-select li img {
-  width: 4em;
-  padding: 0 1em;
+  width: 2.5em;
+  padding: 0 .4em;
 }
 
 ul#index-select li#index-browse,
 ul#index-select li#index-search,
-ul#index-select li#index-bibliography {
+ul#index-select li#index-bibliography,
+ul#index-select li#index-comments {
   text-align: right;
 }
 
