@@ -64,34 +64,56 @@ $("ul.tree").bonsai({
     </section>
   {% endif %}
 
-  <h2 id="comments">Comments ({{ comments | length }})</h2>
-  <p>Your email address will not be published. Required fields are marked.
-  <p>In your comment you can use <a href="/markdown">Markdown</a> and LaTeX style mathematics (enclose it like <code>$\pi$</code>). A preview option is available if you wish to see how it works out (just click on the eye in the lower-right corner).
-  <noscript><p>Unfortunately JavaScript is disabled in your browser, so the comment preview function will not work.</noscript>
+  <section id="comments">
+    <h2 id="comments">Comments ({{ comments | length }})</h2>
 
-  <p>All contributions are licensed under the <a href="https://github.com/stacks/stacks-project/blob/master/COPYING">GNU Free Documentation License</a>.
+    {% for comment in comments %}
+      <article>
+        <header>
+          <p><a href="/tag/{{ tag.tag }}#comment-{{ comment.id }}">Comment #{{ comment.id }}</a>
+          by
+          {% if comment.site %}<cite><a href="{{ comment.site }}" rel="author">{{ comment.author }}</a></cite>
+          {% else %}<cite>{{ comment.author }}</cite>{% endif %}
+          on {{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}
+        </header>
 
-  <form name="comment" id="comment-form" action="/post-comment" method="post">
-    <label for="name">Name<sup>*</sup>:</label>
-    <input type="text" name="name" id="name" class="stored"><br>
+        {{ comment.comment }}
+      </article>
+    {% endfor %}
+  </section>
 
-    <label for="mail">E-mail<sup>*</sup>:</label>
-    <input type="text" name="mail" id="mail" class="stored"><br>
+  <!-- TODO indicate comments on higher up tags -->
 
-    <label for="site">Site:</label>
-    <input type="text" name="site" id="site" class="stored"><br>
+  <section id="post-comment">
+    <h2>Post a comment</h2>
+    <p>Your email address will not be published. Required fields are marked.
+    <p>In your comment you can use <a href="/markdown">Markdown</a> and LaTeX style mathematics (enclose it like <code>$\pi$</code>). A preview option is available if you wish to see how it works out (just click on the eye in the lower-right corner).
+    <noscript><p>Unfortunately JavaScript is disabled in your browser, so the comment preview function will not work.</noscript>
 
-    <label>Comment:</label>
-    <span id="epiceditor-status"></span>
-    <textarea name="comment" id="comment-textarea" cols="80" rows="10"></textarea>
-    <div id="epiceditor"></div>
-    <script type="text/javascript" src=""></script>
+    <p>All contributions are licensed under the <a href="https://github.com/stacks/stacks-project/blob/master/COPYING">GNU Free Documentation License</a>.
 
-    <p>In order to prevent bots from posting comments, we would like you to prove that you are human. You can do this by <em>filling in the name of the current tag</em> in the following box. So in case this where tag&nbsp;<span class="tag">0321</span> you just have to write&nbsp;<span class="tag">0321</span>. Beware of the difference between the letter&nbsp;'<span class="tag">O</span>' and the digit&nbsp;'<span class="tag">0</span>'.<p>This <abbr title="Completely Automated Public Turing test to tell Computers and Humans Apart">captcha</abbr> seems more appropriate than the usual illegible gibberish, right?<br>
-    <label for="check">Tag:</label><input type="text" name="check" id="check"><input type="hidden" name="tag" value="{{ tag.tag }}"><br>
+    <form name="comment" id="comment-form" action="/post-comment" method="post">
+      <label for="name">Name<sup>*</sup>:</label>
+      <input type="text" name="name" id="name" class="stored"><br>
 
-    <input type="submit" id="comment-submit" value="Post comment">
-  </form>
+      <label for="mail">E-mail<sup>*</sup>:</label>
+      <input type="text" name="mail" id="mail" class="stored"><br>
+
+      <label for="site">Site:</label>
+      <input type="text" name="site" id="site" class="stored"><br>
+
+      <label>Comment:</label>
+      <span id="epiceditor-status"></span>
+      <textarea name="comment" id="comment-textarea" cols="80" rows="10"></textarea>
+      <div id="epiceditor"></div>
+      <script type="text/javascript" src=""></script>
+
+      <p>In order to prevent bots from posting comments, we would like you to prove that you are human. You can do this by <em>filling in the name of the current tag</em> in the following box. So in case this where tag&nbsp;<span class="tag">0321</span> you just have to write&nbsp;<span class="tag">0321</span>. Beware of the difference between the letter&nbsp;'<span class="tag">O</span>' and the digit&nbsp;'<span class="tag">0</span>'.<p>This <abbr title="Completely Automated Public Turing test to tell Computers and Humans Apart">captcha</abbr> seems more appropriate than the usual illegible gibberish, right?<br>
+      <label for="check">Tag:</label><input type="text" name="check" id="check"><input type="hidden" name="tag" value="{{ tag.tag }}"><br>
+
+      <input type="submit" id="comment-submit" value="Post comment">
+    </form>
+  </section>
 </div>
 
 {% endblock %}

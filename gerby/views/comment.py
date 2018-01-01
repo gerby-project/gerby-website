@@ -25,6 +25,6 @@ def post_comment():
       author=request.form["name"],
       site=site,
       email=request.form["mail"],
-      comment=request.form["name"])
+      comment=request.form["comment"])
 
   return ""

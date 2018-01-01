@@ -130,7 +130,7 @@ def show_tag(tag):
     tree = combine(sorted(tags))
 
   # dealing with comments
-  comments = []
+  comments = Comment.select().where(Comment.tag == tag)
 
   return render_template("tag.show.html",
                          tag=tag,
