@@ -83,9 +83,16 @@ $("ul.tree").bonsai({
         <blockquote>{{ comment.comment | safe }}</blockquote>
       </article>
     {% endfor %}
-  </section>
 
-  <!-- TODO indicate comments on higher up tags -->
+    {% if parentComments %}
+      <p>There are also:
+      <ul>
+        {% for parent in parentComments %}
+          <li>{{ parent[1] }} comment(s) on {{ parent[0].type | capitalize }} <a href="{{ tagURL(parent[0].tag) }}#comments" data-tag="{{ parent[0].tag }}">{{ parent[0].ref }}</a>{% if parent[0].name %}: {{ parent[0].name }}{% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
 
   <section id="post-comment">
     <h2>Post a comment</h2>

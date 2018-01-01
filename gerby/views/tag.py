@@ -144,6 +144,16 @@ def show_tag(tag):
 
     comment.comment = md.convert(comment.comment)
 
+  parentComments = []
+
+  for parent in breadcrumb:
+    if parent.tag == tag.tag:
+      continue
+
+    count = Comment.select().where(Comment.tag == parent.tag).count() # this could be done in a single JOIN
+    if count > 0:
+      parentComments.append([parent, count])
+
   return render_template("tag.show.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
@@ -153,6 +163,7 @@ def show_tag(tag):
                          dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
                          comments=comments,
+                         parentComments=parentComments,
                          depth=config.DEPTH)
 
 @app.route("/tag/<string:tag>/cite")
