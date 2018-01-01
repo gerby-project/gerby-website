@@ -65,7 +65,7 @@ $("ul.tree").bonsai({
   {% endif %}
 
   <section id="comments">
-    <h2 id="comments">Comments ({{ comments | length }})</h2>
+    <h2>Comments ({{ comments | length }})</h2>
 
     {% for comment in comments %}
       <article>
@@ -74,10 +74,10 @@ $("ul.tree").bonsai({
           by
           {% if comment.site %}<cite><a href="{{ comment.site }}" rel="author">{{ comment.author }}</a></cite>
           {% else %}<cite>{{ comment.author }}</cite>{% endif %}
-          on {{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}
+          on <time datetime="{{ comment.date }}">{{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}</time>
         </header>
 
-        {{ comment.comment | safe }}
+        <blockquote>{{ comment.comment | safe }}</blockquote>
       </article>
     {% endfor %}
   </section>
