@@ -4,6 +4,9 @@
 
 {% block head %}
   <script type="text/javascript" src="/static/js/toggle.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -94,19 +97,43 @@ $("ul.tree").bonsai({
 
     <form name="comment" id="comment-form" action="/post-comment" method="post">
       <label for="name">Name<sup>*</sup>:</label>
-      <input type="text" name="name" id="name" class="stored"><br>
+      <input type="text" name="name" id="name"><br>
 
       <label for="mail">E-mail<sup>*</sup>:</label>
-      <input type="text" name="mail" id="mail" class="stored"><br>
+      <input type="text" name="mail" id="mail"><br>
 
       <label for="site">Site:</label>
-      <input type="text" name="site" id="site" class="stored"><br>
+      <input type="text" name="site" id="site"><br>
 
       <label>Comment:</label>
-      <span id="epiceditor-status"></span>
       <textarea name="comment" id="comment-textarea" cols="80" rows="10"></textarea>
-      <div id="epiceditor"></div>
-      <script type="text/javascript" src=""></script>
+      <script type="text/javascript">
+var simplemde = new SimpleMDE({
+  autosave: {
+    enabled: true,
+    uniqueId: "comment-{{ tag.tag }}",
+  },
+  element: $("#comment")[0],
+  forceSync: true,
+  placeholder: "You can type your comment here, use the preview option to see what it will look like.",
+  spellChecker: false,
+  status: false,
+  toolbar: [
+    {
+      name: "reference",
+      action: function reference(editor) {
+        var position = editor.codemirror.getCursor();
+        editor.codemirror.setSelection(position, position);
+        editor.codemirror.replaceSelection("\\ref{}");
+      },
+      className: "fa fa-link",
+    }, "|",
+    "bold", "italic", "|",
+    "ordered-list", "unordered-list", "|",
+    "preview", "side-by-side"
+  ],
+});
+      </script>
 
       <p>In order to prevent bots from posting comments, we would like you to prove that you are human. You can do this by <em>filling in the name of the current tag</em> in the following box. So in case this where tag&nbsp;<span class="tag">0321</span> you just have to write&nbsp;<span class="tag">0321</span>. Beware of the difference between the letter&nbsp;'<span class="tag">O</span>' and the digit&nbsp;'<span class="tag">0</span>'.<p>This <abbr title="Completely Automated Public Turing test to tell Computers and Humans Apart">captcha</abbr> seems more appropriate than the usual illegible gibberish, right?<br>
       <label for="check">Tag:</label><input type="text" name="check" id="check"><input type="hidden" name="tag" value="{{ tag.tag }}"><br>
