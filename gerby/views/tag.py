@@ -1,4 +1,6 @@
 import datetime
+import markdown
+from mdx_bleach.extension import BleachExtension
 
 from flask import render_template
 
@@ -130,7 +132,12 @@ def show_tag(tag):
     tree = combine(sorted(tags))
 
   # dealing with comments
+  bleach = BleachExtension()
+  md = markdown.Markdown(extensions=[bleach])
+
   comments = Comment.select().where(Comment.tag == tag)
+  for comment in comments:
+    comment.comment = md.convert(comment.comment)
 
   return render_template("tag.show.html",
                          tag=tag,

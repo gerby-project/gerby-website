@@ -77,7 +77,7 @@ $("ul.tree").bonsai({
           on {{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}
         </header>
 
-        {{ comment.comment }}
+        {{ comment.comment | safe }}
       </article>
     {% endfor %}
   </section>
