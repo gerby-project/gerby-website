@@ -15,7 +15,7 @@ log.setLevel(logging.INFO)
 
 # create database if it doesn't exist already
 if not os.path.isfile(config.DATABASE):
-  db.create_tables([Tag, Proof, Extra])
+  db.create_tables([Tag, Proof, Extra, Comment])
   log.info("Created database")
 
 
@@ -218,4 +218,3 @@ for tag in Tag.select():
 
     if len(citations) > 0:
       Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()
-

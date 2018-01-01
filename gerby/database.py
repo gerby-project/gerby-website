@@ -1,3 +1,4 @@
+import datetime
 from peewee import *
 from playhouse.sqlite_ext import *
 
@@ -87,3 +88,12 @@ class BibliographyField(BaseModel):
   key = ForeignKeyField(BibliographyEntry)
   field = CharField()
   value = CharField()
+
+class Comment(BaseModel):
+  id = PrimaryKeyField()
+  tag = ForeignKeyField(Tag)
+  author = TextField()
+  site = TextField(null=True)
+  email = TextField()
+  date = DateTimeField(default=datetime.datetime.now)
+  comment = TextField(null=True)
