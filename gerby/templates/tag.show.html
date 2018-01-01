@@ -116,6 +116,18 @@ var simplemde = new SimpleMDE({
   element: $("#comment")[0],
   forceSync: true,
   placeholder: "You can type your comment here, use the preview option to see what it will look like.",
+  previewRender: function(plaintext, preview) {
+    // asynchronous
+    plaintext = plaintext.replace(/\\ref\{([0-9A-Z]{4})\}/g, "[$1](/tag/$1)");
+    output = this.parent.markdown(plaintext);
+
+    setTimeout(function() {
+      preview.innerHTML = output;
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);//, $("div.editor-preview, div.editor-preview-side")]);
+    }, 0);
+
+    return "";
+  },
   spellChecker: false,
   status: false,
   toolbar: [
@@ -127,10 +139,11 @@ var simplemde = new SimpleMDE({
         editor.codemirror.replaceSelection("\\ref{}");
       },
       className: "fa fa-link",
+      title: "Insert reference",
     }, "|",
     "bold", "italic", "|",
     "ordered-list", "unordered-list", "|",
-    "preview", "side-by-side"
+    "preview"
   ],
 });
       </script>
