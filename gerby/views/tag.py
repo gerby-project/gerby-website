@@ -137,6 +137,11 @@ def show_tag(tag):
 
   comments = Comment.select().where(Comment.tag == tag)
   for comment in comments:
+    # Stacks flavored Markdown: only \ref{tag}, no longer \ref{label}
+    references = re.compile(r"\\ref\{([0-9A-Z]{4})\}").findall(comment.comment)
+    for reference in references:
+      comment.comment = comment.comment.replace("\\ref{" + reference + "}", "[" + reference + "](/tag/" + reference + ")")
+
     comment.comment = md.convert(comment.comment)
 
   return render_template("tag.show.html",
