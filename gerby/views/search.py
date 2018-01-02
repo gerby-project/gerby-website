@@ -52,7 +52,8 @@ def show_search():
                              query=request.args["query"],
                              count=-1)
 
-  results = results.paginate(page, perpage)
+  results = sorted(results)
+  results = results[(page - 1) * perpage : page * perpage]
 
   references = set()
   for result in results:

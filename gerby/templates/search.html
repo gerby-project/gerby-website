@@ -33,7 +33,7 @@
 {% else %}
   {% if count > perpage %}
     <nav class="search-paginate">
-    {% for i in range(1, count // perpage + 1) %}
+    {% for i in range(1, (count // perpage) + 2) %}
       <a {% if i == page %}class="active"{% endif %} href="/search?query={{ query.replace(" ", "+") }}&page={{ i }}&perpage={{ perpage }}">{{ i }}</a>
     {% endfor %}
     </nav>
@@ -45,7 +45,7 @@
 
   <h2>{% if count == 0 %}No{% else %}{{ count }}{% endif %} result{% if count != 1 %}s{% endif %}
     {% if count > perpage %}
-      (now showing results {{ perpage * (page - 1) + 1 }}&ndash;{{ perpage * page }})
+      (now showing results {{ perpage * (page - 1) + 1 }}&ndash;{{ [perpage * page, count] | sort | first }})
     {% endif %}
   </h2>
 
