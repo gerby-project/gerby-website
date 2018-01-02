@@ -132,8 +132,8 @@ def show_tag(tag):
 
   # dealing with comments
   comments = Comment.select().where(Comment.tag == tag)
-  for comment in comments: # TODO why is map not working here?
-    comment = sfm(comment)
+  for comment in comments:
+    comment.comment = sfm(comment.comment)
 
   # looking for comments higher up in the breadcrumb
   parentComments = []

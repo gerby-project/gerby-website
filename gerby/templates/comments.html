@@ -36,6 +36,11 @@
   <section id="comments">
     {% for comment in comments %}
       <header>
+        <p>
+        {% for parent in comment.breadcrumb %}
+          {{ parent.type | capitalize }} <a href="{{ tagURL(parent.tag) }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.name %}: {{ parent.name }}{% endif %}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+
         <p>On <time datetime="{{ comment.date }}">{{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}</time>
         {% if comment.site %}<cite><a href="{{ comment.site }}" rel="author">{{ comment.author }}</a></cite>
         {% else %}<cite>{{ comment.author }}</cite>{% endif %}
@@ -46,6 +51,8 @@
       </header>
 
       <blockquote>{{ comment.comment | safe }}</blockquote>
+
+      {% if not loop.last %}<hr>{% endif %}
     {% endfor %}
   </section>
 {% endblock %}

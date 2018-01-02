@@ -13,12 +13,12 @@ def sfm(comment):
   md = markdown.Markdown(extensions=[bleach])
 
   # Stacks flavored Markdown: only \ref{tag}, no longer \ref{label}
-  references = re.compile(r"\\ref\{([0-9A-Z]{4})\}").findall(comment.comment)
+  references = re.compile(r"\\ref\{([0-9A-Z]{4})\}").findall(comment)
   for reference in references:
-    comment.comment = comment.comment.replace("\\ref{" + reference + "}", "[" + reference + "](/tag/" + reference + ")")
+    comment = comment.replace("\\ref{" + reference + "}", "[" + reference + "](/tag/" + reference + ")")
     # TODO use <span class="tag"> here (allow it in Bleach, etc.)
 
-  comment.comment = md.convert(comment.comment)
+  comment = md.convert(comment)
 
   return comment
 
@@ -59,8 +59,12 @@ def post_comment():
 def show_comments(page):
   PERPAGE = 5
 
-  comments = Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE)
-  comments = map(sfm, comments)
+  comments = []
+  for comment in Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE):
+    comment.comment = sfm(comment.comment)
+    comment.breadcrumb = getBreadcrumb(comment.tag)
+
+    comments.append(comment)
 
   return render_template(
       "comments.html",
