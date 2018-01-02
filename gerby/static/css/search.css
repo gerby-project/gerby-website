@@ -12,3 +12,23 @@ span.previewable {
   margin-right: calc(3rem / 14);
   cursor: pointer;
 }
+
+nav.search-paginate a {
+  display: inline-block;
+  font-size: 1em;
+  width: 2em;
+  height: 2em;
+  margin: .25em;
+  border: 1px solid black;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 2em;
+}
+
+nav.search-paginate a:hover {
+  background-color: #edece6;
+}
+
+.bonsai div.html ol,
+.bonsai div.html ol li {
+}

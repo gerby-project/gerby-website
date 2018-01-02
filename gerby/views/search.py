@@ -4,6 +4,8 @@ from gerby.gerby import app
 from gerby.views import tag
 from gerby.database import *
 
+import peewee
+
 spelling = {
     "quasicoherent": "quasi-coherent",
     "quasicompact": "quasi-compact"
@@ -17,9 +19,22 @@ def show_search():
 
   # TODO we need to have complete (sub)sections and chapters in the database: we don't want to collate these things on the fly! (this is to be done in tools/)
 
+  # deal with pagination
+  page = 1
+  if "page" in request.args:
+    page = int(request.args["page"])
+
+  perpage = 10
+  if "perpage" in request.args:
+    if request.args["perpage"] == "oo":
+      perpage = 9223372036854775807 # 2^63-1 (shame on me for taking this approach)
+    else:
+      perpage = int(request.args["perpage"])
+
+
   # return empty page (for now)
   if "query" not in request.args:
-    return render_template("search.html", count=0)
+    return render_template("search.html", count=0, perpage=perpage)
 
   # if the query is actually a tag we redirect
   if tag.isTag(request.args["query"]) and Tag.select().where(Tag.tag == request.args["query"].upper()).exists():
@@ -59,7 +74,9 @@ def show_search():
 
   return render_template("search.html",
                          query=request.args["query"],
-                         count=len(results),
+                         count=count,
+                         page=page,
+                         perpage=perpage,
                          tree=tree,
                          misspellt=misspellt,
                          alternative=alternative,
