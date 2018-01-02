@@ -1,16 +1,58 @@
 {% extends "layout.html" %}
 
-{% block title %}Bibliography{% endblock %}
+{% block title %}Recent comments{% endblock %}
+
+{% block head %}
+  <script type="text/javascript" src="/static/js/toggle.js"></script>
+{% endblock %}
 
 {% block breadcrumb %}
 {% endblock %}
 
+{% macro pagination() %}
+
+<ul class="neighbours">
+{% if page > 1 %}
+  <li class="left"><a href="/recent-comments/{{ page - 1 }}">previous</a>
+{% endif %}
+{% if page * perpage < count %}
+  <li class="right"><a href="/recent-comments/{{ page + 1 }}">next</a>
+{% endif %}
+</ul>
+{% if page > 1 or page * perpage < count %}<br style="clear:both">{% endif %}
+
+{% endmacro %}
+
 {% block hamburger %}
+  {{ pagination() }}
 {% endblock %}
 
 {% block body %}
+  <p>There are currently {{ count }} comments on {{ tags }} tags.
+  <p>You are now viewing comments {{ (page - 1) * perpage + 1 }} to {{ [page * perpage, count] | sort | first }} in reverse chronological order.
+
+  <hr>
+
+  <section id="comments">
+    {% for comment in comments %}
+      <header>
+        <p>On <time datetime="{{ comment.date }}">{{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}</time>
+        {% if comment.site %}<cite><a href="{{ comment.site }}" rel="author">{{ comment.author }}</a></cite>
+        {% else %}<cite>{{ comment.author }}</cite>{% endif %}
+        left
+        <a href="/tag/{{ comment.tag.tag }}#comment-{{ comment.id }}">comment #{{ comment.id }}</a>
+        on
+        <a href="/tag/{{ comment.tag.tag }}">tag <span class="tag">{{ comment.tag.tag }}</span></a>
+      </header>
+
+      <blockquote>{{ comment.comment | safe }}</blockquote>
+    {% endfor %}
+  </section>
 {% endblock %}
 
 {% block sidebar %}
+  <div id="interaction">
+    {{ pagination() }}
+  </div>
 {% endblock %}
 

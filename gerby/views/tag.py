@@ -1,11 +1,10 @@
 import datetime
-import markdown
-from mdx_bleach.extension import BleachExtension
 
 from flask import render_template
 
 from gerby.gerby import app
 from gerby.database import *
+from gerby.views.comments import sfm
 
 headings = ["part", "chapter", "section", "subsection", "subsubsection"]
 
@@ -132,24 +131,15 @@ def show_tag(tag):
     tree = combine(sorted(tags))
 
   # dealing with comments
-  bleach = BleachExtension()
-  md = markdown.Markdown(extensions=[bleach])
-
   comments = Comment.select().where(Comment.tag == tag)
-  for comment in comments:
-    # Stacks flavored Markdown: only \ref{tag}, no longer \ref{label}
-    references = re.compile(r"\\ref\{([0-9A-Z]{4})\}").findall(comment.comment)
-    for reference in references:
-      comment.comment = comment.comment.replace("\\ref{" + reference + "}", "[" + reference + "](/tag/" + reference + ")")
+  for comment in comments: # TODO why is map not working here?
+    comment = sfm(comment)
 
-    comment.comment = md.convert(comment.comment)
-
+  # looking for comments higher up in the breadcrumb
   parentComments = []
-
   for parent in breadcrumb:
     if parent.tag == tag.tag:
       continue
-
     count = Comment.select().where(Comment.tag == parent.tag).count() # this could be done in a single JOIN
     if count > 0:
       parentComments.append([parent, count])
