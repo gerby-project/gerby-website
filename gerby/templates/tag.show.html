@@ -71,6 +71,7 @@ $("ul.tree").bonsai({
     <h2>Comments ({{ comments | length }})</h2>
 
     {% for comment in comments %}
+      <a id="comment-{{ comment.id }}" class="header-offset"></a>
       <article>
         <header>
           <p><a href="/tag/{{ tag.tag }}#comment-{{ comment.id }}">Comment #{{ comment.id }}</a>
