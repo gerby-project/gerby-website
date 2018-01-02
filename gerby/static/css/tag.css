@@ -1,6 +1,6 @@
 ul.neighbours {
   list-style-type: none;
-  padding-left: 0;
+  padding-left: 0 !important;
 }
 
 ul.neighbours li {
