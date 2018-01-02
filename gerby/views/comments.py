@@ -2,6 +2,8 @@ from flask import redirect, render_template, request
 
 import markdown
 from mdx_bleach.extension import BleachExtension
+from mdx_bleach.whitelist import ALLOWED_TAGS
+from mdx_bleach.whitelist import ALLOWED_ATTRIBUTES
 
 from gerby.gerby import app
 from gerby.database import *
@@ -9,13 +11,19 @@ from gerby.database import *
 import validators
 
 def sfm(comment):
-  bleach = BleachExtension()
+  attributes = ALLOWED_ATTRIBUTES
+  attributes["span"] = ["class"]
+
+  tags = ALLOWED_TAGS
+  tags.append("span")
+
+  bleach = BleachExtension(tags=tags, attributes=attributes)
   md = markdown.Markdown(extensions=[bleach])
 
   # Stacks flavored Markdown: only \ref{tag}, no longer \ref{label}
   references = re.compile(r"\\ref\{([0-9A-Z]{4})\}").findall(comment)
   for reference in references:
-    comment = comment.replace("\\ref{" + reference + "}", "[" + reference + "](/tag/" + reference + ")")
+    comment = comment.replace("\\ref{" + reference + "}", "[<span class=\"tag\">" + reference + "</a>](/tag/" + reference + ")")
     # TODO use <span class="tag"> here (allow it in Bleach, etc.)
 
   comment = md.convert(comment)
