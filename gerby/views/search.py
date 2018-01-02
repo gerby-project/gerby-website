@@ -28,8 +28,16 @@ def show_search():
   # nope, we perform a search instead
   tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
 
-  results = Tag.select() \
-               .where(Tag.tag << tags, ~(Tag.type << tag.headings))
+  try:
+    results = Tag.select().where(Tag.tag << tags, ~(Tag.type << tag.headings))
+    count = results.count()
+  except peewee.OperationalError as e:
+    if "too many SQL variables" in str(e):
+      return render_template("search.html",
+                             query=request.args["query"],
+                             count=-1)
+
+  results = results.paginate(page, perpage)
 
   references = set()
   for result in results:
