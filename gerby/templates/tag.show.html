@@ -105,13 +105,13 @@ $("ul.tree").bonsai({
 
     <form name="comment" id="comment-form" action="/post-comment" method="post">
       <label for="name">Name<sup>*</sup>:</label>
-      <input type="text" name="name" id="name"><br>
+      <input type="text" name="name" id="name" required><br>
 
       <label for="mail">E-mail<sup>*</sup>:</label>
-      <input type="text" name="mail" id="mail"><br>
+      <input type="email" name="mail" id="mail" required><br>
 
       <label for="site">Site:</label>
-      <input type="text" name="site" id="site"><br>
+      <input type="url" name="site" id="site"><br>
 
       <label>Comment:</label>
       <textarea name="comment" id="comment-textarea" cols="80" rows="10"></textarea>
