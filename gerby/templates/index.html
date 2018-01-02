@@ -26,12 +26,12 @@
 
 <h2><a href="/recent-comments">Recent comments</a></h2>
 <ul>
-  <li>23 Nov 2017: <a title="in section 32.35 Frobenii" href="/tag/0CC6#comment-3007">tag&nbsp;<span class="tag">0CC6</span></a>, by Fei Hu
-  <li>21 Nov 2017: <a title="in section 32.34 Coherent sheaves on projective space" href="/tag/08A9#comment-3006">tag&nbsp;<span class="tag">08A9</span></a>, by Noah Olander
-  <li>21 Nov 2017: <a title="in section 49.15 Glueing and squishing" href="/tag/0C1N#comment-3005">tag&nbsp;<span class="tag">0C1N</a>, by James Waldron
-  <li>21 Nov 2017: <a title="in section 49.15 Glueing and squishing" href="/tag/0C1M#comment-3004">tag&nbsp;<span class="tag">0C1M</span></a>, by James Waldron
-  <li>17 Nov 2017: <a title="in section 12.3 Preadditive and additive categories" href="/tag/09SE#comment-3003">tag&nbsp;<span class="tag">09SE</span></a>, by Herman Rohrbach
-  <li>17 Nov 2017: <a title="in section 12.3 Preadditive and additive categories" href="/tag/09SE#comment-3002">tag&nbsp;<span class="tag">09SE</span></a>, by Herman Rohrbach
+  {% for comment in comments %}
+    <li>
+      <time datetime="{{ comment.date }}">{{ comment.date.strftime("%b %d %Y") }}</time>:
+      <a href="/tag/{{ comment.tag.tag }}#comment-{{ comment.id }}">tag&nbsp;<span class="tag">{{ comment.tag.tag }}</span></a>
+      by <cite>{{ comment.author }}</cite>
+  {% endfor %}
 </ul>
 
 <p>The Stacks project now consists of

@@ -70,9 +70,14 @@ def show_tags():
 
     updates.append(update)
 
-  # TODO add recent comments here
+  comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5) # TODO put this configuration somewhere
 
-  return render_template("index.html", updates=updates, statistics=get_statistics())
+  return render_template(
+      "index.html",
+      updates=updates,
+      statistics=get_statistics(),
+      comments=comments,
+      )
 
 @app.route("/about")
 def show_about():
