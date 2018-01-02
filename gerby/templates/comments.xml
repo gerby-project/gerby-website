@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+  <title>Stacks project -- Comments</title>
+  <link>http://stacks.math.columbia.edu/recent-comments.xml</link>
+  <description>Stacks project, see http://stacks.math.columbia.edu</description>
+  <language>en</language>
+  <managingEditor>stacks.project@gmail.com (Stacks Project)</managingEditor>
+  <webMaster>pieterbelmans@gmail.com (Pieter Belmans)</webMaster>
+  <image>
+    <url>http://stacks.math.columbia.edu/stacks.png</url>
+    <title>Stacks project -- Comments</title>
+    <link>http://stacks.math.columbia.edu/recent-comments.rss</link>
+  </image>
+
+  {% for comment in comments %}
+    <item>
+      <title>#{{ comment.id }} on tag {{ comment.tag.tag }} by {{ comment.name }}</title>
+      <link>http://stacks.math.columbia.edu/tag/{{ comment.tag }}#comment-{{ comment.id }}</link>
+      <description>A new comment by {{ comment.name }} on tag {{ comment.tag.tag }}.</description>
+      <content:encoded><![CDATA[ {{ comment.comment | safe }}]]  ></content:encoded>
+      <dc:creator>{{ comment.name }}</dc:creator>
+      <pubDate>{{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}</pubDate>
+    </item>
+  {% endfor %}
+</channel>
+</rss>

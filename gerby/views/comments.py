@@ -54,6 +54,16 @@ def post_comment():
 
   return ""
 
+@app.route("/recent-comments.xml")
+def show_comments_feed():
+  comments = []
+  for comment in Comment.select().order_by(Comment.id.desc()).paginate(1, 10):
+    comment.comment = sfm(comment.comment)
+    comments.append(comment)
+
+  return render_template("comments.xml", comments=comments)
+
+
 @app.route("/recent-comments", defaults={"page": 1})
 @app.route("/recent-comments/<int:page>")
 def show_comments(page):
