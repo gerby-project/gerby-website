@@ -14,6 +14,16 @@
 
 {% block sidebar %}
   <div id="interaction"></div>
+
+  {% if count > 10 %}
+    <nav class="search-paginate-options">
+      <a href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=10">10</a>
+      <a href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=50">50</a>
+      <a href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=oo">$\infty$</a>
+      per page
+    </nav>
+  {% endif %}
+
 {% endblock %}
 
 {% block hamburger %}
@@ -38,10 +48,6 @@
     {% endfor %}
     </nav>
   {% endif %}
-
-  {% if count > 10 %}
-  {% endif %}
-
 
   <h2>{% if count == 0 %}No{% else %}{{ count }}{% endif %} result{% if count != 1 %}s{% endif %}
     {% if count > perpage %}

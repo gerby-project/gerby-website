@@ -13,7 +13,8 @@ span.previewable {
   cursor: pointer;
 }
 
-nav.search-paginate a {
+nav.search-paginate a,
+nav.search-paginate-options a {
   display: inline-block;
   font-size: 1em;
   width: 2em;
@@ -25,7 +26,8 @@ nav.search-paginate a {
   line-height: 2em;
 }
 
-nav.search-paginate a:hover {
+nav.search-paginate a:hover,
+nav.search-paginate-options a:hover {
   background-color: #edece6;
 }
 
