@@ -2,7 +2,7 @@ import os, os.path, time
 import urllib.request
 import feedparser
 import re
-from flask import Flask, render_template
+from flask import Flask, render_template, request, send_from_directory
 
 from peewee import *
 from playhouse.sqlite_ext import *
@@ -89,6 +89,10 @@ def show_chapters():
   chapters = sorted(chapters)
 
   return render_template("show_chapters.html", chapters=chapters)
+
+@app.route("/robots.txt")
+def show_robots():
+  return send_from_directory(app.static_folder, request.path[1:])
 
 app.jinja_env.add_extension('jinja2.ext.do')
 
