@@ -223,7 +223,7 @@ section#main {
 }
 
 section#meta {
-  top: 45px;
+  top: calc(45rem / 14);
   z-index: 0;
   padding: 0 calc(10rem / 14) 0 calc(5rem / 4);
 }

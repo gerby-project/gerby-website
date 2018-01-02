@@ -43,24 +43,6 @@
   <link rel="icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
   <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
 
-
-  <script type="text/javascript">
-$("a#toggle-proofs").click(function() {
-$(".env-proof *").toggle();
-// TODO maybe show something like "Proof. [hidden]"
-// do want then to toggle individual proofs?
-// TODO also: don't show proof toggle when there are no proofs
-});
-  </script>
-  <!-- TODO implement toggle between proofs and no proofs, and numbers versus tags
-	for inspiration, see https://ux.stackexchange.com/questions/1318/should-a-toggle-button-show-its-current-state-or-the-state-to-which-it-will-chan
-
-	i.e. I want something like
-	proofs    off [ |x] on
-	labels   tags [ |x] numbers
-  -->
-
-
   {% block head %}{% endblock %}
 </head>
 
