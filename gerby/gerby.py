@@ -88,7 +88,7 @@ def show_chapters():
 app.jinja_env.add_extension('jinja2.ext.do')
 
 import gerby.views.bibliography
-import gerby.views.comment
+import gerby.views.comments
 import gerby.views.search
 import gerby.views.tag
 
