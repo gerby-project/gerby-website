@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request
+from flask import redirect, render_template, request, redirect
 
 import markdown
 from mdx_bleach.extension import BleachExtension
@@ -60,7 +60,7 @@ def post_comment():
       email=request.form["mail"],
       comment=request.form["comment"])
 
-  return ""
+  return redirect("/tag/" + request.form["tag"] + "#comment-" + str(comment.id))
 
 @app.route("/recent-comments.xml")
 def show_comments_feed():
