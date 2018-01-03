@@ -275,12 +275,12 @@ a[href^="https://mathscinet.ams.org"] {
   background-image: url("../images/icon.ams.png");
 }
 
-a[href*="pdf"] {
+a[href*=".pdf"] {
   background-image: url("../images/icon.pdf.png");
 }
 
-a[href*="rss"],
-a[href*="atom"] {
+a[href*=".rss"],
+a[href*=".atom"] {
   background-image: url("../images/icon.rss.png");
 }
 
