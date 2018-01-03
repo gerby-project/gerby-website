@@ -1,6 +1,7 @@
 var simplemde = new SimpleMDE({
   autosave: {
     enabled: true,
+    delay: 1000,
     uniqueId: "comment-{{ tag.tag }}",
   },
   element: $("#comment")[0],
@@ -34,3 +35,7 @@ simplemde.codemirror.on("change", function() {
   $("input#burger-toggle-tags").click();
 });
 
+// remove the event listener that forgets a comment on submit
+simplemde.element.form.removeEventListener("submit", function() {
+	localStorage.removeItem("smde_" + simplemde.options.autosave.uniqueId);
+});
