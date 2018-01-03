@@ -249,9 +249,9 @@ a[href^="https://github.com"],
 a[href^="https://doi.org"],
 a[href^="https://arxiv.org"],
 a[href^="https://mathscinet.ams.org"],
-a[href*="pdf"],
-a[href*="rss"],
-a[href*="atom"] {
+a[href*=".pdf"],
+a[href*=".rss"],
+a[href*=".atom"] {
   background-repeat: no-repeat;
   background-position: center right;
   padding-right: calc(18rem / 14);
