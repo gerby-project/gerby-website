@@ -68,6 +68,21 @@ for filename in tagFiles:
   tag.save()
 
 
+# post-processing tags
+for tag in Tag.select():
+  regex = re.compile(r'\\ref\{([0-9A-Za-z\-]+)\}')
+  for label in regex.findall(tag.html):
+    try:
+      reference = Tag.get(Tag.label == label)
+      tag.html = tag.html.replace("\\ref{" + label + "}", reference.tag)
+
+    # if the label isn't recognised (which happens on 02BZ in the Stacks project, for a very silly reason), just ignore
+    except:
+      pass
+
+  tag.save()
+
+
 # import proofs
 log.info("Importing proofs")
 for filename in proofFiles:
@@ -86,7 +101,20 @@ for filename in proofFiles:
       log.info("Tag %s: proof #%s has changed", proof.tag.tag, pieces[1])
 
   proof.html = value
+
+  # looking for stray \ref's
+  regex = re.compile(r'\\ref\{([0-9A-Za-z\-]+)\}')
+  for label in regex.findall(proof.html):
+    try:
+      reference = Tag.get(Tag.label == label)
+      proof.html = proof.html.replace("\\ref{" + label + "}", reference.tag)
+
+    # if the label isn't recognised (which happens on 02BZ in the Stacks project, for a very silly reason), just ignore
+    except:
+      pass
+
   proof.save()
+
 
 # import footnotes
 log.info("Importing footnotes")
