@@ -40,27 +40,28 @@ def getBreadcrumb(tag): # TODO get rid of circular dependency and redundant defi
 
 @app.route("/post-comment", methods=["POST"])
 def post_comment():
-  if not validators.email(request.form["mail"]):
-    print("Invalid email address")
+  tag = request.headers["Referer"].split("/")[-1]
 
-  site = request.form["site"]
-  # if site is not a valid url just leave empty
-  if not validators.url(request.form["site"]):
-    site = ""
+  if tag == request.form["tag"] and tag == request.form["check"]:
+    if not validators.email(request.form["mail"]):
+      return render_template("comment.invalid-email.html", email=request.form["mail"])
 
-  if request.form["tag"] != request.form["check"]:
-    print("Invalid captcha")
+    site = request.form["site"]
+    # if site is not a valid url just leave empty
+    if not validators.url(request.form["site"]):
+      site = ""
 
+    comment = Comment.create(
+        tag=request.form["tag"],
+        author=request.form["name"],
+        site=site,
+        email=request.form["mail"],
+        comment=request.form["comment"])
 
-  # TODO what is the best way of knowing which tag page it was sent from?
-  comment = Comment.create(
-      tag=request.form["tag"],
-      author=request.form["name"],
-      site=site,
-      email=request.form["mail"],
-      comment=request.form["comment"])
+    return redirect("/tag/" + request.form["tag"] + "#comment-" + str(comment.id))
 
-  return redirect("/tag/" + request.form["tag"] + "#comment-" + str(comment.id))
+  else:
+    return render_template("comment.invalid-captcha.html")
 
 @app.route("/recent-comments.xml")
 def show_comments_feed():
