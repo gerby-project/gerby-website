@@ -17,3 +17,11 @@ form#comment-form textarea {
 form#comment-form input#comment-submit {
   float: right;
 }
+
+span.cm-strong {
+  font-weight: normal !important;
+}
+
+span.cm-em {
+  font-style: normal !important;
+}
