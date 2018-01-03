@@ -21,5 +21,13 @@ $(document).ready(function() {
       $("input[value$=-toggle-tags]").prop("checked", true);
     else
       $("input[value$=-toggle-numbers]").prop("checked", true);
+
+    Cookies.set("tag-numbering-preference", $("input[name=meta-toggle-numbering]:checked").val().split("-")[2]);
   });
+
+  // toggle if required
+  if (Cookies.get("tag-numbering-preference") == "tags")
+    $("input[value=meta-toggle-tags]").click();
+  else
+    $("input[value=meta-toggle-numbers]").click();
 });
