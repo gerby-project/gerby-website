@@ -53,6 +53,11 @@ class Proof(BaseModel):
   html = TextField(null=True)
   number = IntegerField() # TODO (tag,number) is unique
 
+class Part(BaseModel):
+  part = ForeignKeyField(Tag, related_name = "part")
+  chapter = ForeignKeyField(Tag, related_name = "chapter")
+
+
 class Dependency(BaseModel):
   tag = ForeignKeyField(Tag, related_name="from")
   to = ForeignKeyField(Tag, related_name="to")

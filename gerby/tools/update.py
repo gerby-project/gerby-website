@@ -145,6 +145,17 @@ for tag in Tag.select():
     TagSearch.full: tag.html + "".join([proof.html for proof in proofs]), # TODO collate with proofs
     }).execute()
 
+# link chapters to parts
+log.info("Assigning chapters to parts")
+if Part.table_exists():
+  Part.drop_table()
+db.create_table(Part)
+
+with open(os.path.join(config.PATH, "parts.json")) as f:
+  parts = json.load(f)
+  for part in parts:
+    for chapter in parts[part]:
+      Part.create(part=Tag.get(Tag.type == "part", Tag.ref == part), chapter=Tag.get(Tag.type == "chapter", Tag.ref == chapter))
 
 
 # check (in)activity of tags
