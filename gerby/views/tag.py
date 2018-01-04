@@ -134,7 +134,15 @@ def show_tag(tag):
   tree = None
   # if it's a heading
   if tag.type in headings and headings.index(tag.type) < headings.index(config.UNIT):
-    tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
+    # if the tag is a part, we select all chapters, and then do the startswith for these
+    if tag.type == "part":
+      chapters = Part.select(Part.chapter).where(Part.part == tag)
+      chapters = Tag.select().where(Tag.tag << [chapter.chapter.tag for chapter in chapters])
+      tags = [Tag.select().where(Tag.ref.startswith(chapter.ref + ".")) for chapter in chapters]
+      tags = list(chapters) + [tag for sublist in tags for tag in sublist] # flatten
+    else:
+      tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
+
     tree = combine(sorted(tags))
 
   # dealing with comments
