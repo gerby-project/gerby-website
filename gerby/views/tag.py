@@ -50,9 +50,16 @@ def getBreadcrumb(tag):
   pieces = tag.ref.split(".")
   refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
 
-  tags = Tag.select().where(Tag.ref << refs, ~(Tag.type << ["item"]))
+  tags = Tag.select().where(Tag.ref << refs, ~(Tag.type << ["item", "part"]))
+  tags = sorted(tags)
 
-  return sorted(tags)
+  # if there are parts, we look up the corresponding part and add it
+  if Tag.select().where(Tag.type == "part").exists():
+    chapter = tags[0]
+    part = Part.get(Part.chapter == chapter.tag).part
+    tags.insert(0, part)
+
+  return tags
 
 def getNeighbours(tag):
   pieces = tag.ref.split(".")
