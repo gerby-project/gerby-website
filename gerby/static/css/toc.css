@@ -1,0 +1,24 @@
+ul#toc {
+  padding-left: 0;
+}
+
+ul#toc li {
+  list-style-type: none;
+}
+
+ul#toc > li {
+  padding: .5em;
+  margin: 0 0 .5em 0;
+}
+
+ul#toc ul li {
+  margin: .3em 0 .3em 0;
+}
+
+ul#toc > li:nth-of-type(odd) {
+  background-color: #f6f6f0;
+}
+
+ul#toc .pdf-link {
+  float: right;
+}

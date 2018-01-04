@@ -6,14 +6,19 @@
   <script type="text/javascript" src="/static/js/toggle.js"></script>
 {% endblock %}
 
+{% block hamburger %}
+{% endblock %}
+
 {% block breadcrumb %}
 {% endblock %}
 
 {% block body %}
   <h2>Table of contents</h2>
-  <ul class="toc">
+  <ul id="toc">
     {% for part in parts %}
       <li><a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
+      <a href="#.pdf" class="pdf-link">pdf</a>
+
       <ul>
         {% for chapter in part.chapters %}
           <li><a href="/tag/{{ chapter.tag }}">Chapter <span data-tag="{{ chapter.tag }}">{{ chapter.ref }}</span></a>: {{ chapter.name }}
