@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Table of contents{% endblock %}
+
+{% block head %}
+  <script type="text/javascript" src="/static/js/toggle.js"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block body %}
+  <h2>Table of contents</h2>
+  <ul class="toc">
+    {% for part in parts %}
+      <li><a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
+      <ul>
+        {% for chapter in part.chapters %}
+          <li><a href="/tag/{{ chapter.tag }}">Chapter <span data-tag="{{ chapter.tag }}">{{ chapter.ref }}</span></a>: {{ chapter.name }}
+        {% endfor %}
+      </ul>
+
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block sidebar %}
+  <div id="interaction">
+  </div>
+{% endblock %}
+
