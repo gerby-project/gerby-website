@@ -3,6 +3,7 @@ import urllib.request
 import feedparser
 import re
 from flask import Flask, render_template, request, send_from_directory
+import flask_profiler
 
 from peewee import *
 from playhouse.sqlite_ext import *
@@ -10,11 +11,26 @@ from playhouse.sqlite_ext import *
 import gerby.config as config
 from gerby.database import *
 
+
 db = SqliteExtDatabase(config.DATABASE)
 
 # Flask setup code
 app = Flask(__name__)
 app.config.from_object(__name__)
+
+app.config["flask_profiler"] = {
+    "enabled": app.config["DEBUG"],
+    "storage": {
+        "engine": "sqlite"
+    },
+    "basicAuth":{
+        "enabled": False,
+    },
+    "ignore": [
+	    "^/static/.*"
+	]
+}
+
 
 feeds = {
   "github": {
@@ -101,3 +117,5 @@ import gerby.views.comments
 import gerby.views.search
 import gerby.views.tag
 
+
+flask_profiler.init_app(app)
