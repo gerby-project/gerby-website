@@ -42,7 +42,7 @@
 {% for dependency in dependencies %}
   <li>{{ dependency.tag.type | capitalize }} <a href="/tag/{{ dependency.tag.tag }}" data-tag="{{ dependency.tag.tag }}">{{ dependency.tag.ref }}</a>
   in {{ dependency.parent.type | capitalize }} <a href="/tag/{{ dependency.parent.tag }}" data-tag="{{ dependency.parent.tag }}">{{ dependency.parent.ref }}</a>: {{ dependency.parent.name }}
-    <br>(go to <a href="/tag{{ dependency.tag.tag }}/statistics">statistics</a>)
+    <br>(go to <a href="/tag/{{ dependency.tag.tag }}/statistics">statistics</a>)
 {% endfor %}
 </ul>
 {% endif %}
