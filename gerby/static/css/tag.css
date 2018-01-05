@@ -110,3 +110,23 @@ span.toggle input {
 span.toggle label {
   margin-bottom: .2em;
 }
+
+p.slogan strong {
+  font-weight: normal;
+  text-decoration: underline;
+}
+
+p.slogan:before {
+  content: "Slogan: ";
+  font-weight: bold;
+}
+
+p.history:before {
+  content: "Historical remark: ";
+  font-weight: bold;
+}
+
+p.reference:before {
+  content: "Reference: ";
+  font-weight: bold;
+}

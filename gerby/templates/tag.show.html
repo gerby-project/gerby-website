@@ -41,6 +41,18 @@
 
 {% block body %}
 <div class="html">
+  {% if "slogan" in extras %}
+    <p class="slogan"><strong>{{ extras["slogan"] | safe }}</strong>
+  {% endif %}
+
+  {% if "history" in extras %}
+    <p class="history">{{ extras["history"] | safe }}
+  {% endif %}
+
+  {% if "reference" in extras %}
+    <p class="reference">{{ extras["reference"] | safe }}
+  {% endif %}
+
   {{ html | safe }}
 
   {% if tree %}

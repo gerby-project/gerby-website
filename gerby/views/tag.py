@@ -146,6 +146,10 @@ def show_tag(tag):
 
     tree = combine(sorted(tags))
 
+  # dealing with slogans etc.
+  extras = Extra.select().where(Extra.tag == tag)
+  extras = {extra.type: extra.html for extra in extras}
+
   # dealing with comments
   comments = Comment.select().where(Comment.tag == tag)
   for comment in comments:
@@ -168,6 +172,7 @@ def show_tag(tag):
                          footnotes=Footnote.select().where(Footnote.label << labels),
                          dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
+                         extras=extras,
                          commentsEnabled=tag.type not in hideComments,
                          comments=comments,
                          parentComments=parentComments,
