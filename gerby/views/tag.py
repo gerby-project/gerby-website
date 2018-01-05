@@ -7,6 +7,7 @@ from gerby.database import *
 from gerby.views.comments import sfm
 
 headings = ["part", "chapter", "section", "subsection", "subsubsection"]
+hideComments = ["part", "chapter", "section"]
 
 # validate whether something is (potentially) a tag
 def isTag(string):
@@ -167,6 +168,7 @@ def show_tag(tag):
                          footnotes=Footnote.select().where(Footnote.label << labels),
                          dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
+                         commentsEnabled=tag.type not in hideComments,
                          comments=comments,
                          parentComments=parentComments,
                          depth=config.DEPTH)

@@ -69,6 +69,7 @@ $("ul.tree").bonsai({
   {% endif %}
 </div>
 
+{% if commentsEnabled %}
 <hr>
 
 <section id="comments">
@@ -131,6 +132,7 @@ $("ul.tree").bonsai({
     <input type="submit" id="comment-submit" value="Post comment">
   </form>
 </section>
+{% endif %}
 
 {% endblock %}
 
