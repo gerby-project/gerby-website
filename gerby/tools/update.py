@@ -69,18 +69,18 @@ for filename in tagFiles:
 
 
 # post-processing tags
-for tag in Tag.select():
+for entity in list(Tag.select()) + list(Proof.select()):
   regex = re.compile(r'\\ref\{([0-9A-Za-z\-]+)\}')
-  for label in regex.findall(tag.html):
+  for label in regex.findall(entity.html):
     try:
       reference = Tag.get(Tag.label == label)
-      tag.html = tag.html.replace("\\ref{" + label + "}", reference.tag)
+      entity.html = entity.html.replace("\\ref{" + label + "}", reference.tag)
 
     # if the label isn't recognised (which happens on 02BZ in the Stacks project, for a very silly reason), just ignore
     except:
       pass
 
-  tag.save()
+  entity.save()
 
 
 # import proofs
