@@ -196,7 +196,7 @@ for filename in extraFiles:
 
   pieces = filename.split(".")
 
-  extra, created = Extra.get_or_create(tag=pieces[0])
+  extra, created = Extra.get_or_create(tag=pieces[0], type=pieces[1])
 
   if created:
     log.info("  Tag %s: added a %s", extra.tag.tag, pieces[1])

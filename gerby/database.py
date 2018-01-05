@@ -66,8 +66,8 @@ class Dependency(BaseModel):
     return self.tag > other.tag
 
 class Extra(BaseModel): # contains extra information such as slogans
-  # TODO right now it doesn't say the *type* of extra information
   tag = ForeignKeyField(Tag)
+  type = TextField()
   html = TextField(null=True)
 
 class Footnote(BaseModel):
