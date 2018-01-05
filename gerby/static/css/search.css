@@ -31,6 +31,10 @@ nav.search-paginate-options a:hover {
   background-color: #edece6;
 }
 
-.bonsai div.html ol,
-.bonsai div.html ol li {
+ol#search-results div.html li:before {
+  left: 3.5em;
+}
+
+ol#search-results div.html li li:before {
+  left: 6.5em;
 }

@@ -48,6 +48,35 @@ div.html h3 {
   margin-bottom: 1rem;
 }
 
+div.html ol {
+  counter-reset: ol;
+}
+
+div.html ol > li,
+div.html ol ol > li {
+  list-style-type: none;
+}
+
+div.html ol > li:before {
+  counter-increment: ol;
+  content: "(" counter(ol, decimal) ") ";
+  position: absolute;
+  left: 1em;
+  font-style: normal;
+}
+
+div.html ol ol {
+  counter-reset: olol;
+}
+
+div.html ol ol > li:before {
+  counter-increment: olol;
+  content: "(" counter(olol, lower-alpha) ") ";
+  position: absolute;
+  left: 4em;
+  font-style: normal;
+}
+
 div.html article.env-theorem,
 div.html article.env-proposition,
 div.html article.env-lemma {
