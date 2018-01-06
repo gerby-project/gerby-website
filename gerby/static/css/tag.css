@@ -26,6 +26,7 @@ ul.neighbours li.right a:after {
 
 div.html {
   overflow-x: scroll;
+  overflow: -moz-scrollbars-none;
   text-align: justify;
 }
 
