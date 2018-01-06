@@ -11,11 +11,13 @@ var simplemde = new SimpleMDE({
   previewRender: function(plaintext, preview) {
     // asynchronous
     plaintext = plaintext.replace(/\\ref\{([0-9A-Z]{4})\}/g, "[$1](/tag/$1)");
+    plaintext = plaintext.replace(/\\\[/g, "\\begin{equation}");
+    plaintext = plaintext.replace(/\\\]/g, "\\end{equation}");
     output = this.parent.markdown(plaintext);
 
     setTimeout(function() {
       preview.innerHTML = output;
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);//, $("div.editor-preview, div.editor-preview-side")]);
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
     }, 0);
 
     return "";
