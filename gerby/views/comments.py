@@ -81,7 +81,7 @@ def show_comments_feed():
 @app.route("/recent-comments", defaults={"page": 1})
 @app.route("/recent-comments/<int:page>")
 def show_comments(page):
-  PERPAGE = 5
+  PERPAGE = 20
 
   comments = []
   for comment in Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE):
