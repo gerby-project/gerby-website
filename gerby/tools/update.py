@@ -28,7 +28,7 @@ footnoteFiles = [filename for filename in files if filename.endswith(".footnote"
 # TODO make sure that plasTeX copies the used .bib files to the output folder
 bibliographyFiles = [filename for filename in files if filename.endswith(".bib")]
 
-extras = ("slogan", "history")
+extras = ("slogan", "history", "reference")
 extraFiles = [filename for filename in files if filename.endswith(extras)]
 
 context = pickle.load(open(os.path.join(config.PAUX), "rb"))
