@@ -99,6 +99,6 @@ class Comment(BaseModel):
   tag = ForeignKeyField(Tag)
   author = TextField()
   site = TextField(null=True)
-  email = TextField()
+  email = TextField(null=True)
   date = DateTimeField(default=datetime.datetime.now)
   comment = TextField(null=True)
