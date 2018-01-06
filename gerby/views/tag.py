@@ -7,7 +7,7 @@ from gerby.database import *
 from gerby.views.comments import sfm
 
 headings = ["part", "chapter", "section", "subsection", "subsubsection"]
-hideComments = ["part", "chapter", "section"]
+hideComments = ["part", "chapter"]
 
 # validate whether something is (potentially) a tag
 def isTag(string):
