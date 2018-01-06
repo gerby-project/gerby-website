@@ -6,13 +6,15 @@ var simplemde = new SimpleMDE({
   },
   element: $("#comment")[0],
   forceSync: true,
-  insertTexts: { link: ["\\ref{", "}"] },
+  insertTexts: { link: ["\\ref{", "}"], inline: ["$", "$"], display: ["$$", "$$"] },
   placeholder: "You can type your comment here, use the preview option to see what it will look like.",
   previewRender: function(plaintext, preview) {
-    // asynchronous
+    // deal with references
     plaintext = plaintext.replace(/\\ref\{([0-9A-Z]{4})\}/g, "[$1](/tag/$1)");
+    // deal with \[\] getting replaced to []
     plaintext = plaintext.replace(/\\\[/g, "\\begin{equation}");
     plaintext = plaintext.replace(/\\\]/g, "\\end{equation}");
+
     output = this.parent.markdown(plaintext);
 
     setTimeout(function() {
