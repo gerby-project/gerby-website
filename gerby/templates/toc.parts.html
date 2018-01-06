@@ -16,12 +16,15 @@
   <h2>Table of contents</h2>
   <ul id="toc">
     {% for part in parts %}
-      <li><a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
-      <a href="#.pdf" class="pdf-link">pdf</a>
+      <li>
+        <a class="header-offset" id="{{ part.label }}"></a>
+        <a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
 
       <ul>
         {% for chapter in part.chapters %}
           <li><a href="/tag/{{ chapter.tag }}">Chapter <span data-tag="{{ chapter.tag }}">{{ chapter.ref }}</span></a>: {{ chapter.name }}
+          {% set filename = chapter.label.split("-section-") %}
+          <a href="/download/{{ filename[0] }}.pdf" class="pdf-link">pdf</a>
         {% endfor %}
       </ul>
 
@@ -32,5 +35,11 @@
 {% block sidebar %}
   <div id="interaction">
   </div>
+
+  <ul>
+  {% for part in parts %}
+    <li><a href="#{{ part.label }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
+  {% endfor %}
+  </ul>
 {% endblock %}
 

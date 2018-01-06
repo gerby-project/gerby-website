@@ -12,10 +12,11 @@ ul#toc > li {
 }
 
 ul#toc ul li {
-  margin: .3em 0 .3em 0;
+  margin: 0;
+  padding: .2em;
 }
 
-ul#toc > li:nth-of-type(odd) {
+ul#toc li li:nth-of-type(odd) {
   background-color: #f6f6f0;
 }
 
