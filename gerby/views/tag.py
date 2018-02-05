@@ -48,6 +48,9 @@ def combine(tags):
   return output
 
 def getBreadcrumb(tag):
+  if tag.type == "part":
+    return [tag]
+
   pieces = tag.ref.split(".")
   refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
 
@@ -77,7 +80,10 @@ def getNeighbours(tag):
   pieces[-1] = pieces[-1] - 1
   left = ".".join(map(str, pieces))
   try:
-    left = Tag.get(Tag.ref == left, Tag.type != "item")
+    if tag.type in headings:
+      left = Tag.get(Tag.ref == left, Tag.type == tag.type) # to deal with parts appropriately we select for part / chapter with the appropriate number
+    else:
+      left = Tag.get(Tag.ref == left, Tag.type != "item")
   except Tag.DoesNotExist:
     left = None
 
@@ -85,7 +91,10 @@ def getNeighbours(tag):
   pieces[-1] = pieces[-1] + 2
   right = ".".join(map(str, pieces))
   try:
-    right = Tag.get(Tag.ref == right, Tag.type != "item")
+    if tag.type in headings:
+      right = Tag.get(Tag.ref == right, Tag.type == tag.type) # to deal with parts appropriately we select for part / chapter with the appropriate number
+    else:
+      right = Tag.get(Tag.ref == right, Tag.type != "item")
   except Tag.DoesNotExist:
     right = None
 
