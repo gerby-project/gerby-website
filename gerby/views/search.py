@@ -61,7 +61,7 @@ def show_search():
     references.update([".".join(pieces[0:i]) for i in range(len(pieces) + 1)])
 
   complete = Tag.select() \
-                .where(Tag.ref << references, ~(Tag.type << ["item"]))
+                .where(Tag.ref << references, ~(Tag.type << ["item", "part"]))
 
   tree = tag.combine(list(sorted(complete)))
 
