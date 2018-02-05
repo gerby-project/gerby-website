@@ -15,7 +15,8 @@ log.setLevel(logging.INFO)
 
 # create database if it doesn't exist already
 if not os.path.isfile(config.DATABASE):
-  db.create_tables([Tag, Proof, Extra, Comment])
+  for model in [Tag, Proof, Extra, Comment]:
+    model.create_table()
   log.info("Created database")
 
 
@@ -120,7 +121,7 @@ for filename in proofFiles:
 log.info("Importing footnotes")
 if Footnote.table_exists():
   Footnote.drop_table()
-db.create_table(Footnote)
+Footnote.create_table()
 
 for filename in footnoteFiles:
   with open(os.path.join(config.PATH, filename)) as f:
@@ -134,7 +135,7 @@ for filename in footnoteFiles:
 log.info("Populating the search table")
 if TagSearch.table_exists():
   TagSearch.drop_table()
-db.create_table(TagSearch)
+TagSearch.create_table()
 
 for tag in Tag.select():
   proofs = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
@@ -149,7 +150,7 @@ for tag in Tag.select():
 log.info("Assigning chapters to parts")
 if Part.table_exists():
   Part.drop_table()
-db.create_table(Part)
+Part.create_table()
 
 with open(os.path.join(config.PATH, "parts.json")) as f:
   parts = json.load(f)
@@ -177,7 +178,7 @@ for tag in Tag.select():
 log.info("Creating dependency data")
 if Dependency.table_exists():
   Dependency.drop_table()
-db.create_table(Dependency)
+Dependency.create_table()
 
 for proof in Proof.select():
   regex = re.compile(r'\"/tag/([0-9A-Z]{4})\"')
@@ -223,11 +224,11 @@ for entry in names:
 log.info("Importing bibliography")
 if BibliographyEntry.table_exists():
   BibliographyEntry.drop_table()
-db.create_table(BibliographyEntry)
+BibliographyEntry.create_table()
 
 if BibliographyField.table_exists():
   BibliographyField.drop_table()
-db.create_table(BibliographyField)
+BibliographyField.create_table()
 
 for bibliographyFile in bibliographyFiles:
   bibtex = pybtex.database.parse_file(os.path.join(config.PATH, bibliographyFile))
@@ -246,7 +247,7 @@ for bibliographyFile in bibliographyFiles:
 # managing citations
 if Citation.table_exists():
   Citation.drop_table()
-db.create_table(Citation)
+Citation.create_table()
 
 for tag in Tag.select():
   regex = re.compile(r'\"/bibliography/([0-9A-Za-z]+)\"')
