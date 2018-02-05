@@ -250,7 +250,7 @@ if Citation.table_exists():
 Citation.create_table()
 
 for tag in Tag.select():
-  regex = re.compile(r'\"/bibliography/([0-9A-Za-z]+)\"')
+  regex = re.compile(r'\"/bibliography/([0-9A-Za-z\-]+)\"')
 
   with db.atomic():
     citations = regex.findall(tag.html)
