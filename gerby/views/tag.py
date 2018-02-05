@@ -63,6 +63,10 @@ def getBreadcrumb(tag):
   return tags
 
 def getNeighbours(tag):
+  # items cannot be dealt with appropriately, so we just don't
+  if tag.type == "item":
+    return (None, None)
+
   pieces = tag.ref.split(".")
   try:
     pieces[-1] = int(pieces[-1])
@@ -73,7 +77,7 @@ def getNeighbours(tag):
   pieces[-1] = pieces[-1] - 1
   left = ".".join(map(str, pieces))
   try:
-    left = Tag.get(Tag.ref == left)
+    left = Tag.get(Tag.ref == left, Tag.type != "item")
   except Tag.DoesNotExist:
     left = None
 
@@ -81,7 +85,7 @@ def getNeighbours(tag):
   pieces[-1] = pieces[-1] + 2
   right = ".".join(map(str, pieces))
   try:
-    right = Tag.get(Tag.ref == right)
+    right = Tag.get(Tag.ref == right, Tag.type != "item")
   except Tag.DoesNotExist:
     right = None
 
