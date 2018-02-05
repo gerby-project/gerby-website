@@ -68,7 +68,10 @@ div.html ol > li:before {
   counter-increment: ol;
   content: "(" counter(ol, decimal) ") ";
   position: absolute;
-  left: 1em;
+  left: 0em;
+  display: inline-block;
+  text-align: right;
+  width: 1.5em;
   font-style: normal;
 }
 
@@ -80,7 +83,10 @@ div.html ol ol > li:before {
   counter-increment: olol;
   content: "(" counter(olol, lower-alpha) ") ";
   position: absolute;
-  left: 4em;
+  left: 3em;
+  display: inline-block;
+  text-align: right;
+  width: 2em;
   font-style: normal;
 }
 
