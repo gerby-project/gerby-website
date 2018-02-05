@@ -50,6 +50,11 @@ div.html h3 {
   margin-bottom: 1rem;
 }
 
+div.html ul li p:only-child,
+div.html ol li p:only-child {
+  margin-bottom: .3rem;
+}
+
 div.html ol {
   counter-reset: ol;
 }
