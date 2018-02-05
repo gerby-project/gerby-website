@@ -112,6 +112,10 @@ def show_tag(tag):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
       html = html + "".join([item.html for item in sorted(tags)])
 
+  # it's an item
+  elif tag.type == "item":
+    html = "<ul>" + tag.html + "</ul>" # <ol start> is incompatible with our current counter setup
+
   # it's a tag (maybe with proofs)
   else:
     proofs = Proof.select().where(Proof.tag == tag.tag)
