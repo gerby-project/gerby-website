@@ -44,7 +44,7 @@ def show_search():
   tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
 
   try:
-    results = Tag.select().where(Tag.tag << tags, ~(Tag.type << tag.headings))
+    results = Tag.select().where(Tag.tag << tags)
     count = results.count()
   except peewee.OperationalError as e:
     if "too many SQL variables" in str(e):
@@ -52,17 +52,19 @@ def show_search():
                              query=request.args["query"],
                              count=-1)
 
+  # sorting and pagination
   results = sorted(results)
   results = results[(page - 1) * perpage : page * perpage]
 
+  # determine list of parents
   references = set()
   for result in results:
     pieces = result.ref.split(".")
     references.update([".".join(pieces[0:i]) for i in range(len(pieces) + 1)])
 
+  # get all tags for the search results (including parent tags)
   complete = Tag.select() \
                 .where(Tag.ref << references, ~(Tag.type << ["item", "part"]))
-
   tree = tag.combine(list(sorted(complete)))
 
   # check whether we should suggest an alternative query, and build it if this is the case
