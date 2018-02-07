@@ -13,7 +13,8 @@ ul.neighbours li.left {
 }
 
 ul.neighbours li.left a:before {
-  content: "<< ";
+  content: "\ab";
+  margin-right: .3em;
 }
 
 ul.neighbours li.right {
@@ -21,7 +22,8 @@ ul.neighbours li.right {
 }
 
 ul.neighbours li.right a:after {
-  content: " >>";
+  content: "\bb";
+  margin-left: .3em;
 }
 
 div.html {
