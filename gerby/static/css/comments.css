@@ -26,18 +26,16 @@ span.cm-em {
   font-style: normal !important;
 }
 
-section#post-comment h2.comment-input-hidden {
-  width: 100%;
+section#post-comment > h2 {
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-origin: content-box;
 }
 
-section#post-comment h2.comment-input-hidden:after {
-  content: ">>";
-  position: absolute;
-  right: 0;
+section#post-comment > h2:not(.hidden) {
+  background-image: url("/static/images/minus.svg");
 }
 
-section#post-comment h2.comment-input-visible:after {
-  content: "<<";
-  position: absolute;
-  right: 0;
+section#post-comment > h2.hidden {
+  background-image: url("/static/images/plus.svg");
 }
