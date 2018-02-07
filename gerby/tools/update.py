@@ -4,6 +4,7 @@ import os.path
 import logging, sys
 import pickle
 import pybtex.database
+import subprocess
 
 from gerby.database import *
 import gerby.config as config
@@ -334,8 +335,19 @@ with open("8a1f3c3754c4470069f73bd5a07e1edc8c0bf04b", "rb") as f:
   for commit in history.commits:
     if not Commit.select().where(Commit.hash == commit).exists():
       print(commit)
-      # TODO get commit info
-      Commit.create(hash=commit)
+      # TODO make this a configuration (or move this to stacks-history)
+      project = "/Users/pbelmans/Documents/Projects/stacks-project"
+
+      try:
+        subject = subprocess.check_output(["git --git-dir " + project + "/.git log " + commit + " --pretty=format:%s -n 1"], stderr=subprocess.STDOUT, shell=True) # TODO make this the whole commit message
+        time = subprocess.check_output(["git --git-dir " + project + "/.git log " + commit + " --pretty=format:%ai -n 1"], stderr=subprocess.STDOUT, shell=True)
+        author = subprocess.check_output(["git --git-dir " + project + "/.git log " + commit + " --pretty=format:%an -n 1"], stderr=subprocess.STDOUT, shell=True)
+
+        Commit.create(hash=commit, author=author, log=subject, time=time)
+      except subprocess.CalledProcessError:
+        # this can happen when the history file was not created from the repository which is now used (which is not a common situation I guess)
+        log.error("There is a discrepancy between the history file and the Git repository")
+
 
   for environment in history.env_histories:
     # if no tag is present the environment isn't tagged yet, so we can ignore it
