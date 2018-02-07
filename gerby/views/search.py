@@ -7,8 +7,8 @@ from gerby.database import *
 import peewee
 
 spelling = {
-    "quasicoherent": "quasi-coherent",
-    "quasicompact": "quasi-compact"
+    "quasicoherent": "\"quasi-coherent\"",
+    "quasicompact": "\"quasi-compact\""
     }
 
 @app.route("/search", methods = ["GET"])
@@ -16,10 +16,6 @@ def show_search():
   # TODO not sure whether this is an efficient query: only fulltext and docid is quick apparently
   # TODO can we use TagSearch.docid and Tag.rowid or something?
   # TODO can we match on a single column? maybe we need two tables?
-
-  # TODO we need to have complete (sub)sections and chapters in the database: we don't want to collate these things on the fly! (this is to be done in tools/)
-
-  # deal with pagination
   page = 1
   if "page" in request.args:
     page = int(request.args["page"])
@@ -44,7 +40,7 @@ def show_search():
   tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
 
   try:
-    results = Tag.select().where(Tag.tag << tags)
+    results = Tag.select().where(Tag.tag << tags, ~(Tag.type << ["item"])) # TODO search options go here: only search for sections, or only statements, etc.
     count = results.count()
   except peewee.OperationalError as e:
     if "too many SQL variables" in str(e):
