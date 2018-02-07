@@ -111,7 +111,7 @@ class Commit(BaseModel):
 
 class Change(BaseModel):
   tag = ForeignKeyField(Tag)
-  hash = ForeignKeyField(Commit)
+  hash = ForeignKeyField(Commit) # TODO change this to commit, as a variable name
   action = TextField()
 
   class Meta:

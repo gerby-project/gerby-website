@@ -235,6 +235,8 @@ def show_history(tag):
   neighbours = getNeighbours(tag)
 
   changes = Change.select().where(Change.tag == tag) # TODO eventually order by Commit.time, once it's in there
+  for change in changes:
+    change.hash.time = change.hash.time.decode("utf-8").split(" ")[0] # TODO why in heaven's name is this returning bytes?!
 
   return render_template("tag.history.html",
                          tag=tag,
