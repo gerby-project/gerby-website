@@ -41,6 +41,7 @@ with open(config.TAGS) as f:
   labels = {item: key for key, item in tags.items()}
 
 # import tags
+"""
 log.info("Importing tags")
 for filename in tagFiles:
   with open(os.path.join(config.PATH, filename)) as f:
@@ -258,3 +259,139 @@ for tag in Tag.select():
 
     if len(citations) > 0:
       Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()
+"""
+
+
+
+
+# managing history
+Change.drop_table() # TODO always drop Change table?
+if not Change.table_exists():
+  Change.create_table()
+
+if not Commit.table_exists():
+  Commit.create_table()
+
+# TODO make stacks-history importable? or rather, make Gerby.database importable in stacks-history, and deal with updating the database over there?
+class env_with_proof:
+  def __init__(self, name, type, label, tag, b, e, text, bp, ep, proof):
+    self.name = name
+    self.type = type
+    self.label = label
+    self.tag = tag
+    self.b = b
+    self.e = e
+    self.text = text
+    self.bp = bp
+    self.ep = ep
+    self.proof = proof
+
+class env_without_proof:
+  def __init__(self, name, type, label, tag, b, e, text):
+    self.name = name
+    self.type = type
+    self.label = label
+    self.tag = tag
+    self.b = b
+    self.e = e
+    self.text = text
+
+class env_history:
+  def __init__(self, commit, env, commits, envs):
+    self.commit = commit
+    self.env = env
+    self.commits = commits
+    self.envs = envs
+
+class history:
+  def __init__(self, commit, env_histories, commits):
+    self.commit = commit
+    self.env_histories = env_histories
+    self.commits = commits
+
+def createChange(commit, tag, change, action, begin, end):
+  if not Tag.select().where(Tag.tag == tag).exists():
+    log.error("  Tag %s does not exist, but it appears in the history", tag)
+    return
+
+  if not Commit.select().where(Commit.hash == commit).exists():
+    log.error("  Commit %s does not exist, but it appears in the history", commit) # TODO is it possible for this to happen? It seems to happen on tag 058V, and commit 8a1f3c3754c4470069f73bd5a07e1edc8c0bf04b, which is also the filename I'm using, so maybe that's why
+    return
+
+  Change.create(tag=tag,
+                hash=commit,
+                filename=change.name,
+                action=action,
+                label=change.label,
+                begin=begin,
+                end=end)
+
+
+# copy a recent history file to this directory for now TODO make this better
+with open("8a1f3c3754c4470069f73bd5a07e1edc8c0bf04b", "rb") as f:
+  history = pickle.load(f)
+
+  for commit in history.commits:
+    if not Commit.select().where(Commit.hash == commit).exists():
+      print(commit)
+      # TODO get commit info
+      Commit.create(hash=commit)
+
+  for environment in history.env_histories:
+    # if no tag is present the environment isn't tagged yet, so we can ignore it
+    if environment.env.tag == "":
+      continue
+
+    label = ""
+    tag = ""
+    name = ""
+    text = ""
+    proof = ""
+    lines = [0, 0] # TODO this is not dealt with at the moment?
+
+    print("Considering the history of tag %s" % environment.env.tag)
+    for commit, change in zip(environment.commits, environment.envs):
+      #print("  Looking at commit %s" % commit)
+      action = ""
+
+      # a tag was assigned
+      if change.tag != tag and change.tag != "":
+        #print("    Tag was assigned")
+        createChange(commit, environment.env.tag, change, "tag", change.b, change.e)
+        tag = change.tag
+
+      # label was changed
+      if change.label != label:
+        # if name = "" then it's actually a statement creation
+        if name != "":
+          #print("    Label was changed")
+          createChange(commit, environment.env.tag, change, "label", change.b, change.e)
+
+        label = change.label
+
+      # filename was changed (can also mean statement was created)
+      if change.name != name:
+        if name == "":
+          #print("    Statement was created")
+          createChange(commit, environment.env.tag, change, "creation", change.b, change.e)
+        else:
+          #print("    Tag moved files")
+          createChange(commit, environment.env.tag, change, "move file", change.b, change.e)
+
+        name = change.name
+
+      # change in text of statement
+      if change.text != text:
+        if text != "": # if text == "" it's actually a creation
+          #print("    Statement was modified")
+          createChange(commit, environment.env.tag, change, "statement", change.b, change.e)
+
+        text = change.text
+
+      # change in text of proof
+      if hasattr(change, "proof"):
+        if proof != "": # TODO logic in original code is weird here, please check
+          #print("    Proof was changed")
+          createChange(commit, environment.env.tag, change, "proof", change.bp, change.ep)
+
+        proof = change.proof

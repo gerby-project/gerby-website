@@ -102,3 +102,23 @@ class Comment(BaseModel):
   email = TextField(null=True)
   date = DateTimeField(default=datetime.datetime.now)
   comment = TextField(null=True)
+
+class Commit(BaseModel):
+  hash = FixedCharField(max_length=40, unique=True, primary_key=True)
+  author = TextField(null=True) # TODO do I want to allow NULL values here?
+  log = TextField(null=True)
+  time = DateTimeField(null=True)
+
+class Change(BaseModel):
+  tag = ForeignKeyField(Tag)
+  hash = ForeignKeyField(Commit)
+  action = TextField()
+
+  class Meta:
+    primary_key = CompositeKey("tag", "hash", "action")
+
+  filename = TextField()
+  label = TextField()
+  begin = IntegerField()
+  end = IntegerField()
+
