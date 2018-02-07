@@ -47,6 +47,36 @@
   </thead>
 
   <tbody>
+{% for change in changes %}
+<tr>
+  <td>
+    {% if change.action == "creation" %}
+      created statement with label <span class="label">{{ change.label }}</span> in <span class="filename">{{ change.filename }}.tex</span>
+    {% elif change.action == "tag" %}
+      assigned tag <span class="tag">{{ change.tag.tag }}</span>
+    {% elif change.action == "statement" %}
+      changed the statement</td>
+    {% elif change.action == "move file" %}
+      moved the statement to file <span class="filename">{{ change.filename }}.tex</span><!-- TODO use colours for filenames? -->
+    {% elif change.action == "label" %}
+      changed the label to <span class="label">{{ change.label }}</span>
+    {% elif change.action == "proof" %}
+      changed the proof
+    {% else %}
+      <strong>if you see this, something went wrong</strong>
+    {% endif %}
+
+    <!-- TODO add commit message in different TR with colspan=3! will lead to complicated CSS though-->
+
+    <pre class="commit-message">{{ change.hash.log }}</pre>
+  </td>
+
+  <td>{{ change.time }}</td>
+
+  <td><a href="#" class="commit">{{ change.hash.hash[0:7] }}</td> <!-- TODO build link -->
+</tr>
+{% endfor %}
+
     <tr>
       <td>created statement with label <span class="label">lemma-same-cohomology-adequate</span> in <span class="filename">descent.tex</span>
         <pre class="commit-message">Adequate modules

@@ -234,8 +234,11 @@ def show_history(tag):
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
 
+  changes = Change.select().where(Change.tag == tag) # TODO eventually order by Commit.time, once it's in there
+
   return render_template("tag.history.html",
                          tag=tag,
+                         changes=changes,
                          neighbours=neighbours)
 """
 6 types of changes:
@@ -245,5 +248,7 @@ def show_history(tag):
   4) move file
   5) label
   6) proof
+
+observe that 3 and 6 are currently combined on the website, if both have been changed
 """
 
