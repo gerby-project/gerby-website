@@ -241,7 +241,7 @@ section#meta ul {
   padding-left: 1.5em;
 }
 
-.tag {
+.tag, .commit, .filename {
   font-family: "Inconsolata", monospace;
 }
 

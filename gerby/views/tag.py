@@ -227,3 +227,23 @@ def show_statistics(tag):
                          neighbours=neighbours,
                          dependencies = dependencies)
 
+@app.route("/tag/<string:tag>/history")
+def show_history(tag):
+  tag = Tag.get(Tag.tag == tag)
+
+  breadcrumb = getBreadcrumb(tag)
+  neighbours = getNeighbours(tag)
+
+  return render_template("tag.history.html",
+                         tag=tag,
+                         neighbours=neighbours)
+"""
+6 types of changes:
+  1) creation
+  2) tag
+  3) statement
+  4) move file
+  5) label
+  6) proof
+"""
+

@@ -172,3 +172,26 @@ p.reference:before {
   content: "Reference: ";
   font-weight: bold;
 }
+
+table#history {
+}
+
+table#history td:nth-child(1) {
+  background-image: url("/static/images/plus.svg");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-origin: content-box;
+}
+
+table#history td.clicked:nth-child(1) {
+  background-image: url("/static/images/minus.svg");
+}
+
+table#history td:nth-child(2),
+table#history td:nth-child(3) {
+  width: 7rem;
+}
+
+table#history pre.commit-message {
+  font-size: .8rem;
+}
