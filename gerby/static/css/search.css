@@ -13,22 +13,10 @@ span.previewable {
   cursor: pointer;
 }
 
-nav.search-paginate a,
-nav.search-paginate-options a {
-  display: inline-block;
-  font-size: 1em;
-  width: 2em;
-  height: 2em;
-  margin: .25em;
-  border: 1px solid black;
-  border-radius: 3px;
+ul#pages li {
+  margin-bottom: .5rem;
+  width: 3rem;
   text-align: center;
-  line-height: 2em;
-}
-
-nav.search-paginate a:hover,
-nav.search-paginate-options a:hover {
-  background-color: #edece6;
 }
 
 ol#search-results div.html li:before {
@@ -37,4 +25,9 @@ ol#search-results div.html li:before {
 
 ol#search-results div.html li li:before {
   left: 6.5em;
+}
+
+nav#results-per-page p {
+  margin-left: .5rem;
+  margin-top: .4rem;
 }

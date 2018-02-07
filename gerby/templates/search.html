@@ -19,11 +19,12 @@
   <div id="interaction"></div>
 
   {% if count > 10 %}
-    <nav class="search-paginate-options">
-      <a href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=10">10</a>
-      <a href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=50">50</a>
-      <a href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=oo">$\infty$</a>
-      per page
+    <nav id="results-per-page" class="pagination">
+      <span class="page-item{% if perpage == 10 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=10">10</a></span>
+      <span class="page-item{% if perpage == 50 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=50">50</a></span>
+      <span class="page-item{% if perpage == 2**63-1 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=oo">&infin;</a></span>
+
+      <p>results per page</span>
     </nav>
   {% endif %}
 
@@ -45,10 +46,12 @@
   <p>This query returned too many search results, please refine it.
 {% else %}
   {% if count > perpage %}
-    <nav class="search-paginate">
-    {% for i in range(1, (count // perpage) + 2) %}
-      <a {% if i == page %}class="active"{% endif %} href="/search?query={{ query.replace(" ", "+") }}&page={{ i }}&perpage={{ perpage }}">{{ i }}</a>
-    {% endfor %}
+    <nav>
+      <ul id="pages" class="pagination flex-wrap">
+      {% for i in range(1, ((count - 1) // perpage) + 2) %}
+        <li class="page-item{% if i == page %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page={{ i }}&perpage={{ perpage }}">{{ i }}</a>
+      {% endfor %}
+      </ul>
     </nav>
   {% endif %}
 
@@ -59,7 +62,7 @@
   </h2>
 
   {% if misspellt | length > 0 %}
-  <p>The keyword{{ "(s)" if misspellt | length > 1 }} {% for keyword in misspellt %}<var>{{ keyword }}</var>{{ "," if not loop.last }}{% endfor %} {% if misspellt | length == 1 %}is{% else %}are{% endif %} spellt differently in the Stacks project.
+  <p>The keyword{{ "(s)" if misspellt | length > 1 }} {% for keyword in misspellt %}<var>{{ keyword }}</var>{{ ", " if not loop.last }}{% endfor %} {% if misspellt | length == 1 %}is{% else %}are{% endif %} spellt differently in the Stacks project.
   <p>Do you perhaps want to search for <a href="/search?query={{ alternative }}"><var>{{ alternative }}</var></a>?
   {% endif %}
 
