@@ -245,9 +245,17 @@ def show_history(tag):
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
 
+  # only show history for tags for which we have one
+  if tag.type not in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"]:
+    return render_template("tag.history.invalid.html", tag=tag, breadcrumb=breadcrumb)
+
   changes = Change.select().where(Change.tag == tag) # TODO eventually order by Commit.time, once it's in there
   for change in changes:
     change.hash.time = change.hash.time.decode("utf-8").split(" ")[0] # TODO why in heaven's name is this returning bytes?!
+
+  # this means something went wrong
+  if len(changes) == 0:
+    return render_template("tag.history.empty.html", tag=tag, breadcrumb=breadcrumb)
 
   filtered = []
   for i in range(len(changes)):

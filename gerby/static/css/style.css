@@ -340,3 +340,10 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+h2.error {
+  background-image: url("../images/alert.svg");
+  background-repeat: no-repeat;
+  background-position: left .2rem;
+  padding-left: 1.5rem;
+}

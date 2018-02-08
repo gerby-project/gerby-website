@@ -154,18 +154,15 @@ $("ul.tree").bonsai({
   {{ neighboursMacro(neighbours) }}
   </div>
 
-  <hr>
+  {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
+    <hr>
 
-  <div id="information">
-    <ul id="tag-info">
-      <li><a href="/tag/{{ tag.tag }}/history"><img src="/static/images/clock.svg"> history</a>
-      <li><a href="/tag/{{ tag.tag }}/statistics"><img src="/static/images/graph.svg"> statistics</a>
-      <li>
-        {% if dependencies | length == 1 %}
-          There is <a href="/tag/{{ tag.tag }}/statistics#dependencies">1 tag depending on this tag</a>.
-        {% elif dependencies | length > 1 %}
-          There are <a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tags depending on this tag</a>.
-        {% endif %}
-    </ul>
-  </div>
+    <div id="information">
+      <ul id="tag-info">
+        <li><a href="/tag/{{ tag.tag }}/history"><img src="/static/images/clock.svg"> history</a>
+        <li><a href="/tag/{{ tag.tag }}/statistics"><img src="/static/images/graph.svg"> statistics</a>
+        <li><a href="/tag/{{ tag.tag }}/statistics#dependencies"><img src="/static/images/dependency.svg"> {{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
+      </ul>
+    </div>
+  {% endif %}
 {% endblock %}
