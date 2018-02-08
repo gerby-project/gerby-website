@@ -42,7 +42,6 @@ with open(config.TAGS) as f:
   labels = {item: key for key, item in tags.items()}
 
 # import tags
-"""
 log.info("Importing tags")
 for filename in tagFiles:
   with open(os.path.join(config.PATH, filename)) as f:
@@ -252,7 +251,7 @@ if Citation.table_exists():
 Citation.create_table()
 
 for tag in Tag.select():
-  regex = re.compile(r'\"/bibliography/([0-9A-Za-z\-]+)\"')
+  regex = re.compile(r'\"/bibliography/([0-9A-Za-z\-\_]+)\"')
 
   with db.atomic():
     citations = regex.findall(tag.html)
@@ -260,9 +259,6 @@ for tag in Tag.select():
 
     if len(citations) > 0:
       Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()
-"""
-
-
 
 
 # managing history
@@ -329,7 +325,7 @@ def createChange(commit, tag, change, action, begin, end):
 
 
 # copy a recent history file to this directory for now TODO make this better
-with open("8a1f3c3754c4470069f73bd5a07e1edc8c0bf04b", "rb") as f:
+with open("409ad56f2fda051e73bcac77b97777907bcb6355", "rb") as f:
   history = pickle.load(f)
 
   for commit in history.commits:
@@ -406,4 +402,5 @@ with open("8a1f3c3754c4470069f73bd5a07e1edc8c0bf04b", "rb") as f:
           #print("    Proof was changed")
           createChange(commit, environment.env.tag, change, "proof", change.bp, change.ep)
 
-        proof = change.proof
+        if change.proof != proof:
+          proof = change.proof
