@@ -249,19 +249,17 @@ def show_history(tag):
   for change in changes:
     change.hash.time = change.hash.time.decode("utf-8").split(" ")[0] # TODO why in heaven's name is this returning bytes?!
 
+  filtered = []
+  for i in range(len(changes)):
+    if i < len(changes) - 1 and changes[i].hash.hash == changes[i+1].hash.hash and changes[i].action == "statement" and changes[i+1].action == "proof":
+      changes[i].action = "statement and proof"
+      filtered.append(changes[i])
+    elif i > 0 and changes[i-1].hash.hash == changes[i].hash.hash and changes[i-1].action == "statement and proof":
+      continue
+    else:
+      filtered.append(changes[i])
+
   return render_template("tag.history.html",
                          tag=tag,
-                         changes=changes,
+                         changes=filtered,
                          neighbours=neighbours)
-"""
-6 types of changes:
-  1) creation
-  2) tag
-  3) statement
-  4) move file
-  5) label
-  6) proof
-
-observe that 3 and 6 are currently combined on the website, if both have been changed
-"""
-
