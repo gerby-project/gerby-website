@@ -1,0 +1,23 @@
+{% macro tagURL(tag) -%}/tag/{{ tag }}{%- endmacro %}
+
+{% macro neighbours(neighbours, modifier) %}
+  <ul class="neighbours">
+  {% if neighbours[0] %}
+    <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}{{ modifier }}">previous {{ neighbours[0].type }}</a>
+  {% endif %}
+  {% if neighbours[1] %}
+    <li class="right"><a href="{{ tagURL(neighbours[1].tag) }}{{ modifier }}">next {{ neighbours[1].type }}</a>
+  {% endif %}
+  </ul>
+  {% if neighbours[0] or neighbours[1] %}<br style="clear:both">{% endif %}
+{% endmacro %}
+
+{% macro tagInformation(tag, dependencies) %}
+  <ul class="tag-info">
+    <li class="tag-history"><a href="/tag/{{ tag.tag }}/history">history</a>
+    <li class="tag-statistics"><a href="/tag/{{ tag.tag }}/statistics">statistics</a>
+    {% if dependencies | length > 0 %}
+      <li class="tag-dependencies"><a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
+    {% endif %}
+  </ul>
+{% endmacro %}

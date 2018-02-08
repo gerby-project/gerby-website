@@ -118,7 +118,7 @@ div#burger-content {
   position: absolute;
   width: calc(250rem / 14);
   top: calc(30rem / 14);
-  margin-left: calc(-175rem / 14);
+  margin-left: calc(-250rem / 14);
   padding: calc(5rem / 14);
   background-color: #f9f8f4;
   z-index: 2;
@@ -231,14 +231,6 @@ section#meta {
   top: calc(45rem / 14);
   z-index: 0;
   padding: 0 calc(10rem / 14) 0 calc(5rem / 4);
-}
-
-section#meta h2 {
-  font-size: 1.1em;
-}
-
-section#meta ul {
-  padding-left: 1.5em;
 }
 
 .tag, .commit, .filename, .label {

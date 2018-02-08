@@ -22,22 +22,24 @@
 
 {% endblock %}
 
-{% macro neighboursMacro(neighbours) %}
-
-<ul class="neighbours">
-{% if neighbours[0] %}
-  <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}">previous {{ neighbours[0].type }}</a>
-{% endif %}
-{% if neighbours[1] %}
-  <li class="right"><a href="{{ tagURL(neighbours[1].tag) }}">next {{ neighbours[1].type }}</a>
-{% endif %}
-</ul>
-{% if neighbours[0] or neighbours[1] %}<br style="clear:both">{% endif %}
-
-{% endmacro %}
-
 {% block hamburger %}
-  {{ neighboursMacro(neighbours) }}
+  <div class="interaction">
+    {{ macros.neighbours(neighbours) }}
+  </div>
+
+  {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
+    <hr>
+
+    <div class="information">
+      <ul class="tag-info">
+        <li class="tag-history"><a href="/tag/{{ tag.tag }}/history">history</a>
+        <li class="tag-statistics"><a href="/tag/{{ tag.tag }}/statistics">statistics</a>
+        {% if dependencies | length > 0 %}
+          <li class="tag-dependencies"><a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -150,22 +152,15 @@ $("ul.tree").bonsai({
 {% endblock %}
 
 {% block sidebar %}
-  <div id="interaction">
-  {{ neighboursMacro(neighbours) }}
+  <div class="interaction">
+    {{ macros.neighbours(neighbours) }}
   </div>
 
-  {# TODO put macros in separate files! #}
   {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
     <hr>
 
-    <div id="information">
-      <ul id="tag-info">
-        <li id="tag-history"><a href="/tag/{{ tag.tag }}/history">history</a>
-        <li id="tag-statistics"><a href="/tag/{{ tag.tag }}/statistics">statistics</a>
-        {% if dependencies | length > 0 %}
-          <li id="tag-dependencies"><a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
-        {% endif %}
-      </ul>
+    <div class="information">
+      {{ macros.tagInformation(tag, dependencies) }}
     </div>
   {% endif %}
 {% endblock %}
