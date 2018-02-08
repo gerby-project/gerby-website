@@ -26,8 +26,28 @@
 {% endblock %}
 
 {% block sidebar %}
-  {{ citationsMacro(citations) }}
+  <div id="interaction">
+    {{ neighboursMacro(neighbours) }}
+  </div>
+
+  <div id="information">
+    {{ citationsMacro(citations) }}
+  </div>
 {% endblock %}
+
+{% macro neighboursMacro(neighbours) %}
+
+<ul class="neighbours">
+{% if neighbours[0] %}
+  <li class="left"><a href="/bibliography/{{ neighbours[0].key }}">previous entry</a>
+{% endif %}
+{% if neighbours[1] %}
+  <li class="right"><a href="/bibliography/{{ neighbours[1].key }}">next entry</a>
+{% endif %}
+</ul>
+{% if neighbours[0] or neighbours[1] %}<br style="clear:both">{% endif %}
+
+{% endmacro %}
 
 {% block body %}
   <nav class="nav nav-tabs nav-fill" role="tablist">
