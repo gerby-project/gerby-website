@@ -65,15 +65,16 @@
     {% else %}
       <strong>if you see this, something went wrong</strong>
     {% endif %}
-
-    <!-- TODO add commit message in different TR with colspan=3! will lead to complicated CSS though-->
-
-    <pre class="commit-message">{{ change.hash.log }}</pre>
   </td>
 
   <td>{{ change.hash.time }}</td>
 
   <td><a href="#" class="commit">{{ change.hash.hash[0:7] }}</td> <!-- TODO build link -->
+</tr>
+<tr>
+  <td colspan="3">
+    <pre class="commit-message">{{ change.hash.log }}</pre>
+  </td>
 </tr>
 {% endfor %}
   </tbody>
