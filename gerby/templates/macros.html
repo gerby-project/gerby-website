@@ -1,7 +1,7 @@
 {% macro neighbours(neighbours, modifier) %}
   <ul class="neighbours">
   {% if neighbours[0] %}
-    <li class="left"><a href="/tag/ {{ neighbours[0].tag }}{{ modifier }}">previous {{ neighbours[0].type }}</a>
+    <li class="left"><a href="/tag/{{ neighbours[0].tag }}{{ modifier }}">previous {{ neighbours[0].type }}</a>
   {% endif %}
   {% if neighbours[1] %}
     <li class="right"><a href="/tag/{{ neighbours[1].tag }}{{ modifier }}">next {{ neighbours[1].type }}</a>
