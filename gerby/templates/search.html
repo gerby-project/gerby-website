@@ -72,7 +72,7 @@
       <ul class="tree">
       {% for item in tree recursive %}
         <li class="expanded">
-        <span class="preview-title">{{ item.type | capitalize }} <a href="{{ tagURL(item.tag) }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.name %}: {{ item.name | safe }}{% endif %}</span>
+        <span class="preview-title">{{ item.type | capitalize }} <a href="/tag/{{ item.tag }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.name %}: {{ item.name | safe }}{% endif %}</span>
 
         {% if item.type not in headings %}
           <div class="html preview tex2jax_ignore">

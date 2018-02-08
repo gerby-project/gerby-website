@@ -17,8 +17,7 @@
   {% if citations | length >= 1 %}
     <ul>
       {% for citation in citations %}
-        {# TODO maybe refactor this output type: it also appears in tag.show.html and maybe other places #}
-        <li>{{ citation.type | capitalize }} <a href="{{ tagURL(citation.tag) }}" data-tag="{{ citation.tag }}">{{ citation.ref }}</a>{% if citation.name %}: {{ citation.name | safe }}{% endif %}
+        <li>{{ citation.type | capitalize }} <a href="/tag/{{ citation.tag }}" data-tag="{{ citation.tag }}">{{ citation.ref }}</a>{% if citation.name %}: {{ citation.name | safe }}{% endif %}
       {% endfor %}
     </ul>
   {% endif %}
@@ -30,12 +29,20 @@
   <li><a href="/bibliography">Bibliography</a>
 {% endblock %}
 
+{% block hamburger %}
+  <div class="interaction">
+    {{ neighboursMacro(neighbours) }}
+  </div>
+{% endblock %}
+
 {% block sidebar %}
-  <div id="interaction">
+  <div class="interaction">
     {{ neighboursMacro(neighbours) }}
   </div>
 
-  <div id="information">
+  {% if citations | length > 0 %}<hr>{% endif %}
+
+  <div class="information">
     {{ citationsMacro(citations) }}
   </div>
 {% endblock %}
