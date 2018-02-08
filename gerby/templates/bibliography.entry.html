@@ -1,8 +1,13 @@
 {% extends "layout.html" %}
 
+{% block head %}
+  <script type="text/javascript" src="/static/js/toggle.js"></script>
+{% endblock %}
+
 {% macro citationsMacro(citations) %}
   {% if citations | length == 0 %}
     <p>This item is never cited.
+    <style type="text/css">span.toggle { display: none; }</style>
   {% elif citations | length == 1 %}
     <p>This item is referenced in 1 tag:
   {% elif citations | length > 1 %}
@@ -13,7 +18,7 @@
     <ul>
       {% for citation in citations %}
         {# TODO maybe refactor this output type: it also appears in tag.show.html and maybe other places #}
-        <li>{{ citation.tag.type | capitalize }} <a href="{{ tagURL(citation.tag.tag) }}" data-tag="{{ citation.tag.tag }}">{{ citation.tag.ref }}</a>{% if citation.tag.name %}: {{ citation.tag.name | safe }}{% endif %}
+        <li>{{ citation.type | capitalize }} <a href="{{ tagURL(citation.tag) }}" data-tag="{{ citation.tag }}">{{ citation.ref }}</a>{% if citation.name %}: {{ citation.name | safe }}{% endif %}
       {% endfor %}
     </ul>
   {% endif %}
@@ -50,6 +55,8 @@
 {% endmacro %}
 
 {% block body %}
+  <h2>Bibliography entry <span class="tag">{{ entry.key }}</span></h2>
+
   <nav class="nav nav-tabs nav-fill" role="tablist">
     <a class="nav-item nav-link active" data-toggle="tab" href="#entry-table" role="tab">entry</a>
     <a class="nav-item nav-link" data-toggle="tab" href="#entry-code" role="tab">code</a>
