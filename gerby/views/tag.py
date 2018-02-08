@@ -262,4 +262,5 @@ def show_history(tag):
   return render_template("tag.history.html",
                          tag=tag,
                          changes=filtered,
+                         breadcrumb=breadcrumb,
                          neighbours=neighbours)

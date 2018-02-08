@@ -19,10 +19,10 @@
 
 <ul class="neighbours">
 {% if neighbours[0] %}
-  <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}">previous {{ neighbours[0].type }}</a>
+  <li class="left"><a href="{{ tagURL(neighbours[0].tag) }}/history">previous {{ neighbours[0].type }}</a>
 {% endif %}
 {% if neighbours[1] %}
-  <li class="right"><a href="{{ tagURL(neighbours[1].tag) }}">next {{ neighbours[1].type }}</a>
+  <li class="right"><a href="{{ tagURL(neighbours[1].tag) }}/history">next {{ neighbours[1].type }}</a>
 {% endif %}
 </ul>
 {% if neighbours[0] or neighbours[1] %}<br style="clear:both">{% endif %}
