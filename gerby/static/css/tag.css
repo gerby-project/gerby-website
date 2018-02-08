@@ -209,3 +209,13 @@ table#history pre.commit-message {
   margin-top: 1rem;
   font-size: .8rem;
 }
+
+div#information ul#tag-info {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+div#information ul#tag-info li {
+  margin-bottom: .5rem;
+  margin-left: 0;
+  padding-left: 0;
