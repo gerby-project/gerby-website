@@ -92,6 +92,10 @@ div.html ol ol > li:before {
   font-style: normal;
 }
 
+div.html ul.tree {
+  text-align: left;
+}
+
 div.html article.env-theorem,
 div.html article.env-proposition,
 div.html article.env-lemma {
