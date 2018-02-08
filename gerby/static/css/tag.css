@@ -219,3 +219,21 @@ div#information ul#tag-info li {
   margin-bottom: .5rem;
   margin-left: 0;
   padding-left: 0;
+}
+
+div#information ul#tag-info li a {
+  background-repeat: no-repeat;
+  padding-left: 1.5rem;
+}
+
+li#tag-history a {
+  background-image: url("../images/clock.svg");
+}
+
+li#tag-statistics a {
+  background-image: url("../images/graph.svg");
+}
+
+li#tag-dependencies a {
+  background-image: url("../images/dependency.svg");
+}

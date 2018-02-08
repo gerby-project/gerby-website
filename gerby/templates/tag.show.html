@@ -154,14 +154,17 @@ $("ul.tree").bonsai({
   {{ neighboursMacro(neighbours) }}
   </div>
 
+  {# TODO put macros in separate files! #}
   {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
     <hr>
 
     <div id="information">
       <ul id="tag-info">
-        <li><a href="/tag/{{ tag.tag }}/history"><img src="/static/images/clock.svg"> history</a>
-        <li><a href="/tag/{{ tag.tag }}/statistics"><img src="/static/images/graph.svg"> statistics</a>
-        <li><a href="/tag/{{ tag.tag }}/statistics#dependencies"><img src="/static/images/dependency.svg"> {{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
+        <li id="tag-history"><a href="/tag/{{ tag.tag }}/history">history</a>
+        <li id="tag-statistics"><a href="/tag/{{ tag.tag }}/statistics">statistics</a>
+        {% if dependencies | length > 0 %}
+          <li id="tag-dependencies"><a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
+        {% endif %}
       </ul>
     </div>
   {% endif %}

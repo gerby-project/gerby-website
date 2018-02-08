@@ -34,7 +34,14 @@
 {% endblock %}
 
 {% block body %}
-<h2>Statistics for tag <span class="tag">{{ tag.tag }}</span></h2>
+<h2>Statement of tag <span class="tag">{{ tag.tag }}</span></h2>
+
+<div class="html">
+  {{ tag.html | safe }}
+</div>
+<p>
+
+<h2>Statistics of tag <span class="tag">{{ tag.tag }}</span></h2>
 
 {% if dependencies | length > 0 %}
 <h3 id="dependencies">Tags using this result</h3>
@@ -54,7 +61,16 @@
   {{ neighboursMacro(neighbours) }}
   </div>
 
+  <hr>
+
   <div id="information">
+    <ul id="tag-info">
+      <li id="tag-history"><a href="/tag/{{ tag.tag }}/history">history</a>
+      <li id="tag-statistics"><a href="/tag/{{ tag.tag }}/statistics">statistics</a>
+      {% if dependencies | length > 0 %}
+        <li id="tag-dependencies"><a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
+      {% endif %}
+    </ul>
   </div>
 {% endblock %}
 
