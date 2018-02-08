@@ -157,8 +157,13 @@ def show_tag(tag):
     if tag.type == "part":
       chapters = Part.select(Part.chapter).where(Part.part == tag)
       chapters = Tag.select().where(Tag.tag << [chapter.chapter.tag for chapter in chapters])
-      tags = [Tag.select().where(Tag.ref.startswith(chapter.ref + ".")) for chapter in chapters]
-      tags = list(chapters) + [tag for sublist in tags for tag in sublist] # flatten
+
+      # even this is too slow for the Stacks project
+      #tags = [Tag.select().where(Tag.ref.startswith(chapter.ref + "."), Tag.type << ["section"]) for chapter in chapters] # only consider sections
+      #tags = list(chapters) + [tag for sublist in tags for tag in sublist] # flatten
+
+      # so we just do this
+      tags = list(chapters)
     else:
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
 
