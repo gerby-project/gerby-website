@@ -27,7 +27,7 @@
 
 {% block breadcrumb %}
   <li><a href="/bibliography">Bibliography</a>
-  <li>{{ entry.fields["title"] }}
+  <li>{{ entry.fields["title"] | safe }}
 {% endblock %}
 
 {% block hamburger %}
