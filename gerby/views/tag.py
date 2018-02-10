@@ -12,7 +12,7 @@ hideComments = ["part", "chapter"]
 
 # validate whether something is (potentially) a tag
 def isTag(string):
-  return len(string) == 4
+  return len(string) == 4 # TODO make this more intelligent
 
 # turn a flat list into a tree based on tag.ref length
 def combine(tags):
@@ -149,6 +149,8 @@ def show_tag(tag):
         "id=\"" + label + "-mark\"><sup>" + str(number + 1) + "</sup>")
     # make the HTML pretty (and hide plasTeX id's)
     html = html.replace(label, "footnote-" + str(number + 1))
+
+    # TODO add offset, need to insert new <a> element for this which carries the ID...
 
   tree = None
   # if it's a heading

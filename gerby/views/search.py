@@ -34,7 +34,7 @@ def show_search():
 
   # if the query is actually a tag we redirect
   if tag.isTag(request.args["query"]) and Tag.select().where(Tag.tag == request.args["query"].upper()).exists():
-    return redirect("tag/" + request.args["query"])
+    return redirect("tag/" + request.args["query"].upper())
 
   # nope, we perform a search instead
   tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
