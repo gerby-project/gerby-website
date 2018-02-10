@@ -218,7 +218,13 @@ def show_citation(tag):
 
 @app.route("/tag/<string:tag>/statistics")
 def show_statistics(tag):
-  tag = Tag.get(Tag.tag == tag)
+  if not isTag(tag):
+    return render_template("tag.invalid.html", tag=tag)
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return render_template("tag.notfound.html", tag=tag)
 
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
@@ -247,7 +253,13 @@ def md5_processor():
 
 @app.route("/tag/<string:tag>/history")
 def show_history(tag):
-  tag = Tag.get(Tag.tag == tag)
+  if not isTag(tag):
+    return render_template("tag.invalid.html", tag=tag)
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return render_template("tag.notfound.html", tag=tag)
 
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
