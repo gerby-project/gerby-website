@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Acknowledgements{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/acknowledgements">Acknowledgements</a>
+{% endblock %}
+
+{% block body %}
+  <h2>Acknowledgements</h2>
+
+  <h2>Open-source</h2>
+  <p>The Stacks project is open-source, and builds upon many other open-source contributions. The most important ones are:
+  <ul>
+    <li><a href="http://flask.pocoo.org/">Flask</a>
+    <li><a href="https://mathjax.org">MathJax</a>
+    <li><a href="https://github.com/sonoisa/XyJax">XyJax</a>
+    <li><a href="https://github.com/coleifer/peewee">peewee</a>
+  </ul>
+{% endblock %}
+
+{% block sidebar %}
+  <h2>Supporting institutions</h2>
+  <div style="text-align: center">
+    <a href="http://simonsfoundation.org"><img style="margin-bottom: 30px; margin-top: 10px" width="180" src="/static/images/funding/simons.png"></a>
+    <a href="http://columbia.edu"><img style="margin-bottom: 30px" src="/static/images/funding/columbia.jpg"></a>
+    <a href="http://nsf.gov"><img width="180" src="/static/images/funding/nsf.gif"></a>
+  </div>
+{% endblock %}
+
+
+
