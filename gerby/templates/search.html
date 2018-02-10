@@ -33,6 +33,19 @@
 {% block hamburger %}
 {% endblock %}
 
+{% block pagination %}
+  {% if count > perpage %}
+    <nav>
+      <ul id="pages" class="pagination flex-wrap">
+      {% for i in range(1, ((count - 1) // perpage) + 2) %}
+        <li class="page-item{% if i == page %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page={{ i }}&perpage={{ perpage }}">{{ i }}</a>
+      {% endfor %}
+      </ul>
+    </nav>
+  {% endif %}
+
+{% endblock %}
+
 {% block body %}
 <h2>Search</h2>
 <form action="/search">
@@ -45,15 +58,7 @@
 {% if count == -1 %}
   <p>This query returned too many search results, please refine it.
 {% else %}
-  {% if count > perpage %}
-    <nav>
-      <ul id="pages" class="pagination flex-wrap">
-      {% for i in range(1, ((count - 1) // perpage) + 2) %}
-        <li class="page-item{% if i == page %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page={{ i }}&perpage={{ perpage }}">{{ i }}</a>
-      {% endfor %}
-      </ul>
-    </nav>
-  {% endif %}
+  {{ self.pagination() }}
 
   <h2>{% if count == 0 %}No{% else %}{{ count }}{% endif %} result{% if count != 1 %}s{% endif %}
     {% if count > perpage %}
@@ -67,7 +72,6 @@
   {% endif %}
 
   <ol id="search-results">
-
     {% if tree %}
       <ul class="tree">
       {% for item in tree recursive %}
@@ -105,5 +109,7 @@ $("span.previewable").click(function(e) {
       </script>
     {% endif %}
   </ol>
+
+  {{ self.pagination() }}
 {% endif %}
 {% endblock %}
