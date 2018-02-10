@@ -11,8 +11,7 @@ from playhouse.sqlite_ext import *
 import gerby.config as config
 from gerby.database import *
 
-
-db = SqliteExtDatabase(config.DATABASE)
+db.init(config.DATABASE)
 
 # Flask setup code
 app = Flask(__name__)
