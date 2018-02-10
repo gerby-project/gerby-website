@@ -4,6 +4,9 @@
 
 {% block head %}
   <script type="text/javascript" src="/static/js/toggle.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jquery-bonsai@2.1.2/jquery.bonsai.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-bonsai@2.1.2/jquery.bonsai.min.js"></script>
 {% endblock %}
 
 {% block hamburger %}
@@ -14,22 +17,27 @@
 
 {% block body %}
   <h2>Table of contents</h2>
-  <ul id="toc">
+
+  <ul id="toc" class="tree">
     {% for part in parts %}
       <li>
         <a class="header-offset" id="{{ part.label }}"></a>
         <a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
 
-      <ul>
-        {% for chapter in part.chapters %}
-          <li><a href="/tag/{{ chapter.tag }}">Chapter <span data-tag="{{ chapter.tag }}">{{ chapter.ref }}</span></a>: {{ chapter.name }}
-          {% set filename = chapter.label.split("-section-") %}
-          <a href="/download/{{ filename[0] }}.pdf" class="pdf-link">pdf</a>
-        {% endfor %}
-      </ul>
-
+        <ul>
+          {% for chapter in part.chapters %}
+            <li><p><a href="/tag/{{ chapter.tag }}">Chapter <span data-tag="{{ chapter.tag }}">{{ chapter.ref }}</span></a>: {{ chapter.name }}
+            {% set filename = chapter.label.split("-section-") %}</p>
+            <a href="/download/{{ filename[0] }}.pdf" class="pdf-link">pdf</a>
+          {% endfor %}
+        </ul>
     {% endfor %}
   </ul>
+  <script type="text/javascript">
+$("ul.tree").bonsai({
+  addExpandAll: true,
+});
+  </script>
 {% endblock %}
 
 {% block sidebar %}
@@ -37,6 +45,7 @@
   </div>
 
   <ul>
+    <!-- TODO what to do with this now that we auto-collapse things in the main part? -->
   {% for part in parts %}
     <li><a href="#{{ part.label }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
   {% endfor %}

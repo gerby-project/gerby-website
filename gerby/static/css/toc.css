@@ -1,16 +1,3 @@
-ul#toc {
-  padding-left: 0;
-}
-
-ul#toc li {
-  list-style-type: none;
-}
-
-ul#toc > li {
-  padding: .5em;
-  margin: 0 0 .5em 0;
-}
-
 ul#toc ul li {
   margin: 0;
   padding: .2em;
@@ -18,6 +5,11 @@ ul#toc ul li {
 
 ul#toc li li:nth-of-type(odd) {
   background-color: #f6f6f0;
+}
+
+ul#toc li li p {
+  display: inline-block;
+  margin: 0;
 }
 
 ul#toc .pdf-link {
