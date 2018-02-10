@@ -48,14 +48,14 @@ feeds = {
 def get_statistics():
   statistics = []
 
-  tags = Tag.select().count()
-  inactive = Tag.select().where(Tag.active == False).count()
-  statistics.append(str(tags) + " tags (" + str(inactive) + " inactive)")
+  tags = Tag.select().where(Tag.active == True).count()
+  statistics.append(str(tags) + " tags")
 
   statistics.append(str(Tag.select().where(Tag.type == "section").count()) + " sections")
   statistics.append(str(Tag.select().where(Tag.type == "chapter").count()) + " chapters")
+  statistics.append(str(Extra.select().where(Extra.type == "slogan").count()) + " slogans")
 
-  # TODO more statistics
+  # TODO more statistics: number of pages, number of lines
 
   return statistics
 
@@ -71,7 +71,7 @@ def update_feeds():
       urllib.request.urlretrieve(feed["url"], path)
 
 @app.route("/")
-def show_tags():
+def show_index():
   update_feeds()
 
   updates = []
