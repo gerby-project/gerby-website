@@ -276,18 +276,8 @@ def show_history(tag):
   if len(changes) == 0:
     return render_template("tag.history.empty.html", tag=tag, breadcrumb=breadcrumb)
 
-  filtered = []
-  for i in range(len(changes)):
-    if i < len(changes) - 1 and changes[i].hash.hash == changes[i+1].hash.hash and changes[i].action == "statement" and changes[i+1].action == "proof":
-      changes[i].action = "statement and proof"
-      filtered.append(changes[i])
-    elif i > 0 and changes[i-1].hash.hash == changes[i].hash.hash and changes[i-1].action == "statement and proof":
-      continue
-    else:
-      filtered.append(changes[i])
-
   return render_template("tag.history.html",
                          tag=tag,
-                         changes=filtered,
+                         changes=changes,
                          breadcrumb=breadcrumb,
                          neighbours=neighbours)
