@@ -7,7 +7,8 @@
 
   nav#header,
   div#burger,
-  section#meta {
+  section#meta,
+  div#tag ~ * {
     display: none;
   }
 
