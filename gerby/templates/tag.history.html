@@ -51,8 +51,8 @@
       created statement with label <span class="label">{{ change.label }}</span> in <span class="filename">{{ change.filename }}.tex</span>
 
     {% elif change.action == "tag" %}
-      {% set infix = "blob" %}
-      assigned tag <span class="tag">{{ change.tag.tag }}</span> <!-- TODO maybe point to tags file? -->
+      {% set infix = "commit" %}
+      assigned tag <span class="tag">{{ change.tag.tag }}</span>
 
     {% elif change.action == "statement" %}
       {% set infix = "commit" %}
@@ -84,7 +84,11 @@
   </td>
 
   <td>{{ change.hash.time }}</td>
-  <td><a href="https://github.com/stacks/stacks-project/{{ infix }}/{{ change.hash.hash }}/{{ change.filename }}.tex{{ suffix }}" class="commit">{{ change.hash.hash[0:7] }}</td> <!-- TODO build link -->
+  {% if change.action == "tag" %}
+    <td><a href="https://github.com/stacks/stacks-project/{{ infix }}/{{ change.hash.hash }}" class="commit">{{ change.hash.hash[0:7] }}</a>
+  {% else %}
+    <td><a href="https://github.com/stacks/stacks-project/{{ infix }}/{{ change.hash.hash }}/{{ change.filename }}.tex{{ suffix }}" class="commit">{{ change.hash.hash[0:7] }}</a></td>
+  {% endif %}
 </tr>
 <tr>
   <td colspan="3">
