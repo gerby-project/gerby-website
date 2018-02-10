@@ -81,6 +81,8 @@ class BibliographyEntry(BaseModel):
 
   def __gt__(self, other):
     if hasattr(self, "author") and hasattr(other, "author"):
+      if self.author.lower() == other.author.lower() and hasattr(self, "title") and hasattr(other, "title"):
+        return self.title.lower() > other.title.lower()
       return self.author.lower() > other.author.lower()
     else:
       return self.key.lower() > other.key.lower()
