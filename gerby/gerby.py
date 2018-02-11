@@ -98,14 +98,6 @@ def show_index():
 def show_about():
   return render_template("single/about.html")
 
-@app.route("/tags")
-def show_tags():
-  return render_template("single/tags.html")
-
-@app.route("/acknowledgements")
-def show_acknowledgements():
-  return render_template("single/acknowledgements.html")
-
 @app.route("/browse")
 def show_chapters():
   # part is top-level
@@ -138,3 +130,6 @@ import gerby.views.tag
 
 
 flask_profiler.init_app(app)
+# Stacks project specific pages
+import gerby.views.stacks
+

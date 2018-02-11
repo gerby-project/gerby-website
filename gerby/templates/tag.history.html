@@ -44,7 +44,7 @@
   <tbody>
 {% for change in changes %}
 <tr>
-  <td>
+  <td><!-- TODO check all the links -->
     {% if change.action == "creation" %}
       {% set infix = "blob" %}
       {% set suffix = "#L" ~ change.begin ~ "-L" ~ change.end %}
