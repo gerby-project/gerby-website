@@ -12,6 +12,7 @@
 
 html {
   font-size: 14px;
+  overflow-x: hidden;
 }
 
 nav#header > * {
@@ -42,6 +43,7 @@ ul#quicklinks {
 }
 
 body {
+  position: relative;
   font-family: "Droid Sans", Arial, sans-serif;
   color: #000;
 }
