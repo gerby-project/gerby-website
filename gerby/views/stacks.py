@@ -58,3 +58,12 @@ def show_history(tag):
                          breadcrumb=breadcrumb,
                          neighbours=neighbours)
 
+
+@app.route("/chapter/<int:chapter>")
+def show_chapter_message(chapter):
+  try:
+    tag = Tag.get(Tag.type == "chapter", Tag.ref == chapter)
+
+    return render_template("tag.chapter.redirect.html", tag=tag)
+  except DoesNotExist:
+    return render_template("tag.chapter.notfound.html", chapter=chapter)

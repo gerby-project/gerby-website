@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}Chapter {{ chapter }} does not exist{% endblock %}
+
+{% block head %}
+  <script type="text/javascript" src="/static/js/toggle.js"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+  {{ macros.breadcrumb(breadcrumb) }}
+{% endblock %}
+
+{% block hamburger %}
+{% endblock %}
+
+{% block body %}
+  <h2 class="error">Chapter {{ chapter }}</h2>
+
+  <div class="alert alert-warning">
+    <p>The Stacks project <a href="/tags">uses tags</a> as means of identifying results. Chapter numbers on the other hand can change over time when new results are added. So it's not guaranteed that this URL is still up-to-date.
+    <p>But {{ chapter }} does not correspond to a chapter number which is currently in the Stacks project, so we cannot redirect to the corresponding tag page.
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+
