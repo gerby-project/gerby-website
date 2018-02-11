@@ -47,10 +47,21 @@
 {% endblock %}
 
 {% block body %}
-<h2>Search</h2>
 <form action="/search">
-  <label for="query">Keywords</label>
-  <input type="search" class="form-control" name="query" id="query" placeholder="keywords or a tag" autofocus value="{{ query | e }}">
+  <div class="form-group">
+    <label for="query">Keywords</label>
+    <input type="search" class="form-control" name="query" id="query" placeholder="keywords or a tag" autofocus value="{{ query | e }}">
+  </div>
+
+  <div class="form-group">
+    <input type="radio" name="radius" id="allRadio" value="all"{% if radius == "all" %} checked{% endif %}>
+    <label for="allRadio">Search all tags</label>
+    <br>
+    <input type="radio" name="radius" id="statementsRadio" value="statements"{% if not radius == "all" %} checked{% endif %}>
+    <label for="statementsRadio">Search only statements</label>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 <hr>

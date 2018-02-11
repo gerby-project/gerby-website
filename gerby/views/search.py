@@ -27,17 +27,25 @@ def show_search():
 
   # return empty page (for now)
   if "query" not in request.args:
-    return render_template("search.html", count=0, perpage=perpage)
+    return render_template("search.html", count=0, perpage=perpage, radius="all")
 
   # if the query is actually a tag we redirect
   if tag.isTag(request.args["query"]) and Tag.select().where(Tag.tag == request.args["query"].upper()).exists():
     return redirect("tag/" + request.args["query"].upper())
 
   # nope, we perform a search instead
-  tags = [result.tag for result in SearchTag(SearchTag.tag).search(request.args["query"])]
+  radius = "all"
+  if "radius" in request.args and request.args["radius"] == "statements":
+    radius = "statements"
 
+  if radius == "all":
+    tags = [result.tag for result in SearchTag(SearchTag.tag).search(request.args["query"])]
+  else:
+    tags = [result.tag for result in SearchStatement(SearchStatement.tag).search(request.args["query"])]
+
+  # now get all the information about the results
   try:
-    results = Tag.select().where(Tag.tag << tags, ~(Tag.type << ["item"])) # TODO search options go here: only search for sections, or only statements, etc.
+    results = Tag.select().where(Tag.tag << tags, ~(Tag.type << ["item"]))
     count = results.count()
   except peewee.OperationalError as e:
     if "too many SQL variables" in str(e):
@@ -76,5 +84,6 @@ def show_search():
                          tree=tree,
                          misspellt=misspellt,
                          alternative=alternative,
+                         radius=radius,
                          headings=tag.headings)
 
