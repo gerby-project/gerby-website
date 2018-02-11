@@ -14,7 +14,7 @@ form#comment-form textarea {
   width: 100%;
 }
 
-form#comment-form input#comment-submit {
+form#comment-form button {
   float: right;
 }
 
