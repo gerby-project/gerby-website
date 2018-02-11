@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block hamburger %}
+  <div class="interaction"></div>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -47,13 +48,19 @@ if($("div#burger").is(":visible")) {
 {% endblock %}
 
 {% block sidebar %}
-  <div id="interaction">
+  <div class="interaction">
   </div>
+
+  <hr>
 
   <ul>
   {% for part in parts %}
     <li><a href="#{{ part.label }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
   {% endfor %}
   </ul>
+
+  <hr>
+
+  <a href="/download/book.pdf">Download the book</a>
 {% endblock %}
 
