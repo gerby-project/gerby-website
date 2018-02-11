@@ -31,3 +31,7 @@ nav#results-per-page p {
   margin-left: .5rem;
   margin-top: .4rem;
 }
+
+form#search button {
+  float: right;
+}
