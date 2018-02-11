@@ -130,7 +130,7 @@ $("ul.tree").bonsai({
 
     <p>In order to prevent bots from posting comments, we would like you to prove that you are human. You can do this by <em>filling in the name of the current tag</em> in the following box. So in case this where tag&nbsp;<span class="tag">0321</span> you just have to write&nbsp;<span class="tag">0321</span>. Beware of the difference between the letter&nbsp;'<span class="tag">O</span>' and the digit&nbsp;'<span class="tag">0</span>'.<p>This <abbr title="Completely Automated Public Turing test to tell Computers and Humans Apart">captcha</abbr> seems more appropriate than the usual illegible gibberish, right?<br>
     <label for="check">Tag:</label>
-    <input type="text" name="check" id="check">
+    <input type="text" name="check" id="check" autocomplete="off">
     <input type="hidden" name="tag" value="{{ tag.tag }}"><br>
 
     <button type="submit" class="btn btn-primary">Post comment</button>
