@@ -16,7 +16,8 @@
 {% endblock %}
 
 {% block sidebar %}
-  <div id="interaction"></div>
+  <div class="interaction">
+  </div>
 
   {% if count > 10 %}
     <nav id="results-per-page" class="pagination">
@@ -31,6 +32,17 @@
 {% endblock %}
 
 {% block hamburger %}
+  <div class="interaction"></div>
+
+  {% if count > 10 %}
+    <nav id="results-per-page" class="pagination">
+      <span class="page-item{% if perpage == 10 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=10">10</a></span>
+      <span class="page-item{% if perpage == 50 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=50">50</a></span>
+      <span class="page-item{% if perpage == 2**63-1 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=oo">&infin;</a></span>
+
+      <p>results per page</span>
+    </nav>
+  {% endif %}
 {% endblock %}
 
 {% block pagination %}
@@ -124,3 +136,4 @@ $("span.previewable").click(function(e) {
   {{ self.pagination() }}
 {% endif %}
 {% endblock %}
+
