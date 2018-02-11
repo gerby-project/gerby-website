@@ -4,7 +4,7 @@ from flask import render_template
 
 from gerby.gerby import app
 from gerby.database import *
-from gerby.views.comments import sfm
+from gerby.views.methods import *
 
 headings = ["part", "chapter", "section", "subsection", "subsubsection"]
 hideComments = ["part", "chapter"]
@@ -46,24 +46,6 @@ def combine(tags):
       tag.children = combine(tag.children)
 
   return output
-
-def getBreadcrumb(tag):
-  if tag.type == "part":
-    return [tag]
-
-  pieces = tag.ref.split(".")
-  refs = [".".join(pieces[0:i]) for i in range(len(pieces) + 1)]
-
-  tags = Tag.select().where(Tag.ref << refs, ~(Tag.type << ["item", "part"]))
-  tags = sorted(tags)
-
-  # if there are parts, we look up the corresponding part and add it
-  if Tag.select().where(Tag.type == "part").exists():
-    chapter = tags[0]
-    part = Part.get(Part.chapter == chapter.tag).part
-    tags.insert(0, part)
-
-  return tags
 
 def getNeighbours(tag):
   # items cannot be dealt with appropriately, so we just don't
