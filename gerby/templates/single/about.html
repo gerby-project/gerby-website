@@ -6,23 +6,41 @@
   <li><a href="/about">About</a>
 {% endblock %}
 
+{% block hamburger %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+
 {% block body %}
 <h2>About</h2>
-<p>The Stacks project started in 2005. The initial idea was for it to be a collaborative web-based project with the aim of writing an introductory text about algebraic stacks. Temporarily there was a mailing list and some discussion as to how to proceed. For example, there are issues with referencing such a document, how to distribute credit, who does what, and many more. Although we have definite ideas about most of these points we would like to take a more positive approach. Namely, to simply create something and solve problems and answer questions as they come up.
-<hr>
-<p>We do want to answer a few basic questions that the casual visitor may have about this project:
+<p>The Stacks project is an open source textbook and reference work on algebraic stacks and the algebraic geometry needed to define them.
 <ol>
-  <li>The Stacks project is no longer an introductory text, but aims to build up enough basic algebraic geometry as foundations for algebraic stacks. This implies a good deal of theory on commutative algebra, schemes, varieties, algebraic spaces, has to be developed en route.
+  <li>The Stacks project is not an introductory text, but aims to build up enough basic algebraic geometry as foundations for algebraic stacks. This implies a good deal of theory on commutative algebra, schemes, varieties, algebraic spaces, has to be developed en route.
   <li>The Stacks project has a maintainer (currently <a href="http://www.math.columbia.edu/~dejong/">Aise Johan de Jong</a>) who accepts changes etc. proposed by contributors. Although everyone is encouraged to participate it is not a wiki.
-  <li>The Stacks project is meant to be read online, and therefore we do not worry about length of the chapters, etc. Moreover, with hyperlinks it is possible to quickly browse through the chapters to find the lemmas, theorems, etc. that a given result depends on.
+  <li>The Stacks project is meant to be <em>read online</em>, and therefore we do not worry about length of the chapters, etc. Moreover, with hyperlinks it is possible to quickly browse through the chapters to find the lemmas, theorems, etc. that a given result depends on.
+  <li>We use <em>tags</em> to identify results, which are permanent identifiers for a result. You can read more about this on the <a href="/tags">tags explained</a> page.
 </ol>
+
+<p>You can also contribute! The easiest way of doing this is leaving a comment on a tag page, but <a href="/contribute">there are many more options</a>.
+
+<h2>History</h2>
+<dl>
+  <dt>July 5, 2005</dt>
+  <dd>Birth of the idea: originally it was meant to be a collaborative web-based project with the aim of writing an introductory text about algebraic stacks. Temporarily there was a mailing list and some discussion as to how to proceed.</dd>
+
+  <dt>May 21, 2008</dt>
+  <dd><a href="https://github.com/stacks/stacks-project/commit/3d32323ff9f1166afb3ee0ecaa10093dc764a50d">First commit for the Stacks project</a>: 70 pages of preliminary notes. We've come a long way.</dd>
+
+  <dt>July 19, 2012</dt>
+  <dd>The first version of the website goes online (see <a href="http://math.columbia.edu/~dejong/wordpress/?p=2641">announcement</a>). Before that there was a rudimentary tag lookup system (since May 2009, see <a href="https://github.com/stacks/stacks-project/commit/fad2e125112d54e1b53a7e130ef141010f9d151d">fad2e12</a>), but no navigation, rendering, comments, ...</dd>
+
+  <dt>May 21, 2018?</dt>
+  <dd>The second version of the website goes online. This what you are viewing right now.</dd>
+</dl>
 
 <h2>Acknowledgements</h2>
 <p>The Stacks project <a href="/acknowledgements">acknowledges the following financial and technical support</a>.
-
-<h2>API</h2>
-<p>You can query the Stacks project through an <a href='/api'><abbr title='Application Programming Interface'>API</abbr></a>.
 {% endblock %}
 
 {% block sidebar %}
+  {{ macros.singlePageLinks() }}
 {% endblock %}

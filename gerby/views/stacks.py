@@ -27,6 +27,11 @@ def show_acknowledgements():
   return render_template("single/acknowledgements.html")
 
 
+@app.route("/contribute")
+def show_contribute():
+  return render_template("single/contribute.html")
+
+
 @app.route("/tag/<string:tag>/history")
 def show_history(tag):
   if not gerby.views.tag.isTag(tag):

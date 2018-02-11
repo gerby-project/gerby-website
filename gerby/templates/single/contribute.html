@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}How to contribute{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/contribute">How to contribute</a>
+{% endblock %}
+
+{% block hamburger %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+
+{% block body %}
+  <h2>How to contribute?</h2>
+  <p>We welcome any kind of feedback: pointing out typos, mathematical errors, references in the literature, history of results, layout of webpages, spelling errors, improvements to the overall structure, missing lemmas, etc. In fact, there are several different ways you can help:
+  <ol>
+    <li>If you are reading online and want to quickly point out something, please leave a comment on the tag's page.
+    <li>If you prefer, you can simply email a small note to the address below.
+    <li>It is very helpful if you edit the relevant TeX file directly and email the result, or even better: use Git and the <a href="https://github.com/stacks/stacks-project">stacks-project</a> repository.
+    <li><span class="badge badge-warning">fix this?</span>Take a look at this <a href="/todo">todo list</a> and tackle one of the issues listed there.
+    <li><span class="badge badge-warning">fix this?</span>You can <a href="/slogans">suggest slogans for results</a>. Here the idea is that you come up with a sentence or two that describes the result in easily understandable language without using formulas.
+    <li>You are encouraged to email expository papers. It is extremely useful to have such a text (no matter how badly written) as the starting point for a new chapter. Please do not worry about coding style, errors, gaps in the exposition, etc. as the material will be radically changed anyway.
+  </ol>
+
+  <p>Please be aware that all contributions are licensed under the <a href="https://github.com/stacks/stacks-project/blob/master/COPYING">GNU Free Documentation License</a>.
+
+  <h2>Where to submit?</h2>
+  <p>Please email contributions to <a href="mailto:stacks.project@gmail.com">stacks.project@gmail.com</a>. We will review, edit and if suitable update the Stacks project with your changes.
+  <p>If you are on the other hand <a href="#geeks">familiar with Git and GitHub</a> it is also possible to make a pull request on GitHub.
+
+  <h2>Instructions on dealing with TeX files</h2>
+  <p>These instructions are for when you don't want to use Git. See <a href="#geeks">below</a> if Git doesn't scare you.
+  <ol>
+    <li>Download all the TeX files. They are contained in <a href="https://github.com/stacks/stacks-project/archive/master.zip">this archive</a>.
+    <li>Unpack the the archive.
+    <li>Edit the TeX file of the chapter you are interested in. Say <code>algebra.tex</code>.
+    <li>Run <code>pdflatex algebra.tex</code>, then <code>bibtex algebra</code> and then <code>pdflatex algebra.tex</code> twice.
+    <li>Inspect the result and if OK then email <code>algebra.tex</code> to the address above.
+  </ol>
+
+  <h2>Instructions on using the Makefile (slightly geeky)</h2>
+  <p>Download and unpack the archive as above. Change directory to where you unpacked the files and on the command line type
+  <pre><code>make pdfs </code></pre>
+  <p>to automatically generate all the pdf files.
+
+  <h2 id="geeks">Instructions on using a version control system (for major geeks)</h2>
+  <p>We are using the <a href="http://git-scm.com">git</a> version control system. To clone the project type
+  <pre><code>git clone git://github.com/stacks/stacks-project.git</code></pre>
+  on the command line. This assumes that you have <code>git</code> installed. For more information on using Git and GitHub, we refer to <a href="http://git-scm.com/documentation">the documentation</a> and <a href='https://help.github.com/'>GitHub Help</a>. To actually contribute the changes you have made you use a <a href="https://github.com/stacks/stacks-project/pulls">pull request</a> on GitHub.
+{% endblock %}
+
+{% block sidebar %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}

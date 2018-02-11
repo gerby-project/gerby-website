@@ -26,3 +26,13 @@
     {% if loop.last %}<span id="citation">(<a href="/tag/{{ parent.tag }}/cite">cite</a>)</span>{% endif %}
   {% endfor %}
 {% endmacro %}
+
+{% macro singlePageLinks() %}
+  <ul>
+    <li><a href="/about">about</a>
+    <li><a href="/acknowledgements">acknowledgements</a>
+    <li><a href="/tags">tags explained</a>
+    <li><a href="/contribute">how to contribute</a>
+    <li><a href="/api"><abbr title='Application Programming Interface'>API</abbr></a>
+  </ul>
+{% endmacro %}
