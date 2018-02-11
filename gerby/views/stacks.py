@@ -1,6 +1,6 @@
 import hashlib
 
-from flask import render_template
+from flask import render_template, send_from_directory, redirect
 
 from gerby.gerby import app
 from gerby.database import *
@@ -72,3 +72,15 @@ def show_chapter_message(chapter):
     return render_template("tag.chapter.redirect.html", tag=tag)
   except DoesNotExist:
     return render_template("tag.chapter.notfound.html", chapter=chapter)
+
+@app.route("/tex")
+@app.route("/tex/<string:filename>")
+def send_to_github(filename=""):
+  if filename != "":
+    return redirect("https://github.com/stacks/stacks-project/blob/master/%s" % filename)
+  else:
+    return redirect("https://github.com/stacks/stacks-project")
+
+@app.route("/download/<string:filename>")
+def download_pdf(filename):
+  return send_from_directory("tex/tags/tmp", filename)
