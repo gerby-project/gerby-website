@@ -115,7 +115,8 @@ def show_chapters():
     chapters = Tag.select().where(Tag.type == "chapter")
     chapters = sorted(chapters)
 
-    return render_template("show_chapters.html", chapters=chapters)
+    return render_template("toc.chapters.html", chapters=chapters)
+
 
 @app.route("/robots.txt")
 def show_robots():

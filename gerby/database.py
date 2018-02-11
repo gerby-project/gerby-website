@@ -40,10 +40,16 @@ class Tag(BaseModel):
     except ValueError:
       return 0 # just do something, will need to implement a better version
 
-class TagSearch(FTSModel):
+class SearchTag(FTSModel):
   tag = SearchField(unindexed=True)
-  html = SearchField() # HTML of the statement or (sub)section
-  full = SearchField() # HTML of the statement including the proof (if relevant)
+  html = SearchField()
+
+  class Meta:
+    database = db
+
+class SearchStatement(FTSModel):
+  tag = SearchField(unindexed=True)
+  html = SearchField()
 
   class Meta:
     database = db

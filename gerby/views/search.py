@@ -13,9 +13,6 @@ spelling = {
 
 @app.route("/search", methods = ["GET"])
 def show_search():
-  # TODO not sure whether this is an efficient query: only fulltext and docid is quick apparently
-  # TODO can we use TagSearch.docid and Tag.rowid or something?
-  # TODO can we match on a single column? maybe we need two tables?
   page = 1
   if "page" in request.args:
     page = int(request.args["page"])
@@ -37,7 +34,7 @@ def show_search():
     return redirect("tag/" + request.args["query"].upper())
 
   # nope, we perform a search instead
-  tags = [result.tag for result in TagSearch(TagSearch.tag).search(request.args["query"])]
+  tags = [result.tag for result in SearchTag(SearchTag.tag).search(request.args["query"])]
 
   try:
     results = Tag.select().where(Tag.tag << tags, ~(Tag.type << ["item"])) # TODO search options go here: only search for sections, or only statements, etc.

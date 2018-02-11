@@ -9,6 +9,7 @@ import subprocess
 from gerby.database import *
 import gerby.config as config
 
+db.init(config.DATABASE)
 
 logging.basicConfig(stream=sys.stdout)
 log = logging.getLogger(__name__)
@@ -41,6 +42,7 @@ with open(config.TAGS) as f:
   tags = dict([line.split(",") for line in tags if "," in line])
   labels = {item: key for key, item in tags.items()}
 
+"""
 # import tags
 log.info("Importing tags")
 for filename in tagFiles:
@@ -131,21 +133,25 @@ for filename in footnoteFiles:
   label = filename.split(".")[0]
 
   Footnote.create(label=label, html=value)
+"""
 
 # create search table
-log.info("Populating the search table")
-if TagSearch.table_exists():
-  TagSearch.drop_table()
-TagSearch.create_table()
+log.info("Populating the search tables")
+if SearchTag.table_exists():
+  SearchTag.drop_table()
+SearchTag.create_table()
+
+if SearchStatement.table_exists():
+  SearchStatement.drop_table()
+SearchStatement.create_table()
 
 for tag in Tag.select():
   proofs = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
 
-  TagSearch.insert({
-    TagSearch.tag: tag.tag,
-    TagSearch.html: tag.html,
-    TagSearch.full: tag.html + "".join([proof.html for proof in proofs]), # TODO collate with proofs
-    }).execute()
+  SearchTag.insert({SearchTag.tag: tag.tag, SearchTag.html: tag.html + "".join([proof.html for proof in proofs])}).execute()
+  SearchStatement.insert({SearchStatement.tag: tag.tag, SearchStatement.html: tag.html}).execute()
+
+"""
 
 # link chapters to parts
 log.info("Assigning chapters to parts")
@@ -404,3 +410,4 @@ with open("409ad56f2fda051e73bcac77b97777907bcb6355", "rb") as f:
 
         if change.proof != proof:
           proof = change.proof
+"""
