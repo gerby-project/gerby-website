@@ -20,7 +20,7 @@
 
   <ul id="toc" class="tree">
     {% for part in parts %}
-      <li>
+      <li class="expanded">
         <a class="header-offset" id="{{ part.label }}"></a>
         <a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
 
@@ -35,8 +35,14 @@
   </ul>
   <script type="text/javascript">
 $("ul.tree").bonsai({
-  addExpandAll: true,
+  // no expand all needed here?
+  //addExpandAll: true,
 });
+
+// we check whether the media query fired by checking one of its consequences
+if($("div#burger").is(":visible")) {
+  $("ul.tree").data("bonsai").collapseAll();
+}
   </script>
 {% endblock %}
 
@@ -45,7 +51,6 @@ $("ul.tree").bonsai({
   </div>
 
   <ul>
-    <!-- TODO what to do with this now that we auto-collapse things in the main part? -->
   {% for part in parts %}
     <li><a href="#{{ part.label }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
   {% endfor %}
