@@ -117,17 +117,9 @@ div.html a.environment-identifier span.named {
   font-weight: normal;
 }
 
-div.html li p {
-}
-
 div.html article.env-proof {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-div.html article.env-proof p:nth-of-type(1),
-div.html article.env-proof p:nth-of-type(2) {
-  display: inline;
 }
 
 div.html article.env-proof span.qed {
