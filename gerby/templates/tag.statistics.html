@@ -23,13 +23,6 @@
 {% endblock %}
 
 {% block body %}
-<h2>Statement of tag <span class="tag">{{ tag.tag }}</span></h2>
-
-<div class="html">
-  {{ tag.html | safe }}
-</div>
-<p>
-
 <h2>Statistics of tag <span class="tag">{{ tag.tag }}</span></h2>
 
 {% if dependencies | length > 0 %}
