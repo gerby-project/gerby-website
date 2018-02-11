@@ -42,7 +42,6 @@ with open(config.TAGS) as f:
   tags = dict([line.split(",") for line in tags if "," in line])
   labels = {item: key for key, item in tags.items()}
 
-"""
 # import tags
 log.info("Importing tags")
 for filename in tagFiles:
@@ -133,7 +132,6 @@ for filename in footnoteFiles:
   label = filename.split(".")[0]
 
   Footnote.create(label=label, html=value)
-"""
 
 # create search table
 log.info("Populating the search tables")
@@ -149,9 +147,9 @@ for tag in Tag.select():
   proofs = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
 
   SearchTag.insert({SearchTag.tag: tag.tag, SearchTag.html: tag.html + "".join([proof.html for proof in proofs])}).execute()
-  SearchStatement.insert({SearchStatement.tag: tag.tag, SearchStatement.html: tag.html}).execute()
+  if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"]:
+    SearchStatement.insert({SearchStatement.tag: tag.tag, SearchStatement.html: tag.html}).execute()
 
-"""
 
 # link chapters to parts
 log.info("Assigning chapters to parts")
@@ -410,4 +408,3 @@ with open("409ad56f2fda051e73bcac77b97777907bcb6355", "rb") as f:
 
         if change.proof != proof:
           proof = change.proof
-"""
