@@ -151,12 +151,21 @@ $("ul.tree").bonsai({
 {% block sidebar %}
   <div class="interaction">
     {{ macros.neighbours(neighbours) }}
+
   </div>
 
+  {% if tag.type not in ["part"] %}
+    <hr>
+
+    <a href="https://stacks.math.columbia.edu/download/{{ filename }}.pdf#nameddest={{ tag.tag }}">View {{ tag.type | capitalize }} <span data-tag="{{ tag.tag }}">{{ tag.ref }}</span> in pdf</a>
+  {% endif %}
+
   {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
+
     <hr>
 
     <div class="information">
+
       {{ macros.tagInformation(tag, dependencies) }}
     </div>
   {% endif %}

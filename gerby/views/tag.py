@@ -199,6 +199,7 @@ def show_tag(tag):
                          extras=extras,
                          commentsEnabled=tag.type not in hideComments,
                          comments=comments,
+                         filename=tag.label.split("-" + tag.type)[0],
                          parentComments=parentComments,
                          depth=config.DEPTH)
 
