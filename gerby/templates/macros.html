@@ -15,7 +15,7 @@
     <li class="tag-history"><a href="/tag/{{ tag.tag }}/history">history</a>
     <li class="tag-statistics"><a href="/tag/{{ tag.tag }}/statistics">statistics</a>
     {% if dependencies | length > 0 %}
-      <li class="tag-dependencies"><a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} depend{% if dependencies | length == 1 %}s{% endif %} on this tag</a>
+      <li class="tag-dependencies"><a href="/tag/{{ tag.tag }}/statistics#dependencies">{{ dependencies | length }} tag{% if dependencies | length > 1 %}s{% endif %} refer{% if dependencies | length == 1 %}s{% endif %} to this tag</a>
     {% endif %}
   </ul>
 {% endmacro %}
