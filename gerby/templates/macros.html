@@ -20,6 +20,41 @@
   </ul>
 {% endmacro %}
 
+{% macro tagHamburger(tag, neighboursList, neighboursModifier, dependencies) %}
+  <div class="interaction">
+    {{ neighbours(neighboursList, neighboursModifier) }}
+  </div>
+
+  {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
+    <hr>
+
+    <div class="information">
+      {{ tagInformation(tag, dependencies) }}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro tagSidebar(tag, neighboursList, neighboursModifier, dependencies) %}
+  <div class="interaction">
+    {{ neighbours(neighboursList, neighboursModifier) }}
+  </div>
+
+  {% if tag.type not in ["part"] %}
+    <hr>
+
+    <a href="https://stacks.math.columbia.edu/download/{{ filename }}.pdf#nameddest={{ tag.tag }}">View {{ tag.type | capitalize }} <span data-tag="{{ tag.tag }}">{{ tag.ref }}</span> in pdf</a>
+  {% endif %}
+
+  {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
+
+    <hr>
+
+    <div class="information">
+      {{ tagInformation(tag, dependencies) }}
+    </div>
+  {% endif %}
+{% endmacro %}
+
 {% macro breadcrumb(breadcrumb) %}
   {% for parent in breadcrumb %}
     <li{% if loop.last %} class="active"{% endif %}>{{ parent.type | capitalize }} <a href="/tag/{{ parent.tag }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.name %}: {{ parent.name }}{% endif %}

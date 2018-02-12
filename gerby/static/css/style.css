@@ -244,6 +244,10 @@ h2 {
   font-weight: bold;
 }
 
+h3 {
+  font-size: 1.3em;
+}
+
 a[href^="https://github.com"],
 a[href^="https://doi.org"],
 a[href^="https://arxiv.org"],

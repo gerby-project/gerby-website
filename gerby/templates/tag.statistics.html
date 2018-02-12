@@ -11,19 +11,12 @@
 {% endblock %}
 
 {% block hamburger %}
-  <div class="interaction">
-    {{ macros.neighbours(neighbours, "/statistics") }}
-  </div>
-
-  <hr>
-
-  <div class="information">
-    {{ macros.tagInformation(tag, dependencies) }}
-  </div>
+  {{ macros.tagHamburger(tag, neighbours, "/statistics", dependencies) }}
 {% endblock %}
 
 {% block body %}
 <h2>Statistics of tag <span class="tag">{{ tag.tag }}</span></h2>
+<p><a href="/tag/{{ tag.tag }}">Go back to the tag's page</a>.
 
 {% if dependencies | length > 0 %}
 <h3 id="dependencies">Tags using this result</h3>
@@ -39,14 +32,6 @@
 {% endblock %}
 
 {% block sidebar %}
-  <div class="interaction">
-    {{ macros.neighbours(neighbours, "/statistics") }}
-  </div>
-
-  <hr>
-
-  <div class="information">
-    {{ macros.tagInformation(tag, dependencies) }}
-  </div>
+  {{ macros.tagSidebar(tag, neighbours, "/statistics", dependencies) }}
 {% endblock %}
 
