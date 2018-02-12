@@ -105,6 +105,9 @@ class BibliographyField(BaseModel):
   field = CharField()
   value = CharField()
 
+  class Meta:
+    indexes = ((("key", "field"), True),)
+
 class Comment(BaseModel):
   id = PrimaryKeyField()
   tag = ForeignKeyField(Tag)
