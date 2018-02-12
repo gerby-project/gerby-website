@@ -31,6 +31,20 @@ def show_acknowledgements():
 def show_contribute():
   return render_template("single/contribute.html")
 
+@app.route("/contributors")
+def show_contributors():
+  contributors = []
+
+  with open("tex/CONTRIBUTORS") as f:
+    for line in f:
+      if line.startswith("%") or line.isspace():
+        continue
+      contributors.append(line)
+
+  return render_template("single/contributors.html", contributors=contributors)
+
+
+
 
 @app.route("/tag/<string:tag>/history")
 def show_history(tag):
