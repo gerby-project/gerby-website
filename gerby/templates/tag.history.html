@@ -3,6 +3,7 @@
 {% block title %}History for tag {{ tag.tag }}{% endblock %}
 
 {% block head %}
+  <script type="text/javascript" src="/static/js/toggle.js"></script>
   <script type="text/javascript" src="/static/js/history.js"></script>
 {% endblock %}
 
@@ -95,7 +96,7 @@
 {% endblock %}
 
 {% block sidebar %}
-  <div id="interaction">
+  <div class="interaction">
     {{ macros.neighbours(neighbours, "/history") }}
   </div>
 
