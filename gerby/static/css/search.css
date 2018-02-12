@@ -11,6 +11,15 @@ span.previewable {
   float: left;
   margin-right: calc(3rem / 14);
   cursor: pointer;
+  width: 1.3rem;
+  height: 1.2rem;
+  background-image: url("/static/images/preview-open.svg");
+  background-position: left .1rem;
+  background-repeat: no-repeat;
+}
+
+span.previewing {
+  background-image: url("/static/images/preview-close.svg");
 }
 
 ul#pages li {
