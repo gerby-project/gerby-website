@@ -12,19 +12,12 @@
 {% endblock %}
 
 {% block hamburger %}
-  <div class="interaction">
-    {{ macros.neighbours(neighbours, "/history") }}
-  </div>
-
-  <hr>
-
-  <div class="information">
-    {{ macros.tagInformation(tag, dependencies) }}
-  </div>
+  {{ macros.tagHamburger(tag, neighbours, "/history", dependencies) }}
 {% endblock %}
 
 {% block body %}
 <h2>History of tag <span class="tag">{{ tag.tag }}</span></h2>
+<p><a href="/tag/{{ tag.tag }}">Go back to the tag's page</a>.
 
 <table class="table table-hover table-sm" id="history">
   <thead>
@@ -96,15 +89,7 @@
 {% endblock %}
 
 {% block sidebar %}
-  <div class="interaction">
-    {{ macros.neighbours(neighbours, "/history") }}
-  </div>
-
-  <hr>
-
-  <div class="information">
-    {{ macros.tagInformation(tag, dependencies) }}
-  </div>
+  {{ macros.tagSidebar(tag, neighbours, "/history", dependencies) }}
 {% endblock %}
 
 
