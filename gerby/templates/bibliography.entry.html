@@ -73,7 +73,6 @@
   <div class="tab-content" id="entry-content">
     <div class="tab-pane show active " id="entry-table" role="tabpanel">
       <dl class="entry">
-        <!-- Bootstrap 4 removes dl-horizontal, right now there is an approximation of this TODO improve: fixed width for labels e.g. is necessary -->
         {% if "author" in entry.fields %}
           <dt>author</dt>
           <dd>{{ entry.fields["author"] | safe }}</dd>

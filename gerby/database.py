@@ -14,7 +14,7 @@ class Tag(BaseModel):
   tag = CharField(unique=True, primary_key=True)
   label = CharField(unique=True, null=True)
   active = BooleanField(null=True)
-  ref = CharField(null=True) # TODO unique=True?
+  ref = CharField(null=True)
   type = CharField(null=True)
   html = TextField(null=True)
   name = TextField(null=True)
@@ -113,7 +113,7 @@ class Comment(BaseModel):
 
 class Commit(BaseModel):
   hash = FixedCharField(max_length=40, unique=True, primary_key=True)
-  author = TextField(null=True) # TODO do I want to allow NULL values here?
+  author = TextField(null=True)
   log = TextField(null=True)
   time = DateTimeField(null=True)
 
