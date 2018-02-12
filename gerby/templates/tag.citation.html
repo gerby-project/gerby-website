@@ -26,19 +26,18 @@
   <p>You can use one of the following citations in your LaTeX code.
   <ul id="citations">
     <li><code>\cite[\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{Tag {{ tag.tag }}}]{stacks-project}</code>
-    <li><code>\cite[\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{{ tag.type | capitalize }} {{ tag.tag }}]{stacks-project}</code> <!-- TODO need to fix Jinja escaping... -->
+    <li><code>\cite[\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{% raw %}{{% endraw %}{{ tag.type | capitalize }} {{ tag.tag }}{% raw %}}{% endraw %}]{stacks-project}</code>
     <li><code>\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{Tag {{ tag.tag }}}</code>
-    <li><code>\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{{ tag.type | capitalize }} {{ tag.tag }}}</code>
+    <li><code>\href{http://stacks.math.columbia.edu/tag/{{ tag.tag }}}{% raw %}{{% endraw %}{{ tag.type | capitalize }} {{ tag.tag }}}</code>
   </ul>
 
-  <p>You can use the following in your Bib(La)TeX file.
-  <!-- TODO also give biblatex, do this in a fancy layout too, because we can -->
+  <p>You can use the following in your BibTeX file.
   <pre><code>@misc{stacks-project,
-  shorthand    = {Stacks},
-  author       = {The {Stacks Project Authors}},
-  title        = {Stacks Project},
+  author       = {The {Stacks project authors}},
+  title        = {The Stacks project},
   howpublished = {\url{http://stacks.math.columbia.edu}},
   year         = {% raw %}{{% endraw %}{{ time.year }}},
 }</code></pre>
+  <p>You can also consider using the <code>@online</code> type in BibLaTeX, changing the the <code>howpublished</code> to <code>url</code>. Another neat trick in BibLaTeX is the <code>shorthand<code> field, which you could set to <code>SP</code> or <code>Stacks</code>.
 {% endblock %}
 

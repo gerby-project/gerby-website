@@ -233,3 +233,7 @@ li.tag-statistics a {
 li.tag-dependencies a {
   background-image: url("../images/dependency.svg");
 }
+
+ul#citations {
+  font-size: .9rem;
+}
