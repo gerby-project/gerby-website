@@ -57,7 +57,10 @@ class SearchStatement(FTSModel):
 class Proof(BaseModel):
   tag = ForeignKeyField(Tag, related_name = "proofs")
   html = TextField(null=True)
-  number = IntegerField() # TODO (tag,number) is unique
+  number = IntegerField()
+
+  class Meta:
+    indexes = ((("tag", "number"), True),)
 
 class Part(BaseModel):
   part = ForeignKeyField(Tag, related_name = "part")
@@ -121,12 +124,10 @@ class Change(BaseModel):
   tag = ForeignKeyField(Tag)
   commit = ForeignKeyField(Commit)
   action = TextField()
-
-  class Meta:
-    primary_key = CompositeKey("tag", "commit", "action")
-
   filename = TextField()
   label = TextField()
   begin = IntegerField()
   end = IntegerField()
 
+  class Meta:
+    indexes = ((("tag", "commit", "action"), True),)
