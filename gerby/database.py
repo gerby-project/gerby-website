@@ -123,7 +123,7 @@ class Change(BaseModel):
   action = TextField()
 
   class Meta:
-    primary_key = CompositeKey("tag", "hash", "action")
+    primary_key = CompositeKey("tag", "commit", "action")
 
   filename = TextField()
   label = TextField()
