@@ -51,7 +51,7 @@ def show_history(tag):
 
   changes = Change.select().where(Change.tag == tag) # TODO eventually order by Commit.time, once it's in there
   for change in changes:
-    change.hash.time = change.hash.time.decode("utf-8").split(" ")[0] # TODO why in heaven's name is this returning bytes?!
+    change.commit.time = change.commit.time.decode("utf-8").split(" ")[0] # TODO why in heaven's name is this returning bytes?!
 
   # this means something went wrong
   if len(changes) == 0:

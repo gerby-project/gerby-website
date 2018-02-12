@@ -76,16 +76,16 @@
     {% endif %}
   </td>
 
-  <td>{{ change.hash.time }}</td>
+  <td>{{ change.commit.time }}</td>
   {% if change.action == "tag" %}
-    <td><a href="https://github.com/stacks/stacks-project/{{ infix }}/{{ change.hash.hash }}" class="commit">{{ change.hash.hash[0:7] }}</a>
+    <td><a href="https://github.com/stacks/stacks-project/{{ infix }}/{{ change.commit.hash }}" class="commit">{{ change.commit.hash[0:7] }}</a>
   {% else %}
-    <td><a href="https://github.com/stacks/stacks-project/{{ infix }}/{{ change.hash.hash }}/{{ change.filename }}.tex{{ suffix }}" class="commit">{{ change.hash.hash[0:7] }}</a></td>
+    <td><a href="https://github.com/stacks/stacks-project/{{ infix }}/{{ change.commit.hash }}/{{ change.filename }}.tex{{ suffix }}" class="commit">{{ change.commit.hash[0:7] }}</a></td>
   {% endif %}
 </tr>
 <tr>
   <td colspan="3">
-    <pre class="commit-message">{{ change.hash.log }}</pre>
+    <pre class="commit-message">{{ change.commit.log }}</pre>
   </td>
 </tr>
 {% endfor %}
