@@ -59,9 +59,6 @@ class Proof(BaseModel):
   html = TextField(null=True)
   number = IntegerField()
 
-  class Meta:
-    indexes = ((("tag", "number"), True),)
-
 class Part(BaseModel):
   part = ForeignKeyField(Tag, related_name = "part")
   chapter = ForeignKeyField(Tag, related_name = "chapter")
@@ -105,9 +102,6 @@ class BibliographyField(BaseModel):
   field = CharField()
   value = CharField()
 
-  class Meta:
-    indexes = ((("key", "field"), True),)
-
 class Comment(BaseModel):
   id = PrimaryKeyField()
   tag = ForeignKeyField(Tag)
@@ -131,6 +125,3 @@ class Change(BaseModel):
   label = TextField()
   begin = IntegerField()
   end = IntegerField()
-
-  class Meta:
-    indexes = ((("tag", "commit", "action"), True),)
