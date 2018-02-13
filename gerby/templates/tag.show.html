@@ -158,9 +158,13 @@ simplemde.codemirror.on("change", function() {
   $("input#burger-toggle-tags").click();
 });
 
-// remove the event listener that forgets a comment on submit
-simplemde.element.form.removeEventListener("submit", function() {
-	localStorage.removeItem("smde_" + simplemde.options.autosave.uniqueId);
+// bypassing anonymous event listener by another anonymous event listener
+// we don't want to clear things on submit, but that is hard...
+simplemde.element.form.addEventListener("submit", function(event) {
+  // we need the timeout to be sure that it is fired after the other event (?)
+  setTimeout(function() {
+    localStorage.setItem("smde_" + simplemde.options.autosave.uniqueId, $("#comment-textarea").val());
+  }, 10);
 });
     </script>
 
