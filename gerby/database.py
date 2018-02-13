@@ -5,10 +5,15 @@ from playhouse.sqlite_ext import *
 import gerby.config as config
 
 db = SqliteExtDatabase(None)
+comments = SqliteDatabase("comments.sqlite");
 
 class BaseModel(Model):
   class Meta:
     database = db
+
+class CommentBaseModel(Model):
+  class Meta:
+    database = comments
 
 class Tag(BaseModel):
   tag = CharField(unique=True, primary_key=True)
@@ -102,9 +107,9 @@ class BibliographyField(BaseModel):
   field = CharField()
   value = CharField()
 
-class Comment(BaseModel):
+class Comment(CommentBaseModel):
   id = PrimaryKeyField()
-  tag = ForeignKeyField(Tag)
+  tag = TextField(Tag)
   author = TextField()
   site = TextField(null=True)
   email = TextField(null=True)

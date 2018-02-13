@@ -170,7 +170,7 @@ def show_tag(tag):
   extras = {extra.type: extra.html for extra in extras}
 
   # dealing with comments
-  comments = Comment.select().where(Comment.tag == tag)
+  comments = Comment.select().where(Comment.tag == tag.tag)
   for comment in comments:
     comment.comment = sfm(comment.comment)
 

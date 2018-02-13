@@ -17,9 +17,12 @@ log.setLevel(logging.INFO)
 
 # create database if it doesn't exist already
 if not os.path.isfile(config.DATABASE):
-  for model in [Tag, Proof, Extra, Comment]:
+  for model in [Tag, Proof, Extra]:
     model.create_table()
   log.info("Created database")
+
+if not os.path.isfile("comments.sqlite"):
+  Comment.create_table()
 
 
 # the information on disk
