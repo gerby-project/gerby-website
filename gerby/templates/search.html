@@ -15,15 +15,19 @@
   <li><a href="/search">Search</a>
 {% endblock %}
 
+{% macro searchlink(query, page, perpage, radius) %}
+/search?query={{ query.replace(" ", "+") }}&page={{ page }}&perpage={{ perpage }}&radius={{ radius }}
+{% endmacro %}
+
 {% block sidebar %}
   <div class="interaction">
   </div>
 
   {% if count > 10 %}
     <nav id="results-per-page" class="pagination">
-      <span class="page-item{% if perpage == 10 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=10">10</a></span>
-      <span class="page-item{% if perpage == 50 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=50">50</a></span>
-      <span class="page-item{% if perpage == 2**63-1 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=oo">&infin;</a></span>
+      <span class="page-item{% if perpage == 10 %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, 1, 10, radius) }}">10</a></span>
+      <span class="page-item{% if perpage == 50 %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, 1, 50, radius) }}">50</a></span>
+      <span class="page-item{% if perpage == 2**63-1 %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, 1, "oo", radius) }}">&infin;</a></span>
 
       <p>results per page</span>
     </nav>
@@ -36,9 +40,9 @@
 
   {% if count > 10 %}
     <nav id="results-per-page" class="pagination">
-      <span class="page-item{% if perpage == 10 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=10">10</a></span>
-      <span class="page-item{% if perpage == 50 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=50">50</a></span>
-      <span class="page-item{% if perpage == 2**63-1 %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page=1&perpage=oo">&infin;</a></span>
+      <span class="page-item{% if perpage == 10 %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, 1, 10, radius) }}">10</a></span>
+      <span class="page-item{% if perpage == 50 %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, 1, 50, radius) }}">50</a></span>
+      <span class="page-item{% if perpage == 2**63-1 %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, 1, "oo", radius) }}">&infin;</a></span>
 
       <p>results per page</span>
     </nav>
@@ -50,7 +54,7 @@
     <nav>
       <ul id="pages" class="pagination flex-wrap">
       {% for i in range(1, ((count - 1) // perpage) + 2) %}
-        <li class="page-item{% if i == page %} active{% endif %}"><a class="page-link" href="/search?query={{ query.replace(" ", "+") }}&page={{ i }}&perpage={{ perpage }}">{{ i }}</a>
+        <li class="page-item{% if i == page %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, i, perpage, radius) }}">{{ i }}</a>
       {% endfor %}
       </ul>
     </nav>
@@ -92,7 +96,7 @@
 
   {% if misspellt | length > 0 %}
   <p>The keyword{{ "(s)" if misspellt | length > 1 }} {% for keyword in misspellt %}<var>{{ keyword }}</var>{{ ", " if not loop.last }}{% endfor %} {% if misspellt | length == 1 %}is{% else %}are{% endif %} spellt differently in the Stacks project.
-  <p>Do you perhaps want to search for <a href="/search?query={{ alternative }}"><var>{{ alternative }}</var></a>?
+  <p>Do you perhaps want to search for <a href="{{ searchlink(alternative, page, perpage, radius) }}"><var>{{ alternative }}</var></a>?
   {% endif %}
 
   <ol id="search-results">

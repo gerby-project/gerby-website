@@ -13,16 +13,23 @@ spelling = {
 
 @app.route("/search", methods = ["GET"])
 def show_search():
+  # dealing with search options: page number
   page = 1
   if "page" in request.args:
     page = int(request.args["page"])
 
+  # dealing with search options: page size
   perpage = 10
   if "perpage" in request.args:
     if request.args["perpage"] == "oo":
       perpage = 9223372036854775807 # 2^63-1 (shame on me for taking this approach)
     else:
       perpage = int(request.args["perpage"])
+
+  # dealing with search options: search radius (all tags, only statements)
+  radius = "all"
+  if "radius" in request.args and request.args["radius"] == "statements":
+    radius = "statements"
 
 
   # return empty page (for now)
@@ -33,11 +40,7 @@ def show_search():
   if tag.isTag(request.args["query"]) and Tag.select().where(Tag.tag == request.args["query"].upper()).exists():
     return redirect("tag/" + request.args["query"].upper())
 
-  # nope, we perform a search instead
-  radius = "all"
-  if "radius" in request.args and request.args["radius"] == "statements":
-    radius = "statements"
-
+  # actually search
   if radius == "all":
     tags = [result.tag for result in SearchTag(SearchTag.tag).search(request.args["query"])]
   else:
