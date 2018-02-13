@@ -2,19 +2,9 @@
   <ul class="neighbours">
   {% if neighbours[0] %}
     <li class="left"><a href="/tag/{{ neighbours[0].tag }}{{ modifier }}">previous {{ neighbours[0].type }}</a>
-    <script type="text/javascript">
-$("body").on("swipeleft", function() {
-  window.location.replace("/tag/{{ neighbours[0].tag }}{{ modifier }}");
-});
-    </script>
   {% endif %}
   {% if neighbours[1] %}
     <li class="right"><a href="/tag/{{ neighbours[1].tag }}{{ modifier }}">next {{ neighbours[1].type }}</a>
-    <script type="text/javascript">
-$("body").on("swiperight", function() {
-  window.location.replace("/tag/{{ neighbours[1].tag }}{{ modifier }}");
-});
-    </script>
   {% endif %}
   </ul>
   {% if neighbours[0] or neighbours[1] %}<br style="clear:both">{% endif %}
