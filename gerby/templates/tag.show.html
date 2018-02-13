@@ -160,12 +160,21 @@ simplemde.codemirror.on("change", function() {
 
 // prevent form submit when the captcha isn't correct
 // it's a bit silly to use HTML5 validation for this, as bots can figure that out
+// also save the author information to localStorage
 simplemde.element.form.addEventListener("submit", function(event) {
   if ($("#check").val() != $("#hidden-tag").val()) {
+    // explain captcha
     $("#captcha-message").toggle();
+
+    // stop submit
     event.preventDefault();
     return false;
   }
+
+  // save author information
+  localStorage.setItem("name", $("input#name").val());
+  localStorage.setItem("mail", $("input#mail").val());
+  localStorage.setItem("site", $("input#site").val());
 });
     </script>
 

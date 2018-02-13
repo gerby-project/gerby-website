@@ -13,5 +13,10 @@ $(document).ready(function() {
 
   if (Cookies.get("comment-visible") == "true")
     $("section#post-comment h2").click();
+
+  // read author information from local storage
+  $("input#name").val(localStorage.getItem("name"));
+  $("input#mail").val(localStorage.getItem("mail"));
+  $("input#site").val(localStorage.getItem("site"));
 });
 
