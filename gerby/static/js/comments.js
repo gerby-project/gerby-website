@@ -7,6 +7,11 @@ $(document).ready(function() {
   $("section#post-comment h2").on("click", function() {
     $("section#post-comment h2").toggleClass("hidden");
     $("section#post-comment h2 ~ *").toggle();
+
+    Cookies.set("comment-visible", !($("section#post-comment h2").hasClass("hidden")));
   });
+
+  if (Cookies.get("comment-visible") == "true")
+    $("section#post-comment h2").click();
 });
 
