@@ -145,8 +145,8 @@ SearchStatement.create_table()
 
 for tag in Tag.select():
   proofs = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
-
   SearchTag.insert({SearchTag.tag: tag.tag, SearchTag.html: tag.html + "".join([proof.html for proof in proofs])}).execute()
+
   if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"]:
     SearchStatement.insert({SearchStatement.tag: tag.tag, SearchStatement.html: tag.html}).execute()
 
