@@ -116,6 +116,19 @@ def show_tag(tag):
     proofs = Proof.select().where(Proof.tag == tag.tag)
     html = tag.html + "".join([proof.html for proof in proofs])
 
+  # TODO fix for SAG because plasTeX cannot do it easily?
+  html = html.replace("xymatrix@ 1", "xymatrix@1")
+
+  # TODO remove these! tips for Jacob
+  html = html.replace("bigplus", "bigoplus")
+  html = html.replace("widecheck", "widehat")
+  html = html.replace("degree", "circ") # also, there is an extra close bracket on page 2006, line -4
+  html = html.replace("mapsfrom", "mapsto")
+  # never use \bf in mathmode, use \mathbf, for all families of fonts
+  # don't put things on the right of arrows: quavo (and others)
+
+  # put a space in DAG8S2SS5 for some reason?!
+  html = html.replace("\\xymatrix@1{", "\\xymatrix@1{ ")
 
   # handle footnotes
   #<a class="footnotemark" href="#{{ obj.id }}" id="{{ obj.id }}-mark"><sup>{{ obj.mark.attributes.num }}</sup></a>
