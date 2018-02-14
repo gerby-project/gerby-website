@@ -182,7 +182,7 @@ def show_recent_changes():
   commits = Commit.select().order_by(Commit.time.desc()).limit(10)
   for commit in commits:
     commit.time = datetime.datetime.strptime(commit.time.decode(), "%Y-%m-%d %H:%M:%S %z")
-    commit.tags = sorted(Tag.select().join(Change).where(Change.commit == commit).distinct())
+    commit.tags = sorted(Tag.select().join(Change).where(Change.commit == commit, Change.action << ["tag", "statement", "proof", "statement and proof"]).distinct())
 
     # this is quite inefficient to be honest
     #if commit.tags.count() <= 20:

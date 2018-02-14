@@ -9,6 +9,10 @@
 dl#changes dt + dd {
   border-left: 1px solid black;
 }
+
+pre.commit-message {
+  margin: 0;
+}
   </style>
 {% endblock %}
 
@@ -30,7 +34,6 @@ dl#changes dt + dd {
       <dd class="col-sm-9 offset-sm-3"><pre class="commit-message">{{ commit.log.splitlines()[0] }}</pre>
       <dd class="col-sm-9 offset-sm-3">
         {% if commit.tags | length > 20 %}<p>More than 20 tags were affected, see the commit for more information.
-        {% elif commit.tags | length == 0 %}<p>No tags were affected in this commit.
         {% else %}
           <ul>
             {% for tag in commit.tags %}
