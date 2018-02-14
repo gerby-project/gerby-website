@@ -11,8 +11,7 @@
 {% endblock %}
 
 {% block body %}
-  <p>So far {{ contributors | length }} people have contributed to the Stacks project.
-  <p>If you want to see <a href="http://math.columbia.edu/~dejong/wordpress/?p=4205">your name listed in your native scripts</a>, please <a href="mailto:stacks.project@gmail.com">get in touch</a>.
+  <p>So far <strong>{{ contributors | length }} people</strong> have contributed to the Stacks project.
 
   <ul>
     {% for contributor in contributors %}
@@ -23,5 +22,7 @@
 
 {% block sidebar %}
   {{ macros.singlePageLinks() }}
+
+  <p class="alert alert-info">If you want to see <a href="http://math.columbia.edu/~dejong/wordpress/?p=4205">your name listed in your native script</a>, please <a href="mailto:stacks.project@gmail.com">get in touch</a>.
 {% endblock %}
 
