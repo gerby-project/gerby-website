@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}Contributors{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/contribute">How to contribute</a>
+{% endblock %}
+
+{% block hamburger %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+
+{% block body %}
+  <p>So far {{ contributors | length }} people have contributed to the Stacks project.
+  <p>If you want to see <a href="http://math.columbia.edu/~dejong/wordpress/?p=4205">your name listed in your native scripts</a>, please <a href="mailto:stacks.project@gmail.com">get in touch</a>.
+
+  <ul>
+    {% for contributor in contributors %}
+      <li>{{ contributor }}
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block sidebar %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+
