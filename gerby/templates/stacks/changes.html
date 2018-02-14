@@ -13,37 +13,38 @@ dl#changes dt + dd {
 {% endblock %}
 
 {% block breadcrumb %}
-  <div class="interaction"></div>
+  <li><a href="/recent-changes">Recent changes</a>
 {% endblock %}
 
 {% block hamburger %}
+  <div class="interaction"></div>
 {% endblock %}
 
 {% block body %}
-<dl id="changes" class="row">
-  {% for commit in commits %}
-    <dt class="col-sm-3">{{ commit.time.strftime("%b %-d, %Y") }}</dt>
-    <dd class="col-sm-9"><a href="https://github.com/stacks/stacks-project/commit/{{ commit.hash }}">{{ commit.hash[0:7] }}</a></dd>
-    <dd class="col-sm-9 offset-sm-3"><pre class="commit-message">{{ commit.log.splitlines()[0] }}</pre>
-    <dd class="col-sm-9 offset-sm-3">
-      {% if commit.tags | length > 20 %}<p>More than 20 tags were affected, see the commit for more information.
-      {% elif commit.tags | length == 0 %}<p>No tags were affected in this commit.
-      {% else %}
-        <ul>
-          {% for tag in commit.tags %}
-            <li>{{ tag.type | capitalize }} <a href="/tag/{{ tag.tag }}" data-tag="{{ tag.tag }}">{{ tag.ref }}</a>
-            {#
-            {% for parent in tag.breadcrumb %}
-              {{ parent.type | capitalize }} <a href="/tag/{{ parent.tag }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.name %}: {{ parent.name }}{% endif %}{% if not loop.last %}, {% endif %}
+  <p>These are the recent changes to the tags <em>on the website</em>. The website is regularly updated, but it is possible that <a href="https://github.com/stacks/stacks-project">the repository</a> is slightly ahead.
+
+  <dl id="changes" class="row">
+    {% for commit in commits %}
+      <dt class="col-sm-3">{{ commit.time.strftime("%b %-d, %Y") }}</dt>
+      <dd class="col-sm-9"><a href="https://github.com/stacks/stacks-project/commit/{{ commit.hash }}">{{ commit.hash[0:7] }}</a></dd>
+      <dd class="col-sm-9 offset-sm-3"><pre class="commit-message">{{ commit.log.splitlines()[0] }}</pre>
+      <dd class="col-sm-9 offset-sm-3">
+        {% if commit.tags | length > 20 %}<p>More than 20 tags were affected, see the commit for more information.
+        {% elif commit.tags | length == 0 %}<p>No tags were affected in this commit.
+        {% else %}
+          <ul>
+            {% for tag in commit.tags %}
+              <li>{{ tag.type | capitalize }} <a href="/tag/{{ tag.tag }}" data-tag="{{ tag.tag }}">{{ tag.ref }}</a>
+              {#
+              {% for parent in tag.breadcrumb %}
+                {{ parent.type | capitalize }} <a href="/tag/{{ parent.tag }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.name %}: {{ parent.name }}{% endif %}{% if not loop.last %}, {% endif %}
+              {% endfor %}
+              #}
             {% endfor %}
-            #}
-          {% endfor %}
-        </ul>
-      {% endif %}
-  {% endfor %}
-</dl>
-  {% for commit in commits %}
-  {% endfor %}
+          </ul>
+        {% endif %}
+    {% endfor %}
+  </dl>
 {% endblock %}
 
 {% block sidebar %}
