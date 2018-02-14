@@ -22,14 +22,33 @@ def show_tags():
   return render_template("single/tags.html")
 
 
+@app.route("/todo")
+def show_todo():
+  return render_template("single/todo.html")
+
+
+@app.route("/markdown")
+def show_markdown():
+  return render_template("single/markdown.html")
+
+
 @app.route("/acknowledgements")
 def show_acknowledgements():
-  return render_template("single/acknowledgements.html")
+  acknowledgements = []
+
+  with open("tex/documentation/support") as f:
+    for line in f:
+      if line.startswith("%") or line.isspace():
+        continue
+      acknowledgements.append(line)
+
+  return render_template("single/acknowledgements.html", acknowledgements=acknowledgements)
 
 
 @app.route("/contribute")
 def show_contribute():
   return render_template("single/contribute.html")
+
 
 @app.route("/contributors")
 def show_contributors():
@@ -42,7 +61,6 @@ def show_contributors():
       contributors.append(line)
 
   return render_template("single/contributors.html", contributors=contributors)
-
 
 
 

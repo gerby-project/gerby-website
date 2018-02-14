@@ -8,18 +8,26 @@
 
 {% block body %}
   <h2>Acknowledgements</h2>
+  <p>What you see here is the current status of the file <a href="https://github.com/stacks/stacks-project/tree/master/documentation"><var>documentation/support</var></a> in the project. The intent is to list support from institutions that have made the Stacks project possible. If you have participated in the Stacks project and wish to acknowledge support, please contact <a href="mailto:stacks.project@gmail.com">stacks.project@gmail.com</a> and we will add it here.
 
-  <h2>Open-source</h2>
-  <p>The Stacks project is open-source, and builds upon many other open-source contributions. The most important ones are:
   <ul>
-    <li><a href="http://flask.pocoo.org/">Flask</a>
-    <li><a href="https://mathjax.org">MathJax</a>
-    <li><a href="https://github.com/sonoisa/XyJax">XyJax</a>
-    <li><a href="https://github.com/coleifer/peewee">peewee</a>
+    {% for acknowledgement in acknowledgements %}
+      <li>{{ acknowledgement }}
+    {% endfor %}
   </ul>
+
+  <h2>Gerby</h2>
+  <p>The website for the Stacks project uses <a href="http://gerby-project.github.io">Gerby</a> as the underlying system. It was written by <a href="http://pbelmans.ncag.info">Pieter Belmans</a> and <a href="https://www.math.columbia.edu/~rcheng/">Raymond Cheng</a>. It is an open source system, which combines
+  <ul>
+    <li>a LaTeX processing tool built using <a href="https://github.com/tiarno/plastex">plastex</a>
+    <li>a website built using <a href="http://flask.pocoo.org/">Flask</a>
+  </ul>
+  <!--<p>Gerby is also used by-->
 {% endblock %}
 
 {% block sidebar %}
+  {{ macros.singlePageLinks() }}
+
   <h2>Supporting institutions</h2>
   <div style="text-align: center">
     <a href="http://simonsfoundation.org"><img style="margin-bottom: 30px; margin-top: 10px" width="180" src="/static/images/funding/simons.png"></a>

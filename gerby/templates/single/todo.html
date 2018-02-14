@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}Todo{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/todo">Todo</a>
+{% endblock %}
+
+{% block hamburger %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+
+{% block body %}
+  <h2>Important</h2>
+  <p>Before hacking away and spending enormous amounts of time on a project for the Stacks project, choose a smaller task, say something you can do in 5 minutes up to an hour. Email the result (usually the modified TeX file) to <a href="mailto:stacks.project@gmail.com">stacks.project@gmail.com</a> and see what it feels like to donate some of your own work to a publicly maintained project. Having done this successfully you can try your hand at some more ambitious projects.
+  <p>Also, it is very helpful if you try to keep to the coding style which is used throughout the TeX files.
+
+  <h2 id="beer">Tasks you can do while having a beer</h2>
+  <ol>
+    <li>Run any of the TeX files through a spell checker and correct any errors.
+    <li>Find incompatible notation and correct it. The same mathematical object should be coded in the same way everywhere.
+    <li>Read a random section and find small mathematical errors, such as arrows pointing the wrong way, wrong font, sign errors, etc. If they are small enough you can simply correct them, e.g. by suggesting an improvement as a comment, or emailing it. Otherwise, just pointing out something's wrong is also good.
+    <li>Provide counterexamples for silly statements. For example, find a Noetherian ring which is not of finite type over a field, namely $\mathbb{Z}$. (Just to give you an idea.)
+    <li>Basic notions. Write something basic about algebra, topology, fields, etc. which goes in an early part (and hasn't been written yet).
+  </ol>
+  <p>For many of these tasks the commenting system available on the website suffices. Just look up the tag and post a comment, we will deal with the actual change in the Stacks project.</p>
+
+  <h2 id="tea">Tasks you can do while having tea</h2>
+  <ol>
+    <li>Provide <a href="/search?query=omitted&page=1&perpage=50&radius=all">missing proofs of easy statements which have been omitted</a>. If you hit on a omitted proof which you find too hard, then please report this.
+    <li>Check for missing internal references. Generally speaking the goal is to refer to all of the previous lemmas, propositions, theorems used in a proof. Go through some of the proofs and check if previous results are used without referencing them.
+    <li>Find mathematical mistakes.
+    <li>Find superfluous assumptions.
+    <li>Find missing assumptions.
+    <li>Specific example of 2): Find all places where it is used that an &eacute;tale morphism of schemes is locally quasi-finite and put in a reference to <var>lemma-etale-locally-quasi-finite</var>.
+  </ol>
+  <p>Again, many of these can be done using the commenting system.</p>
+
+  <h2 id="coffee">Tasks you can do while having coffee</h2>
+  <ol>
+    <li>Split longer proofs into pieces by finding intermediate results.
+    <li>Find alternative proofs (but beware of creating circular arguments).
+    <li>Write introductions, overviews of already existing material.
+    <li>Add sections on your favorite topic. For example: You may be interested in curves. Start a chapter entitled <q>Curves</q>. For example you can provide a theorem saying that the category of curves (with dominant rational maps) over a field $k$ is equivalent to the category of finitely generated field extensions transcendence degree 1 over $k$.
+  </ol>
+{% endblock %}
+
+{% block sidebar %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+
