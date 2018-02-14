@@ -23,10 +23,10 @@ p.background {
   <h2>How to contribute?</h2>
   <p>We welcome any kind of feedback: pointing out typos, mathematical errors, references in the literature, history of results, layout of webpages, spelling errors, improvements to the overall structure, missing lemmas, etc. In fact, there are several different ways you can help:
   <ol>
-    <li><p>If you are reading online and want to quickly point out something, please leave a comment on the tag's page.
-    <li><p>If you prefer, you can simply email us at <a href="mailto:stacks.project@gmail.com">stacks.project@gmail.com</a>.
-    <li><p>It is very helpful if you edit the relevant TeX file directly and email the result, or even better: use Git and the <a href="https://github.com/stacks/stacks-project">stacks-project</a> repository.
-    <li><p>We have a <a href="/todo">list of things you can do</a>, you can take a look and tackle one of the issues listed there.
+    <li><p>If you are reading online and want to quickly point out something, please leave a comment on the tag's page. If possible please include your recommendation for how to change things.
+    <li><p>If you prefer, you can simply email us (see below).
+    <li><p>It is helpful if you edit the relevant TeX file directly and email the result. Even better: make a pull request (see below).
+    <li><p>We have a <a href="/todo">list of things you can do</a>. Take a look!
     <li><p>Unfortunately the <a href="https://math.columbia.edu/~dejong/wordpress/?p=3815">sloganerator</a> is inactive for the time being as it was incompatible with the new website. We will remedy this in the near future. Until then you can suggest slogans by leaving your suggestions as a comment.
     <!--<li><p>You can <a href="/slogans">suggest slogans for results</a>. Here the idea is that you come up with a sentence or two that describes the result in easily understandable language without using formulas.-->
     <li><p>You are encouraged to email expository papers. It is extremely useful to have such a text (no matter how badly written) as the starting point for a new chapter. Please do not worry about coding style, errors, gaps in the exposition, etc. as the material will be radically changed anyway.
@@ -36,27 +36,24 @@ p.background {
 
   <h2>Where to submit?</h2>
   <p class="background" style="background-image: url('/static/images/email.svg');">Please email contributions to <a href="mailto:stacks.project@gmail.com">stacks.project@gmail.com</a>. We will review, edit and if suitable update the Stacks project with your changes.
-  <p class="background" style="background-image: url('/static/images/github.svg');">If you are on the other hand <a href="#geeks">familiar with Git and GitHub</a> it is also possible to make a pull request on GitHub.
+  <p class="background" style="background-image: url('/static/images/github.svg');">Please make pull requests <a href="https://github.com/stacks/stacks-project/pulls">here</a>. We will review and merge your request if suitable or comment on your request otherwise.
 
   <h2>Instructions on dealing with TeX files</h2>
-  <p>These instructions are for when you don't want to use Git. See <a href="#geeks">below</a> if Git doesn't scare you.
+  <p>You do not need to use Git in order to work directly with the TeX files.
   <ol>
-    <li>Download all the TeX files. They are contained in <a href="https://github.com/stacks/stacks-project/archive/master.zip">this archive</a>.
-    <li>Unpack the the archive.
-    <li>Edit the TeX file of the chapter you are interested in. Say <code>algebra.tex</code>.
-    <li>Run <code>pdflatex algebra.tex</code>, then <code>bibtex algebra</code> and then <code>pdflatex algebra.tex</code> twice.
+     <li>To download all TeX and supplementary files, download this <a href="https://github.com/stacks/stacks-project/archive/master.zip">this archive</a>.
+     <li>Unpack the the archive.
+    <li>Edit the TeX file. Say <code>algebra.tex</code>.
+    <li>Run <code>pdflatex algebra.tex</code>, then <code>bibtex algebra</code>, and then <code>pdflatex algebra.tex</code> twice.
     <li>Inspect the result and if OK then email <code>algebra.tex</code> to the address above.
   </ol>
+  <p>An alternative to steps 1 and 2 is to download only the TeX file you want from <a href="https://github.com/stacks/stacks-project">git repository</a> as well as <code>preamble.tex</code> and <code>chapters.tex</code> which are needed to compile it. Additionally you will need <code>my.bib</code> for the <code>bibtex</code> command to work.
 
   <h2>Instructions on using the Makefile (slightly geeky)</h2>
-  <p>Download and unpack the archive as above. Change directory to where you unpacked the files and on the command line type
-  <pre><code>make pdfs </code></pre>
-  <p>to automatically generate all the pdf files.
+  <p>Download and unpack the archive as above. Change directory to where you unpacked the files and on the command line type <code>make pdfs</code> to automatically generate all the pdf files. Use <code>make dvis</code> to generate the dvi files. The advantage of doing this over the simpler instructions above is that the cross file links will work.
 
   <h2 id="geeks">Instructions on using a version control system (for major geeks)</h2>
-  <p>We are using the <a href="http://git-scm.com">git</a> version control system. To clone the project type
-  <pre><code>git clone git://github.com/stacks/stacks-project.git</code></pre>
-  on the command line. This assumes that you have <code>git</code> installed. For more information on using Git and GitHub, we refer to <a href="http://git-scm.com/documentation">the documentation</a> and <a href='https://help.github.com/'>GitHub Help</a>. To actually contribute the changes you have made you use a <a href="https://github.com/stacks/stacks-project/pulls">pull request</a> on GitHub.
+  <p>We are using the <a href="http://git-scm.com">git</a> version control system. To clone the project type <code>git clone https://github.com/stacks/stacks-project.git</code> on the command line. This assumes that you have <code>git</code> installed. For more information on using Git and GitHub, we refer to <a href="http://git-scm.com/documentation">the documentation</a> and <a href='https://help.github.com/'>GitHub Help</a>. To actually contribute the changes you have made you use a <a href="https://github.com/stacks/stacks-project/pulls">pull request</a> on GitHub. If you do not have a github account you can prepare a sequence of patches using <code>git format-patch</code> which you can email to the address above.
 {% endblock %}
 
 {% block sidebar %}
