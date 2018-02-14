@@ -1,9 +1,11 @@
 import hashlib
 
 from flask import render_template, send_from_directory, redirect
+from datetime import datetime
 
 from gerby.gerby import app
 from gerby.database import *
+from gerby.views.methods import *
 import gerby.views.tag
 
 # we need this for building GitHub URLs pointing to diffs
@@ -173,3 +175,19 @@ def send_to_github(filename=""):
 @app.route("/download/<string:filename>")
 def download_pdf(filename):
   return send_from_directory("tex/tags/tmp", filename)
+
+
+@app.route("/recent-changes")
+def show_recent_changes():
+  commits = Commit.select().order_by(Commit.time.desc()).limit(10)
+  for commit in commits:
+    commit.time = datetime.datetime.strptime(commit.time.decode(), "%Y-%m-%d %H:%M:%S %z")
+    commit.tags = sorted(Tag.select().join(Change).where(Change.commit == commit).distinct())
+
+    # this is quite inefficient to be honest
+    #if commit.tags.count() <= 20:
+    #  for tag in commit.tags:
+    #    tag.breadcrumb = getBreadcrumb(Tag.get(Tag.tag == tag))
+
+  return render_template("stacks/changes.html", commits=commits)
+
