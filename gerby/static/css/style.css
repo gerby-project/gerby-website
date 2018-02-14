@@ -327,10 +327,17 @@ ul#index-select a {
   background-image: none;
 }
 
-a.header-offset {
-  display: block;
+.header-offset {
+  display: inline-block;
   position: relative;
   top: -4em;
+  visibility: hidden;
+}
+
+.footnote-offset {
+  display: inline-block;
+  position: relative;
+  top: -10em;
   visibility: hidden;
 }
 

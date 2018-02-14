@@ -57,7 +57,7 @@ $("ul.tree").bonsai({
   {% if footnotes %}
     <section id="footnotes">
     {% for footnote in footnotes %}
-      <div id="footnote-{{ loop.index }}"><a href="#footnote-{{ loop.index }}-mark">[{{ loop.index }}]</a> {{ footnote.html | safe }}</div>
+      <div><a id="footnote-{{ loop.index }}" class="footnote-offset"></a><a href="#footnote-{{ loop.index }}-mark">[{{ loop.index }}]</a> {{ footnote.html | safe }}</div>
     {% endfor %}
     </section>
   {% endif %}

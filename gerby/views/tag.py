@@ -130,21 +130,22 @@ def show_tag(tag):
   # put a space in DAG8S2SS5 for some reason?!
   html = html.replace("\\xymatrix@1{", "\\xymatrix@1{ ")
 
-  # handle footnotes
-  #<a class="footnotemark" href="#{{ obj.id }}" id="{{ obj.id }}-mark"><sup>{{ obj.mark.attributes.num }}</sup></a>
-  pattern = re.compile("class=\"footnotemark\" href=\"#(a[0-9]+)\"")
 
+  # handle footnotes: relabeling the labels to actual numbers
+  pattern = re.compile("class=\"footnotemark\" href=\"#(a[0-9]+)\"")
   labels = pattern.findall(html)
   for number, label in enumerate(labels):
-    # TODO this is not how regexes should be used... (if you need test material when fixing this, see tag 05QM)
     old = re.search(r"id=\"" + label + "-mark\"><sup>([0-9]+)</sup>", html).group(1)
     html = html.replace(
         "id=\"" + label + "-mark\"><sup>" + old + "</sup>",
-        "id=\"" + label + "-mark\"><sup>" + str(number + 1) + "</sup>")
+        "id=\"" + label + "-mark\"></a><a href=\"#" + label + "\"><sup>" + str(number + 1) + "</sup>")
     # make the HTML pretty (and hide plasTeX id's)
     html = html.replace(label, "footnote-" + str(number + 1))
 
-    # TODO add offset, need to insert new <a> element for this which carries the ID...
+  # adding offset on the footnote marks in the text
+  html = html.replace("class=\"footnotemark\"", "class=\"footnotemark footnote-offset\"")
+
+  footnotes = Footnote.select().where(Footnote.label << labels)
 
   tree = None
   # if it's a heading
@@ -188,7 +189,7 @@ def show_tag(tag):
                          breadcrumb=breadcrumb,
                          neighbours=neighbours,
                          html=html,
-                         footnotes=Footnote.select().where(Footnote.label << labels),
+                         footnotes=footnotes,
                          dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
                          extras=extras,
