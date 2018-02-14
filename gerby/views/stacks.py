@@ -63,6 +63,61 @@ def show_contributors():
   return render_template("single/contributors.html", contributors=contributors)
 
 
+@app.route("/api")
+def show_api():
+  return render_template("single/api.html")
+
+
+@app.route("/data/tag/<string:tag>/content/statement")
+def show_api_statement(tag):
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+  html = tag.html
+
+  # if the tag is section-like: decide whether we output a table of contents or generate all output
+  # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
+  if tag.type in gerby.views.tag.headings:
+    # if we are below the cutoff: generate all data below it too
+    if gerby.views.tag.headings.index(tag.type) >= gerby.views.tag.headings.index(config.UNIT):
+      tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << gerby.views.tag.headings)
+      html = html + "".join([item.html for item in sorted(tags)])
+
+  return html
+
+
+@app.route("/data/tag/<string:tag>/content/full")
+def show_api_tag(tag):
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+  # if the tag is section-like: decide whether we output a table of contents or generate all output
+  # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
+  if tag.type in gerby.views.tag.headings:
+    html = tag.html
+
+    # if we are below the cutoff: generate all data below it too
+    if gerby.views.tag.headings.index(tag.type) >= gerby.views.tag.headings.index(config.UNIT):
+      tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << gerby.views.tag.headings)
+      html = html + "".join([item.html for item in sorted(tags)])
+
+  # it's a tag (maybe with proofs)
+  else:
+    proofs = Proof.select().where(Proof.tag == tag.tag)
+    html = tag.html + "".join([proof.html for proof in proofs])
+
+  return html
+
 
 @app.route("/tag/<string:tag>/history")
 def show_history(tag):
@@ -105,6 +160,7 @@ def show_chapter_message(chapter):
   except DoesNotExist:
     return render_template("tag.chapter.notfound.html", chapter=chapter)
 
+
 @app.route("/tex")
 @app.route("/tex/<string:filename>")
 def send_to_github(filename=""):
@@ -112,6 +168,7 @@ def send_to_github(filename=""):
     return redirect("https://github.com/stacks/stacks-project/blob/master/%s" % filename)
   else:
     return redirect("https://github.com/stacks/stacks-project")
+
 
 @app.route("/download/<string:filename>")
 def download_pdf(filename):
