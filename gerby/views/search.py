@@ -11,6 +11,10 @@ spelling = {
     "quasicompact": "\"quasi-compact\""
     }
 
+@app.route("/tag")
+def redirect_to_search():
+  return redirect("/search")
+
 @app.route("/search", methods = ["GET"])
 def show_search():
   # dealing with search options: page number

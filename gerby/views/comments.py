@@ -32,6 +32,7 @@ def post_comment():
     return render_template("comment.invalid-captcha.html")
 
 @app.route("/recent-comments.xml")
+@app.route("/recent-comments.rss")
 def show_comments_feed():
   comments = []
   for comment in Comment.select().order_by(Comment.id.desc()).paginate(1, 10):
