@@ -44,9 +44,9 @@
     {% for item in tree recursive %}
       {% if loop.depth <= depth %}<li class="expanded">{% else %}<li>{% endif %}
       {{ item.type | capitalize }} <a href="/tag/{{ item.tag }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.name %}: {{ item.name | safe }}{% endif %}
-      {% if item.slogan %}<span class="badge badge-primary">slogan</span>{% endif %}
-      {% if item.history %}<span class="badge badge-secondary">history</span>{% endif %}
-      {% if item.reference %}<span class="badge badge-info">reference</span>{% endif %}
+      {% if item.slogan %}<span class="badge badge-primary" title="{{ item.slogan.slogan }}">slogan</span>{% endif %}
+      {% if item.history %}<span class="badge badge-secondary" title="{{ item.history.history }}">history</span>{% endif %}
+      {% if item.reference %}<span class="badge badge-info" title="{{ item.reference.reference }}">reference</span>{% endif %}
       {% if item.children %}
         <ul>{{ loop(item.children) }}</ul>
       {% endif %}
