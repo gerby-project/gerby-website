@@ -42,9 +42,16 @@
     {% for item in tree recursive %}
       {% if loop.depth <= depth %}<li class="expanded">{% else %}<li>{% endif %}
       {{ item.type | capitalize }} <a href="/tag/{{ item.tag }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.name %}: {{ item.name | safe }}{% endif %}
-      {% if item.slogan %}<span class="badge badge-primary" title="{{ item.slogan.slogan }}">slogan</span>{% endif %}
-      {% if item.history %}<span class="badge badge-secondary" title="{{ item.history.history }}">history</span>{% endif %}
-      {% if item.reference %}<span class="badge badge-info" title="{{ item.reference.reference }}">reference</span>{% endif %}
+      {% if item.slogan %}
+        <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-primary" data-toggle="popover" title="Slogan" data-html="true" data-content="{{ item.slogan }}">slogan</a>
+      {% endif %}
+      {% if item.history %}
+        <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-secondary" data-toggle="popover" title="History" data-html="true" data-content='{{ item.history }}'>historical remark</a>
+      {% endif %}
+      {% if item.reference %}
+        <span class="badge badge-info" title="{{ item.reference }}">reference</span>
+        <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-info" data-toggle="popover" title="Reference" data-html="true" data-content='{{ item.reference }}'>reference</a>
+      {% endif %}
       {% if item.children %}
         <ul>{{ loop(item.children) }}</ul>
       {% endif %}
@@ -54,6 +61,10 @@
 $("ul.tree").bonsai({
   addExpandAll: true,
 });
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
     </script>
   {% endif %}
 

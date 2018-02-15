@@ -237,3 +237,7 @@ li.tag-dependencies a {
 ul#citations {
   font-size: .9rem;
 }
+
+a.btn:hover {
+  color: white;
+}
