@@ -17,13 +17,12 @@ log.setLevel(logging.INFO)
 
 # create database if it doesn't exist already
 if not os.path.isfile(config.DATABASE):
-  for model in [Tag, Proof, Extra]:
+  for model in [Tag, Proof, Slogan, History, Reference]:
     model.create_table()
   log.info("Created database")
 
 if not os.path.isfile("comments.sqlite"):
   Comment.create_table()
-
 
 # the information on disk
 files = [f for f in os.listdir(config.PATH) if os.path.isfile(os.path.join(config.PATH, f)) and f != "index"] # index is always created
@@ -205,16 +204,50 @@ for filename in extraFiles:
 
   pieces = filename.split(".")
 
-  extra, created = Extra.get_or_create(tag=pieces[0], type=pieces[1])
+  # TODO can this be done with less copy paste?
+  if pieces[1] == "slogan":
+    slogan, created = Slogan.get_or_create(tag=pieces[0])
+    if created:
+      log.info("  Tag %s: added a slogan", slogan.tag.tag)
+    elif slogan.slogan != value:
+      log.info("  Tag %s: slogan has changed", slogan.tag.tag)
 
-  if created:
-    log.info("  Tag %s: added a %s", extra.tag.tag, pieces[1])
-  else:
-    if extra.html != value:
-      log.info("  Tag %s: %s has changed", extra.tag.tag, pieces[1])
+    slogan.slogan = value
+    slogan.save()
 
-  extra.html = value
-  extra.save()
+  if pieces[1] == "history":
+    history, created = History.get_or_create(tag=pieces[0])
+    if created:
+      log.info("  Tag %s: added a history", history.tag.tag)
+    elif history.history != value:
+      log.info("  Tag %s: history has changed", history.tag.tag)
+
+    history.history = value
+    history.save()
+
+  if pieces[1] == "reference":
+    reference, created = Reference.get_or_create(tag=pieces[0])
+    if created:
+      log.info("  Tag %s: added a reference", reference.tag.tag)
+    elif reference.reference != value:
+      log.info("  Tag %s: reference has changed", reference.tag.tag)
+
+    reference.reference = value
+    reference.save()
+
+  # TODO split these up appropriately
+  #extra, created = Extra.get_or_create(tag=pieces[0], type=pieces[1])
+
+  #if created:
+  #  log.info("  Tag %s: added a %s", extra.tag.tag, pieces[1])
+  #else:
+  #  if extra.html != value:
+  #    log.info("  Tag %s: %s has changed", extra.tag.tag, pieces[1])
+
+  #extra.html = value
+  #extra.save()
+
+
 
 
 # import names of labels

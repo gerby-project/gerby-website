@@ -76,10 +76,20 @@ class Dependency(BaseModel):
   def __gt__(self, other):
     return self.tag > other.tag
 
-class Extra(BaseModel): # contains extra information such as slogans
+class Slogan(BaseModel):
   tag = ForeignKeyField(Tag)
-  type = TextField()
-  html = TextField(null=True)
+  slogan = TextField(null=True)
+
+
+class Reference(BaseModel):
+  tag = ForeignKeyField(Tag)
+  reference = TextField(null=True)
+
+
+class History(BaseModel):
+  tag = ForeignKeyField(Tag)
+  history = TextField(null=True)
+
 
 class Footnote(BaseModel):
   label = CharField(unique=True, primary_key=True)

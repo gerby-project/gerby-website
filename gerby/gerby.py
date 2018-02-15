@@ -52,7 +52,7 @@ def get_statistics():
 
   statistics.append(str(Tag.select().where(Tag.type == "section").count()) + " sections")
   statistics.append(str(Tag.select().where(Tag.type == "chapter").count()) + " chapters")
-  statistics.append(str(Extra.select().where(Extra.type == "slogan").count()) + " slogans")
+  statistics.append(str(Slogan.select().count()) + " slogans")
 
   # TODO more statistics: number of pages, number of lines
 

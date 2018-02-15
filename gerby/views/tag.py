@@ -164,11 +164,31 @@ def show_tag(tag):
     else:
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
 
+      # TODO shouldn't there be a JOIN for this?!
+      # TODO in any case, get rid of the copy paste
+      for tag in tags:
+        try:
+          tag.slogan = Slogan.get(Slogan.tag == tag)
+        except Slogan.DoesNotExist:
+          tag.slogan = None
+
+      for tag in tags:
+        try:
+          tag.history = History.get(History.tag == tag)
+        except History.DoesNotExist:
+          tag.history = None
+
+      for tag in tags:
+        try:
+          tag.reference = Reference.get(Reference.tag == tag)
+        except Reference.DoesNotExist:
+          tag.reference = None
+
     tree = combine(sorted(tags))
 
   # dealing with slogans etc.
-  extras = Extra.select().where(Extra.tag == tag)
-  extras = {extra.type: extra.html for extra in extras}
+  #extras = Extra.select().where(Extra.tag == tag)
+  #extras = {extra.type: extra.html for extra in extras}
 
   # dealing with comments
   comments = Comment.select().where(Comment.tag == tag.tag)
@@ -192,7 +212,6 @@ def show_tag(tag):
                          footnotes=footnotes,
                          dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
-                         extras=extras,
                          commentsEnabled=tag.type not in hideComments,
                          comments=comments,
                          filename=tag.label.split("-" + tag.type)[0],
