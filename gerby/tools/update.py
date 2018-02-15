@@ -7,6 +7,8 @@ import pybtex.database
 import subprocess
 import collections
 
+from PyPDF2 import PdfFileReader
+
 from gerby.database import *
 import gerby.config as config
 
@@ -315,3 +317,22 @@ for tag in Tag.select():
   TagStatistic.create(tag=tag, statistic="sections", value=len(set([sections[result] for result in preliminaries[tag.tag] if len(sections[result].split(".")) == 2])))
   TagStatistic.create(tag=tag, statistic="consequences", value=sum([1 for result in preliminaries if tag.tag in preliminaries[result]]))
 
+log.info("  Processing book statistics.")
+if BookStatistic.table_exists():
+  BookStatistic.drop_table()
+BookStatistic.create_table()
+
+# load book statistics computed from raw TeX code
+with open(os.path.join(config.PATH, "meta.statistics")) as f:
+  book_stats = json.load(f)
+  for stat, stat_value in book_stats.items():
+    BookStatistic.create(statistic=stat, value=stat_value)
+
+# try to get pdf page counts
+# currently assume that the pdf document is with the HTML
+PATH_TO_BOOK_PDF = os.path.join(config.PATH, "book.pdf")
+try:
+  book_pdf = PdfFileReader(open(PATH_TO_BOOK_PDF, "rb"))
+  BookStatistic.create(statistic="pages", value=book_pdf.getNumPages())
+except:
+  log.warning("  Unable to get page numbers")

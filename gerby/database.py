@@ -145,3 +145,7 @@ class TagStatistic(BaseModel):
   tag = ForeignKeyField(Tag)
   statistic = TextField()
   value = IntegerField()
+
+class BookStatistic(BaseModel):
+  statistic = TextField()
+  value = IntegerField()
