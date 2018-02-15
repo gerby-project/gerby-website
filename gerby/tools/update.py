@@ -53,7 +53,8 @@ for filename in tagFiles:
   filename = filename[:-4]
   pieces = filename.split("-")
 
-  tag, created = Tag.get_or_create(tag=pieces[2])
+  # Ensure that tags are always stored with letters uppercase.
+  tag, created = Tag.get_or_create(tag=pieces[2].upper())
 
   if created:
     log.info("  Created tag %s", pieces[2])

@@ -13,7 +13,7 @@ hideComments = ["part", "chapter"]
 extras = {"slogan": Slogan, "history": History, "reference": Reference}
 
 # Tags pattern as used in the tag_up scripts
-TAGS_PATTERN = re.compile("^[0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ]{4}")
+TAGS_PATTERN = re.compile("^[0-9a-zA-Z]{4}")
 
 # validate whether something is (potentially) a tag
 def isTag(string):
@@ -95,7 +95,7 @@ def show_tag(tag):
     return render_template("tag.invalid.html", tag=tag)
 
   try:
-    tag = Tag.get(Tag.tag == tag)
+    tag = Tag.get(Tag.tag == tag.upper())
   except Tag.DoesNotExist:
     return render_template("tag.notfound.html", tag=tag)
 
