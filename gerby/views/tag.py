@@ -217,7 +217,13 @@ def show_tag(tag):
 
 @app.route("/tag/<string:tag>/cite")
 def show_citation(tag):
-  tag = Tag.get(Tag.tag == tag)
+  if not isTag(tag):
+    return render_template("tag.invalid.html", tag=tag)
+
+  try:
+    tag = Tag.get(Tag.tag == tag.upper())
+  except Tag.DoesNotExist:
+    return render_template("tag.notfound.html", tag=tag)
 
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
@@ -234,7 +240,7 @@ def show_statistics(tag):
     return render_template("tag.invalid.html", tag=tag)
 
   try:
-    tag = Tag.get(Tag.tag == tag)
+    tag = Tag.get(Tag.tag == tag.upper())
   except Tag.DoesNotExist:
     return render_template("tag.notfound.html", tag=tag)
 
