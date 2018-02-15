@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li><a href="/statistics">Statistics</a>
+{% endblock %}
+
+{% block hamburger %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+
+{% block body %}
+<h2>Statistics</h2>
+<table class="table">
+  {% for environment in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
+    <tr>
+      <td>number of {{ environment }}s</td>
+      <td>{{ counts[environment] }}
+  {% endfor %}
+
+  <tr>
+    <td>most complex tag: {{ records.complex.tag.tag }}</td>
+    <td>{{ records.complex.value }}</td>
+  </tr>
+  <tr>
+    <td>most used tag: {{ records.used.tag.tag }}</td>
+    <td>{{ records.used.value }}</td>
+  </tr>
+</table>
+{% endblock %}
+
+{% block sidebar %}
+  {{ macros.singlePageLinks() }}
+{% endblock %}
+

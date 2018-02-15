@@ -98,6 +98,19 @@ def show_index():
 def show_about():
   return render_template("single/about.html")
 
+@app.route("/statistics")
+def show_statistics():
+  counts = dict()
+  for count in Tag.select(Tag.type, fn.COUNT(Tag.tag).alias("count")).group_by(Tag.type):
+    counts[count.type] = count.count
+
+  records = dict()
+  records["complex"] = TagStatistic.select(TagStatistic.tag, fn.MAX(TagStatistic.value).alias("value")).where(TagStatistic.statistic == "preliminaries").execute()[0]
+  records["used"] = TagStatistic.select(TagStatistic.tag, fn.MAX(TagStatistic.value).alias("value")).where(TagStatistic.statistic == "consequences").execute()[0]
+
+  #records["complex"] = Tag.get(Tag.tag == TagStatistic.get(TagStatistic.type == "preliminaries", TagStatistic.value == fn.Max(TagStatistic.).tag)
+  return render_template("single/statistics.html", counts=counts, records=records)
+
 @app.route("/browse")
 def show_chapters():
   # part is top-level

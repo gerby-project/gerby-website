@@ -2,8 +2,6 @@ import datetime
 from peewee import *
 from playhouse.sqlite_ext import *
 
-import gerby.config as config
-
 db = SqliteExtDatabase(None)
 comments = SqliteDatabase("comments.sqlite");
 
