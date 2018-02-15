@@ -23,19 +23,17 @@
 
 {% block body %}
 <div class="html" id="tag">
-  {#
-  {% if "slogan" in extras %}
-    <p class="slogan"><strong>{{ extras["slogan"] | safe }}</strong>
+  {% if tag.slogan %}
+    <p class="slogan"><strong>{{ tag.slogan | safe }}</strong>
   {% endif %}
 
-  {% if "history" in extras %}
-    <p class="history">{{ extras["history"] | safe }}
+  {% if tag.history %}
+    <p class="history">{{ tag.history | safe }}
   {% endif %}
 
-  {% if "reference" in extras %}
-    <p class="reference">{{ extras["reference"] | safe }}
+  {% if tag.reference %}
+    <p class="reference">{{ tag.reference | safe }}
   {% endif %}
-  #}
 
   {{ html | safe }}
 

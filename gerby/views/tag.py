@@ -8,6 +8,7 @@ from gerby.views.methods import *
 
 headings = ["part", "chapter", "section", "subsection", "subsubsection"]
 hideComments = ["part", "chapter"]
+extras = {"slogan": Slogan, "history": History, "reference": Reference}
 
 # validate whether something is (potentially) a tag
 def isTag(string):
@@ -165,30 +166,21 @@ def show_tag(tag):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
 
       # TODO shouldn't there be a JOIN for this?!
-      # TODO in any case, get rid of the copy paste
       for tag in tags:
-        try:
-          tag.slogan = Slogan.get(Slogan.tag == tag)
-        except Slogan.DoesNotExist:
-          tag.slogan = None
-
-      for tag in tags:
-        try:
-          tag.history = History.get(History.tag == tag)
-        except History.DoesNotExist:
-          tag.history = None
-
-      for tag in tags:
-        try:
-          tag.reference = Reference.get(Reference.tag == tag)
-        except Reference.DoesNotExist:
-          tag.reference = None
+        for extra in extras:
+          try:
+            setattr(tag, extra, extras[extra].get(extras[extra].tag == tag).html)
+          except extras[extra].DoesNotExist:
+            pass
 
     tree = combine(sorted(tags))
 
   # dealing with slogans etc.
-  #extras = Extra.select().where(Extra.tag == tag)
-  #extras = {extra.type: extra.html for extra in extras}
+  for extra in extras:
+    try:
+      setattr(tag, extra, extras[extra].get(extras[extra].tag == tag).html)
+    except extras[extra].DoesNotExist:
+      pass
 
   # dealing with comments
   comments = Comment.select().where(Comment.tag == tag.tag)

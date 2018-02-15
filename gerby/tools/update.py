@@ -204,51 +204,18 @@ for filename in extraFiles:
 
   pieces = filename.split(".")
 
-  # TODO can this be done with less copy paste?
-  if pieces[1] == "slogan":
-    slogan, created = Slogan.get_or_create(tag=pieces[0])
-    if created:
-      log.info("  Tag %s: added a slogan", slogan.tag.tag)
-    elif slogan.slogan != value:
-      log.info("  Tag %s: slogan has changed", slogan.tag.tag)
-
-    slogan.slogan = value
-    slogan.save()
-
-  if pieces[1] == "history":
-    history, created = History.get_or_create(tag=pieces[0])
-    if created:
-      log.info("  Tag %s: added a history", history.tag.tag)
-    elif history.history != value:
-      log.info("  Tag %s: history has changed", history.tag.tag)
-
-    history.history = value
-    history.save()
-
-  if pieces[1] == "reference":
-    reference, created = Reference.get_or_create(tag=pieces[0])
-    if created:
-      log.info("  Tag %s: added a reference", reference.tag.tag)
-    elif reference.reference != value:
-      log.info("  Tag %s: reference has changed", reference.tag.tag)
-
-    reference.reference = value
-    reference.save()
-
-  # TODO split these up appropriately
-  #extra, created = Extra.get_or_create(tag=pieces[0], type=pieces[1])
-
-  #if created:
-  #  log.info("  Tag %s: added a %s", extra.tag.tag, pieces[1])
-  #else:
-  #  if extra.html != value:
-  #    log.info("  Tag %s: %s has changed", extra.tag.tag, pieces[1])
-
-  #extra.html = value
-  #extra.save()
+  extras = {"slogan": Slogan, "history": History, "reference": Reference}
+  for extra in extras:
+    if pieces[1] == extra:
+      row, created = extras[extra].get_or_create(tag=pieces[0])
+      if created:
+        log.info("  Tag %s: added a %s", row.tag.tag, extra)
+      elif row.html != value:
+        log.info("  Tag %s: %s has changed", extra, row.tag.tag)
 
 
-
+      row.html = value
+      row.save()
 
 # import names of labels
 log.info("Importing names of tags")
