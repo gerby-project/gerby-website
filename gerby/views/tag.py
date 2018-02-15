@@ -6,13 +6,18 @@ from gerby.gerby import app
 from gerby.database import *
 from gerby.views.methods import *
 
+import re
+
 headings = ["part", "chapter", "section", "subsection", "subsubsection"]
 hideComments = ["part", "chapter"]
 extras = {"slogan": Slogan, "history": History, "reference": Reference}
 
+# Tags pattern as used in the tag_up scripts
+TAGS_PATTERN = re.compile("^[0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ]{4}")
+
 # validate whether something is (potentially) a tag
 def isTag(string):
-  return len(string) == 4 # TODO make this more intelligent
+  return TAGS_PATTERN.match(string) is not None
 
 # turn a flat list into a tree based on tag.ref length
 def combine(tags):
