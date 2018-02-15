@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request
 
-from gerby.gerby import app
+from gerby.application import app
 from gerby.views import tag
 from gerby.database import *
 
@@ -36,15 +36,17 @@ def show_search():
     radius = "statements"
 
 
-  # return empty page (for now)
+  # a) return empty page (for now)
   if "query" not in request.args:
     return render_template("search.html", count=0, perpage=perpage, radius="all")
 
-  # if the query is actually a tag we redirect
+
+  # b) if the query is actually a tag we redirect
   if tag.isTag(request.args["query"]) and Tag.select().where(Tag.tag == request.args["query"].upper()).exists():
     return redirect("tag/" + request.args["query"].upper())
 
-  # actually search
+
+  # c) actually search
   if radius == "all":
     tags = [result.tag for result in SearchTag(SearchTag.tag).search(request.args["query"])]
   else:

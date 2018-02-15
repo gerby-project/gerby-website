@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, redirect
 
-from gerby.gerby import app
+from gerby.application import app
 from gerby.database import *
 from gerby.views.methods import *
 

@@ -2,9 +2,11 @@ import datetime
 
 from flask import render_template
 
-from gerby.gerby import app
+from gerby.application import app
 from gerby.database import *
 from gerby.views.methods import *
+
+import gerby.configuration
 
 import re
 
@@ -109,7 +111,7 @@ def show_tag(tag):
     html = tag.html
 
     # if we are below the cutoff: generate all data below it too
-    if headings.index(tag.type) >= headings.index(config.UNIT):
+    if headings.index(tag.type) >= headings.index(gerby.configuration.UNIT):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
       html = html + "".join([item.html for item in sorted(tags)])
 
@@ -155,7 +157,7 @@ def show_tag(tag):
 
   tree = None
   # if it's a heading
-  if tag.type in headings and headings.index(tag.type) < headings.index(config.UNIT):
+  if tag.type in headings and headings.index(tag.type) < headings.index(gerby.configuration.UNIT):
     # if the tag is a part, we select all chapters, and then do the startswith for these
     if tag.type == "part":
       chapters = Part.select(Part.chapter).where(Part.part == tag)
@@ -213,7 +215,7 @@ def show_tag(tag):
                          comments=comments,
                          filename=tag.label.split("-" + tag.type)[0],
                          parentComments=parentComments,
-                         depth=config.DEPTH)
+                         depth=gerby.configuration.DEPTH)
 
 @app.route("/tag/<string:tag>/cite")
 def show_citation(tag):
@@ -235,7 +237,7 @@ def show_citation(tag):
                          time=datetime.datetime.utcnow())
 
 @app.route("/tag/<string:tag>/statistics")
-def show_statistics(tag):
+def show_tag_statistics(tag):
   if not isTag(tag):
     return render_template("tag.invalid.html", tag=tag)
 

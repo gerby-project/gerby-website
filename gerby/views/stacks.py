@@ -3,7 +3,7 @@ import hashlib
 from flask import render_template, send_from_directory, redirect
 from datetime import datetime
 
-from gerby.gerby import app
+from gerby.application import app
 from gerby.database import *
 from gerby.views.methods import *
 import gerby.views.tag

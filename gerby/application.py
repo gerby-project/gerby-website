@@ -8,10 +8,10 @@ import flask_profiler
 from peewee import *
 from playhouse.sqlite_ext import *
 
-import gerby.config as config
+from gerby.configuration import *
 from gerby.database import *
 
-db.init(config.DATABASE)
+db.init(DATABASE)
 
 # Flask setup code
 app = Flask(__name__)

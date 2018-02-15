@@ -4,7 +4,6 @@ from mdx_bleach.whitelist import ALLOWED_TAGS
 from mdx_bleach.whitelist import ALLOWED_ATTRIBUTES
 from mdx_math import MathExtension
 
-from gerby.gerby import app
 from gerby.database import *
 
 # TODO organise this a bit more efficiently?

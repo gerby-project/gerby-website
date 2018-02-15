@@ -1,6 +1,6 @@
 from flask import render_template
 
-from gerby.gerby import app
+from gerby.application import app
 from gerby.database import *
 
 def decorateEntries(entries):

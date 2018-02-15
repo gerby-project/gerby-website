@@ -1,2 +1,1 @@
-from .gerby import app
-import gerby.config
+from gerby.application import app
