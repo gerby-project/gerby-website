@@ -5,6 +5,7 @@ import logging, sys
 import pickle
 import pybtex.database
 import subprocess
+import collections
 
 from gerby.database import *
 import gerby.config as config
@@ -43,6 +44,7 @@ with open(config.TAGS) as f:
   tags = [line.strip() for line in tags if not line.startswith("#")]
   tags = dict([line.split(",") for line in tags if "," in line])
   labels = {item: key for key, item in tags.items()}
+
 
 # import tags
 log.info("Importing tags")
@@ -267,3 +269,49 @@ for tag in Tag.select():
 
     if len(citations) > 0:
       Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()
+
+
+# do statistics
+log.info("Computing statistics")
+if TagStatistic.table_exists():
+  TagStatistic.drop_table()
+TagStatistic.create_table()
+
+# helper function
+flatten = lambda l: [item for sublist in l for item in sublist]
+
+# let's load the entire database in a dictionary
+dependencies = collections.defaultdict(list)
+for dependency in Dependency.select().dicts():
+  dependencies[dependency["tag"]].append(dependency["to"])
+
+# let's load the chapters and sections in a dictionary
+chapters = dict()
+sections = dict()
+for tag in Tag.select():
+  chapters[tag.tag] = tag.ref.split(".")[0]
+  sections[tag.tag] = tag.ref.split(".")[0]
+  if len(tag.ref.split(".")) >= 2:
+    sections[tag.tag] = ".".join([tag.ref.split(".")[0], tag.ref.split(".")[1]])
+
+# all the tags in the dependency graphs
+preliminaries = collections.defaultdict(set)
+
+log.info("  Processing tags for statistics")
+for tag in Tag.select():
+  new = dependencies[tag.tag]
+
+  while len(new) > 0:
+    preliminaries[tag.tag].update(new)
+
+    # only include dependencies which are not yet in the set of dependencies
+    new = set(flatten([dependencies[result] for result in new]))
+    new = new - preliminaries[tag.tag]
+
+log.info("  Saving statistics")
+for tag in Tag.select():
+  TagStatistic.create(tag=tag, statistic="preliminaries", value=len(preliminaries[tag.tag]))
+  TagStatistic.create(tag=tag, statistic="chapters", value=len(set([chapters[result] for result in preliminaries[tag.tag]])))
+  TagStatistic.create(tag=tag, statistic="sections", value=len(set([sections[result] for result in preliminaries[tag.tag] if len(sections[result].split(".")) == 2])))
+  TagStatistic.create(tag=tag, statistic="consequences", value=sum([1 for result in preliminaries if tag.tag in preliminaries[result]]))
+

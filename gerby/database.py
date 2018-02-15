@@ -141,3 +141,9 @@ class Change(BaseModel):
   label = TextField()
   begin = IntegerField()
   end = IntegerField()
+
+
+class TagStatistic(BaseModel):
+  tag = ForeignKeyField(Tag)
+  statistic = TextField()
+  value = IntegerField()
