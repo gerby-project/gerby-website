@@ -253,8 +253,13 @@ def show_statistics(tag):
     ref = ".".join(dependency.tag.ref.split(".")[0:-1])
     dependency.parent = Tag.select().where(Tag.ref == ref, ~(Tag.type << ["item"])).get()
 
+  statistics = dict()
+  for statistic in ["preliminaries", "chapters", "sections", "consequences"]:
+    statistics[statistic] = TagStatistic.get(TagStatistic.tag == tag, TagStatistic.statistic == statistic).value
+
   return render_template("tag.statistics.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
                          neighbours=neighbours,
+                         statistics=statistics,
                          dependencies = dependencies)
