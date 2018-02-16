@@ -179,6 +179,7 @@ div.main {
 
 div#first-bar {
   background-color: #d9d8d1;
+  z-index: 2000;
 }
 
 div.inner-top {
@@ -219,6 +220,7 @@ nav#header ul#quicklinks li {
 nav#second-bar {
   padding: calc(10rem / 14);
   background-color: #edece6;
+  z-index: 2000;
 }
 
 div#content {
