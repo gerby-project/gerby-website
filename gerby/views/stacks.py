@@ -138,9 +138,9 @@ def show_history(tag):
   if tag.type not in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"]:
     return render_template("tag.history.invalid.html", tag=tag, breadcrumb=breadcrumb)
 
-  changes = Change.select().where(Change.tag == tag) # TODO eventually order by Commit.time, once it's in there
+  changes = Change.select().join(Commit).where(Change.tag == tag).order_by(Commit.time.desc())
   for change in changes:
-    change.commit.time = change.commit.time.decode("utf-8").split(" ")[0] # TODO why in heaven's name is this returning bytes?!
+    change.commit.time = change.commit.time.decode("utf-8").split(" ")[0] # why in heaven's name is this returning bytes?!
 
   # this means something went wrong
   if len(changes) == 0:
@@ -183,11 +183,6 @@ def show_recent_changes():
   for commit in commits:
     commit.time = datetime.datetime.strptime(commit.time.decode(), "%Y-%m-%d %H:%M:%S %z")
     commit.tags = sorted(Tag.select().join(Change).where(Change.commit == commit, Change.action << ["tag", "statement", "proof", "statement and proof"]).distinct())
-
-    # this is quite inefficient to be honest
-    #if commit.tags.count() <= 20:
-    #  for tag in commit.tags:
-    #    tag.breadcrumb = getBreadcrumb(Tag.get(Tag.tag == tag))
 
   return render_template("stacks/changes.html", commits=commits)
 

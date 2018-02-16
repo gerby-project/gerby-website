@@ -90,8 +90,14 @@ def getNeighbours(tag):
 
   return (left, right)
 
+# for the absolutely ancient redirect setup
+@app.route("/index.php?page=tag?tag=<string:tag>")
+def redirect_to_tag(tag):
+  return redirect("/tag/" + tag)
+
+
 @app.route("/tag/<string:tag>")
-# TODO we also need to support the old format of links!
+@app.route("/tag/tag/<string:tag>")
 def show_tag(tag):
   if not isTag(tag):
     return render_template("tag.invalid.html", tag=tag)
@@ -123,21 +129,6 @@ def show_tag(tag):
   else:
     proofs = Proof.select().where(Proof.tag == tag.tag)
     html = tag.html + "".join([proof.html for proof in proofs])
-
-  # TODO fix for SAG because plasTeX cannot do it easily?
-  html = html.replace("xymatrix@ 1", "xymatrix@1")
-
-  # TODO remove these! tips for Jacob
-  html = html.replace("bigplus", "bigoplus")
-  html = html.replace("widecheck", "widehat")
-  html = html.replace("degree", "circ") # also, there is an extra close bracket on page 2006, line -4
-  html = html.replace("mapsfrom", "mapsto")
-  # never use \bf in mathmode, use \mathbf, for all families of fonts
-  # don't put things on the right of arrows: quavo (and others)
-
-  # put a space in DAG8S2SS5 for some reason?!
-  html = html.replace("\\xymatrix@1{", "\\xymatrix@1{ ")
-
 
   # handle footnotes: relabeling the labels to actual numbers
   pattern = re.compile("class=\"footnotemark\" href=\"#(a[0-9]+)\"")

@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 app.config["flask_profiler"] = {
-    "enabled": app.config["DEBUG"],
+    "enabled": "true",
     "storage": {
         "engine": "sqlite"
     },
@@ -88,7 +88,7 @@ def show_index():
 
     updates.append(update)
 
-  comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5) # TODO put this configuration somewhere
+  comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5)
 
   return render_template(
       "index.html",

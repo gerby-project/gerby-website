@@ -31,7 +31,7 @@
   <tbody>
 {% for change in changes %}
 <tr>
-  <td><!-- TODO check all the links -->
+  <td>
     {% if change.action == "creation" %}
       {% set infix = "blob" %}
       {% set suffix = "#L" ~ change.begin ~ "-L" ~ change.end %}
@@ -58,7 +58,7 @@
 
     {% elif change.action == "move file" %}
       {% set infix = "blob" %}
-      moved the statement to file <span class="filename">{{ change.filename }}.tex</span><!-- TODO use colours for filenames? -->
+      moved the statement to file <span class="filename">{{ change.filename }}.tex</span>
 
     {% elif change.action == "label" %}
       {% set infix = "commit" %}

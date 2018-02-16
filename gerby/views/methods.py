@@ -6,8 +6,6 @@ from mdx_math import MathExtension
 
 from gerby.database import *
 
-# TODO organise this a bit more efficiently?
-
 def is_math(tag, name, value):
   return name == "type" and value in ["math/tex", "math/tex; mode=display"]
 
@@ -28,7 +26,6 @@ def sfm(comment):
   references = re.compile(r"\\ref\{([0-9A-Z]{4})\}").findall(comment)
   for reference in references:
     comment = comment.replace("\\ref{" + reference + "}", "[<span class=\"tag\">" + reference + "</a>](/tag/" + reference + ")")
-    # TODO use <span class="tag"> here (allow it in Bleach, etc.)
 
   comment = md.convert(comment)
   comment = comment.replace("<script>", "<script type=\"text\">")

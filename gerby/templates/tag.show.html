@@ -134,7 +134,7 @@ var simplemde = new SimpleMDE({
   placeholder: "You can type your comment here, use the preview option to see what it will look like.",
   previewRender: function(plaintext, preview) {
     // deal with references
-    plaintext = plaintext.replace(/\\ref\{([0-9A-Z]{4})\}/g, "[$1](/tag/$1)");
+    plaintext = plaintext.replace(/\\ref\{([0-9A-Z]{4})\}/g, "<span class=\"tag\">[$1](/tag/$1)</span>");
     // deal with \[\] getting replaced to []
     plaintext = plaintext.replace(/\\\[/g, "\\begin{equation}");
     plaintext = plaintext.replace(/\\\]/g, "\\end{equation}");
