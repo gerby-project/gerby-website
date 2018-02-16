@@ -31,6 +31,7 @@ def sfm(comment):
     # TODO use <span class="tag"> here (allow it in Bleach, etc.)
 
   comment = md.convert(comment)
+  comment = comment.replace("<script>", "<script type=\"text\">")
 
   return comment
 
