@@ -79,6 +79,12 @@
     <label for="statementsRadio">Search only statements</label>
   </div>
 
+  <script type="text/javascript">
+$("input[type=search]").on("paste keyup", function() {
+  $("input[type=search]").val($(this).val());
+});
+  </script>
+
 </form>
 
 <hr>
