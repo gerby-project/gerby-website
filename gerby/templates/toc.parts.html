@@ -21,7 +21,7 @@
 
   <ul id="toc" class="tree">
     {% for part in parts %}
-      <li class="expanded">
+      <li id="{{ part.tag }}" class="expanded">
         <a class="header-offset" id="{{ part.label }}"></a>
         <a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
 
@@ -36,14 +36,19 @@
   </ul>
   <script type="text/javascript">
 $("ul.tree").bonsai({
-  // no expand all needed here?
-  //addExpandAll: true,
+  addExpandAll: true,
 });
 
-// we check whether the media query fired by checking one of its consequences
-if($("div#burger").is(":visible")) {
-  $("ul.tree").data("bonsai").collapseAll();
+var state = localStorage.getItem("bonsai-toc");
+if (state !== null) {
+  $("ul#toc").data("bonsai").restore(JSON.parse(state));
 }
+
+$("ul#toc").click(function() {
+  var bonsai = $(this).data("bonsai");
+  var state = bonsai.serialize();
+  localStorage.setItem("bonsai-toc", JSON.stringify(state));
+});
   </script>
 {% endblock %}
 
