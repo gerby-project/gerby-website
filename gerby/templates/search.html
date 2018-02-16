@@ -33,6 +33,14 @@
     </nav>
   {% endif %}
 
+  <hr>
+
+  You can use <a href="https://www.sqlite.org/fts3.html#full_text_index_queries">fulltext search</a>. Some suggestions:
+  <ul>
+    <li>use wildcards, <var>ideal</var> doesn't match <var>ideals</var>, but <var>ideal*</var> matches both;
+    <li>strings like <var>quasi-compact</var> should be enclosed by double quotes, otherwise you are looking for tags containing <var>quasi</var> but not <var>compact</var>
+  </ul>
+
 {% endblock %}
 
 {% block hamburger %}
