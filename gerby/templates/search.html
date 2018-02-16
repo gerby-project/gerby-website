@@ -79,6 +79,8 @@
     <label for="statementsRadio">Search only statements</label>
   </div>
 
+  <input type="hidden" name="perpage" id="perpage" value="{{ perpage }}">
+
   <script type="text/javascript">
 $("input[type=search]").on("paste keyup", function() {
   $("input[type=search]").val($(this).val());
