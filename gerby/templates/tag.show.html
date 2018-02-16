@@ -38,9 +38,9 @@
   {{ html | safe }}
 
   {% if tree %}
-    <ul class="tree">
+    <ul class="tree" id="tree">
     {% for item in tree recursive %}
-      {% if loop.depth <= depth %}<li class="expanded">{% else %}<li>{% endif %}
+      {% if loop.depth <= depth %}<li class="expanded" id="{{ item.tag }}">{% else %}<li id="{{ item.tag }}">{% endif %}
       {{ item.type | capitalize }} <a href="/tag/{{ item.tag }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.name %}: {{ item.name | safe }}{% endif %}
       {{ macros.badges(item) }}
       {% if item.children %}
@@ -51,6 +51,16 @@
     <script type="text/javascript">
 $("ul.tree").bonsai({
   addExpandAll: true,
+});
+
+var state = localStorage.getItem("bonsai-{{ tag.tag }}");
+if (state !== null)
+  $("ul#tree").data("bonsai").restore(JSON.parse(state));
+
+$("ul#tree").click(function() {
+  var bonsai = $(this).data("bonsai");
+  var state = bonsai.serialize();
+  localStorage.setItem("bonsai-{{ tag.tag }}", JSON.stringify(state));
 });
 
 $(function () {
