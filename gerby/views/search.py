@@ -10,6 +10,7 @@ spelling = {
     "quasicoherent": "\"quasi-coherent\"",
     "quasicompact": "\"quasi-compact\""
     }
+extras = {"slogan": Slogan, "history": History, "reference": Reference}
 
 @app.route("/tag")
 def redirect_to_search():
@@ -75,6 +76,14 @@ def show_search():
   # get all tags for the search results (including parent tags)
   complete = Tag.select() \
                 .where(Tag.ref << references, ~(Tag.type << ["item", "part"]))
+
+  # TODO again, is there a JOIN for this? check tag.py for similar issue: maybe put slogans etc. in the tags table?
+  for result in complete:
+    for extra in extras:
+      try:
+        setattr(result, extra, extras[extra].get(extras[extra].tag == result.tag).html)
+      except extras[extra].DoesNotExist:
+        pass
   tree = tag.combine(list(sorted(complete)))
 
   # check whether we should suggest an alternative query, and build it if this is the case

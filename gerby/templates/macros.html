@@ -73,3 +73,15 @@
     <li><a href="/api"><abbr title='Application Programming Interface'>API</abbr></a>
   </ul>
 {% endmacro %}
+
+{% macro badges(tag) %}
+  {% if tag.slogan %}
+    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-primary" data-toggle="popover" title="Slogan" data-html="true" data-content="{{ tag.slogan }}">slogan</a>
+  {% endif %}
+  {% if tag.history %}
+    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-secondary" data-toggle="popover" title="History" data-html="true" data-content='{{ tag.history }}'>historical remark</a>
+  {% endif %}
+  {% if tag.reference %}
+    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-info" data-toggle="popover" title="Reference" data-html="true" data-content='{{ tag.reference }}'>reference</a>
+  {% endif %}
+{% endmacro %}
