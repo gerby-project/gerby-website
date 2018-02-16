@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Malformed search query{% endblock %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block body %}
+<h2 class="error">Malformed search query</h2>
+
+<p>You searched for
+<pre><code>{{ query }}</code></pre>
+<p>but this is not a malformed query <a href="https://www.sqlite.org/fts3.html#full_text_index_queries">according to SQLite standards</a> (which is the database system that we use).
+
+<p>Please go back and use a different query. If you think that your query should still somehow work, please <a href="mailto:stacks.project@gmail.com">get in touch</a>.
+
+{% endblock %}
+

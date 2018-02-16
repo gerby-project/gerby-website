@@ -48,10 +48,14 @@ def show_search():
 
 
   # c) actually search
-  if radius == "all":
-    tags = [result.tag for result in SearchTag(SearchTag.tag).search(request.args["query"])]
-  else:
-    tags = [result.tag for result in SearchStatement(SearchStatement.tag).search(request.args["query"])]
+  try:
+    if radius == "all":
+      tags = [result.tag for result in SearchTag(SearchTag.tag).search(request.args["query"])]
+    else:
+      tags = [result.tag for result in SearchStatement(SearchStatement.tag).search(request.args["query"])]
+  except OperationalError:
+    return render_template("search.malformed.html", query=request.args["query"])
+
 
   # now get all the information about the results
   try:
