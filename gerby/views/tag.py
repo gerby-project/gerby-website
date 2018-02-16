@@ -173,10 +173,10 @@ def show_tag(tag):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
 
       # TODO shouldn't there be a JOIN for this?!
-      for tag in tags:
+      for t in tags:
         for extra in extras:
           try:
-            setattr(tag, extra, extras[extra].get(extras[extra].tag == tag).html)
+            setattr(t, extra, extras[extra].get(extras[extra].tag == t).html)
           except extras[extra].DoesNotExist:
             pass
 
