@@ -33,7 +33,6 @@ files = [f for f in os.listdir(gerby.configuration.PATH) if os.path.isfile(os.pa
 tagFiles = [filename for filename in files if filename.endswith(".tag")]
 proofFiles = [filename for filename in files if filename.endswith(".proof")]
 footnoteFiles = [filename for filename in files if filename.endswith(".footnote")]
-# TODO make sure that plasTeX copies the used .bib files to the output folder
 bibliographyFiles = [filename for filename in files if filename.endswith(".bib")]
 
 extras = ("slogan", "history", "reference")
