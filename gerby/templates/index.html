@@ -11,7 +11,7 @@
     <li id="index-bibliography"><a href="/bibliography">bibliography<img src="/static/images/bibliography.svg"></a>
     <li id="index-github"><a href="https://github.com/stacks/stacks-project"><img src="/static/images/github.svg">GitHub</a>
     <li id="index-comments"><a href="/recent-comments">comments<img src="/static/images/comments.svg"></a>
-    <li id="index-changes"><a href="/recent-changes"><img src="/static/images/diff.svg">changes</a>
+    <li id="index-changes"><a href="/recent-changes"><img src="/static/images/diff.svg">online changes</a>
   </ul>
 
   <br style="clear:both">
@@ -25,15 +25,6 @@
 {% endblock %}
 
 {% block sidebar %}
-  {% for update in updates %}
-    <h3>{{ update.title | safe }}</h3>
-    <ul>
-      {% for item  in update.entries %}
-        <li>{{ item | safe }}
-      {% endfor %}
-    </ul>
-  {% endfor %}
-
   <h3><a href="/recent-comments">Recent comments</a></h3>
   <ul>
     {% for comment in comments %}
@@ -43,6 +34,15 @@
         by <cite>{{ comment.author }}</cite>
     {% endfor %}
   </ul>
+
+  {% for update in updates %}
+    <h3>{{ update.title | safe }}</h3>
+    <ul>
+      {% for item  in update.entries %}
+        <li>{{ item | safe }}
+      {% endfor %}
+    </ul>
+  {% endfor %}
 
   <h3>Statistics</h3>
 
