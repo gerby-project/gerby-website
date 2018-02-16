@@ -46,6 +46,8 @@
     <br>(go to <a href="/tag/{{ dependency.tag.tag }}/statistics">statistics</a>)
 {% endfor %}
 </ul>
+{% else %}
+<h3 id="dependencies">No tags currently use this result</h3>
 {% endif %}
 
 {% endblock %}
