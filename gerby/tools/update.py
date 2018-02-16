@@ -10,16 +10,16 @@ import collections
 from PyPDF2 import PdfFileReader
 
 from gerby.database import *
-import gerby.config as config
+import gerby.configuration
 
-db.init(config.DATABASE)
+db.init(gerby.configuration.DATABASE)
 
 logging.basicConfig(stream=sys.stdout)
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 # create database if it doesn't exist already
-if not os.path.isfile(config.DATABASE):
+if not os.path.isfile(gerby.configuration.DATABASE):
   for model in [Tag, Proof, Slogan, History, Reference]:
     model.create_table()
   log.info("Created database")
@@ -28,7 +28,7 @@ if not os.path.isfile("comments.sqlite"):
   Comment.create_table()
 
 # the information on disk
-files = [f for f in os.listdir(config.PATH) if os.path.isfile(os.path.join(config.PATH, f)) and f != "index"] # index is always created
+files = [f for f in os.listdir(gerby.configuration.PATH) if os.path.isfile(os.path.join(gerby.configuration.PATH, f)) and f != "index"] # index is always created
 
 tagFiles = [filename for filename in files if filename.endswith(".tag")]
 proofFiles = [filename for filename in files if filename.endswith(".proof")]
@@ -39,9 +39,9 @@ bibliographyFiles = [filename for filename in files if filename.endswith(".bib")
 extras = ("slogan", "history", "reference")
 extraFiles = [filename for filename in files if filename.endswith(extras)]
 
-context = pickle.load(open(os.path.join(config.PAUX), "rb"))
+context = pickle.load(open(os.path.join(gerby.configuration.PAUX), "rb"))
 
-with open(config.TAGS) as f:
+with open(gerby.configuration.TAGS) as f:
   tags = f.readlines()
   tags = [line.strip() for line in tags if not line.startswith("#")]
   tags = dict([line.split(",") for line in tags if "," in line])
@@ -51,7 +51,7 @@ with open(config.TAGS) as f:
 # import tags
 log.info("Importing tags")
 for filename in tagFiles:
-  with open(os.path.join(config.PATH, filename)) as f:
+  with open(os.path.join(gerby.configuration.PATH, filename)) as f:
     value = f.read()
 
   filename = filename[:-4]
@@ -96,7 +96,7 @@ for entity in list(Tag.select()) + list(Proof.select()):
 # import proofs
 log.info("Importing proofs")
 for filename in proofFiles:
-  with open(os.path.join(config.PATH, filename)) as f:
+  with open(os.path.join(gerby.configuration.PATH, filename)) as f:
     value = f.read()
 
   filename = filename[:-6]
@@ -133,7 +133,7 @@ if Footnote.table_exists():
 Footnote.create_table()
 
 for filename in footnoteFiles:
-  with open(os.path.join(config.PATH, filename)) as f:
+  with open(os.path.join(gerby.configuration.PATH, filename)) as f:
     value = f.read()
 
   label = filename.split(".")[0]
@@ -164,7 +164,7 @@ if Part.table_exists():
   Part.drop_table()
 Part.create_table()
 
-with open(os.path.join(config.PATH, "parts.json")) as f:
+with open(os.path.join(gerby.configuration.PATH, "parts.json")) as f:
   parts = json.load(f)
   for part in parts:
     for chapter in parts[part]:
@@ -204,7 +204,7 @@ for proof in Proof.select():
 # import history, slogans, etc
 log.info("Importing history, slogans, etc.")
 for filename in extraFiles:
-  with open(os.path.join(config.PATH, filename)) as f:
+  with open(os.path.join(gerby.configuration.PATH, filename)) as f:
     value = f.read()
 
   pieces = filename.split(".")
@@ -244,7 +244,7 @@ if BibliographyField.table_exists():
 BibliographyField.create_table()
 
 for bibliographyFile in bibliographyFiles:
-  bibtex = pybtex.database.parse_file(os.path.join(config.PATH, bibliographyFile))
+  bibtex = pybtex.database.parse_file(os.path.join(gerby.configuration.PATH, bibliographyFile))
 
   for key in bibtex.entries:
     entry = bibtex.entries[key]
@@ -323,14 +323,14 @@ if BookStatistic.table_exists():
 BookStatistic.create_table()
 
 # load book statistics computed from raw TeX code
-with open(os.path.join(config.PATH, "meta.statistics")) as f:
+with open(os.path.join(gerby.configuration.PATH, "meta.statistics")) as f:
   book_stats = json.load(f)
   for stat, stat_value in book_stats.items():
     BookStatistic.create(statistic=stat, value=stat_value)
 
 # try to get pdf page counts
 # currently assume that the pdf document is with the HTML
-PATH_TO_BOOK_PDF = os.path.join(config.PATH, "book.pdf")
+PATH_TO_BOOK_PDF = os.path.join(gerby.configuration.PATH, "book.pdf")
 try:
   book_pdf = PdfFileReader(open(PATH_TO_BOOK_PDF, "rb"))
   BookStatistic.create(statistic="pages", value=book_pdf.getNumPages())
