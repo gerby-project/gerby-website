@@ -20,7 +20,7 @@ log.setLevel(logging.INFO)
 
 # create database if it doesn't exist already
 if not os.path.isfile(gerby.configuration.DATABASE):
-  for model in [Tag, Proof, Slogan, History, Reference]:
+  for model in [Tag, Proof, Slogan, History, Reference, Commit, Change]:
     model.create_table()
   log.info("Created database")
 
