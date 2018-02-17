@@ -240,8 +240,16 @@ li.tag-dependencies a {
   background-image: url("../images/dependency.svg");
 }
 
-div.html ol > li.custom-item:before {
-  content: attr(data-marker);
+li.custom-item {
+  list-style-type: none;
+}
+
+li.custom-item:before {
+  content: attr(data-marker) !important;
+}
+
+li.custom-item p {
+  display: inline-block;
 }
 
 ul#citations {
