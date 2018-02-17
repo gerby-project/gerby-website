@@ -240,6 +240,10 @@ li.tag-dependencies a {
   background-image: url("../images/dependency.svg");
 }
 
+div.html ol > li.custom-item:before {
+  content: attr(data-marker);
+}
+
 ul#citations {
   font-size: .9rem;
 }
