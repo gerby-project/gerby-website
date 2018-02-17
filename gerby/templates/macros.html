@@ -37,6 +37,12 @@
 {% macro tagSidebar(tag, neighboursList, neighboursModifier, dependencies) %}
   <div class="interaction">
     {{ neighbours(neighboursList, neighboursModifier) }}
+
+    <input id="sidebar-toggle" name="sidebar-toggle" type="checkbox" checked data-toggle="toggle" data-on="tags" data-off="numbers" data-size="small" data-width="90">
+
+    <script type="text/javascript">
+$(function() { $("#sidebar-toggle").bootstrapToggle(); });
+    </script>
   </div>
 
   {% if tag.type not in ["part"] %}
