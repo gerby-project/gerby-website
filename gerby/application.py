@@ -90,6 +90,10 @@ def show_index():
 
   comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5)
 
+  # TODO make this a pretty JOIN across databases if possible
+  for comment in comments:
+    comment.tag = Tag.get(Tag.tag == comment.tag)
+
   return render_template(
       "index.html",
       updates=updates,

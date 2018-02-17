@@ -51,6 +51,7 @@ def show_comments(page):
   for comment in Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE):
     comment.comment = sfm(comment.comment)
     comment.breadcrumb = getBreadcrumb(Tag.get(Tag.tag == comment.tag))
+    comment.tag = Tag.get(Tag.tag == comment.tag)
 
     comments.append(comment)
 
