@@ -23,16 +23,16 @@
 
 {% block body %}
 <div class="html" id="tag">
-  {% if tag.slogan %}
-    <p class="slogan"><strong>{{ tag.slogan | safe }}</strong>
+  {% if tag.slogan_set %}
+    <p class="slogan"><strong>{{ tag.slogan_set[0].html | safe }}</strong>
   {% endif %}
 
-  {% if tag.history %}
-    <p class="history">{{ tag.history | safe }}
+  {% if tag.history_set %}
+    <p class="history">{{ tag.history_set[0].html | safe }}
   {% endif %}
 
-  {% if tag.reference %}
-    <p class="reference">{{ tag.reference | safe }}
+  {% if tag.reference_set %}
+    <p class="reference">{{ tag.reference_set[0].html | safe }}
   {% endif %}
 
   {{ html | safe }}
