@@ -50,8 +50,8 @@ def combine(tags):
 
   # recurse for all elements in output which have children
   for tag in output:
-    if hasattr(tag, "children"):
-      tag.children = combine(tag.children)
+      if hasattr(tag, "children"):
+        tag.children = combine(tag.children)
 
   return output
 
@@ -102,10 +102,15 @@ def show_tag(tag):
   if not isTag(tag):
     return render_template("tag.invalid.html", tag=tag)
 
-  try:
-    tag = Tag.get(Tag.tag == tag.upper())
-  except Tag.DoesNotExist:
+  tag = (Tag.select(Tag,Slogan,History,Reference)
+              .where(Tag.tag == tag.upper())
+              .join(Slogan, JOIN.LEFT_OUTER, on=(Tag.tag == Slogan.tag))
+              .join(History, JOIN.LEFT_OUTER, on=(Tag.tag == History.tag))
+              .join(Reference, JOIN.LEFT_OUTER, on=(Tag.tag == Reference.tag)))
+  if len(tag) == 0:
     return render_template("tag.notfound.html", tag=tag)
+
+  tag = tag[0]
 
   html = ""
   breadcrumb = getBreadcrumb(tag)
@@ -151,7 +156,7 @@ def show_tag(tag):
   if tag.type in headings and headings.index(tag.type) < headings.index(gerby.configuration.UNIT):
     # if the tag is a part, we select all chapters, and then do the startswith for these
     if tag.type == "part":
-      chapters = Part.select(Part.chapter).where(Part.part == tag)
+      chapters = Part.select(Part.chapter).where(Part.part == tag.tag)
       chapters = Tag.select().where(Tag.tag << [chapter.chapter.tag for chapter in chapters])
 
       # even this is too slow for the Stacks project
@@ -161,24 +166,22 @@ def show_tag(tag):
       # so we just do this
       tags = list(chapters)
     else:
-      tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."))
-
-      # TODO shouldn't there be a JOIN for this?!
-      for t in tags:
-        for extra in extras:
-          try:
-            setattr(t, extra, extras[extra].get(extras[extra].tag == t).html)
-          except extras[extra].DoesNotExist:
-            pass
+      tags = (Tag.select(Tag.tag,
+                        Tag.label,
+                        Tag.active,
+                        Tag.ref,
+                        Tag.type,
+                        Tag.html,
+                        Tag.name,
+                        Reference.html.alias("reference"),
+                        History.html.alias("history"),
+                        Slogan.html.alias("slogan"))
+                .join(Reference, JOIN.LEFT_OUTER, on=(Tag.tag == Reference.tag))
+                .join(History, JOIN.LEFT_OUTER, on=(Tag.tag == History.tag))
+                .join(Slogan, JOIN.LEFT_OUTER, on=(Tag.tag == Slogan.tag))
+                .where(Tag.ref.startswith(tag.ref + ".")))
 
     tree = combine(sorted(tags))
-
-  # dealing with slogans etc.
-  for extra in extras:
-    try:
-      setattr(tag, extra, extras[extra].get(extras[extra].tag == tag).html)
-    except extras[extra].DoesNotExist:
-      pass
 
   # dealing with comments
   comments = Comment.select().where(Comment.tag == tag.tag)
