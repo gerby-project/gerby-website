@@ -93,7 +93,9 @@ def show_index():
 
     updates.append(update)
 
-  comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5)
+  comments = []
+  if Comment.table_exists():
+    comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5)
 
   # TODO make this a pretty JOIN across databases if possible
   for comment in comments:

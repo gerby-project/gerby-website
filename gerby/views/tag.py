@@ -184,18 +184,22 @@ def show_tag(tag):
     tree = combine(sorted(tags))
 
   # dealing with comments
-  comments = Comment.select().where(Comment.tag == tag.tag)
-  for comment in comments:
-    comment.comment = sfm(comment.comment)
-
-  # looking for comments higher up in the breadcrumb
+  commentsEnabled = tag.type not in hideComments and Comment.table_exists()
+  comments = []
   parentComments = []
-  for parent in breadcrumb:
-    if parent.tag == tag.tag:
-      continue
-    count = Comment.select().where(Comment.tag == parent.tag).count() # this could be done in a single JOIN
-    if count > 0:
-      parentComments.append([parent, count])
+  if commentsEnabled:
+    comments = Comment.select().where(Comment.tag == tag.tag)
+    for comment in comments:
+      comment.comment = sfm(comment.comment)
+
+    # looking for comments higher up in the breadcrumb
+    parentComments = []
+    for parent in breadcrumb:
+      if parent.tag == tag.tag:
+        continue
+      count = Comment.select().where(Comment.tag == parent.tag).count() # this could be done in a single JOIN
+      if count > 0:
+        parentComments.append([parent, count])
 
   return render_template("tag.show.html",
                          tag=tag,
@@ -205,7 +209,7 @@ def show_tag(tag):
                          footnotes=footnotes,
                          dependencies=Dependency.select().where(Dependency.to == tag.tag),
                          tree=tree,
-                         commentsEnabled=tag.type not in hideComments,
+                         commentsEnabled=commentsEnabled,
                          comments=comments,
                          filename=tag.label.split("-" + tag.type)[0],
                          parentComments=parentComments,
