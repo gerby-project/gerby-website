@@ -18,24 +18,36 @@
 <h2>Statistics of tag <span class="tag">{{ tag.tag }}</span></h2>
 <p><a href="/tag/{{ tag.tag }}">Go back to the tag's page</a>.
 
+{% if statistics %}
 <table class="table">
+  {% if statistics.consequences != -1 %}
   <tr>
     <td>number of results (indirectly) using this tag</td>
     <td>{{ statistics.consequences }}</td>
   </tr>
+  {% endif %}
+  {% if statistics.preliminaries != -1 %}
   <tr>
     <td>number of results used</td>
     <td>{{ statistics.preliminaries }}</td>
   </tr>
+  {% endif %}
+  {% if statistics.chapters != -1 %}
   <tr>
     <td>number of chapters used</td>
     <td>{{ statistics.chapters }}</td>
   </tr>
+  {% endif %}
+  {% if statistics.sections != -1 %}
   <tr>
     <td>number of sections used</td>
     <td>{{ statistics.sections }}</td>
   </tr>
+  {% endif %}
 </table>
+{% else %}
+<h3>No computed statistics for this tag</h3><br/>
+{% endif %}
 
 {% if dependencies | length > 0 %}
 <h3 id="dependencies">Tags (directly) using this result</h3>
