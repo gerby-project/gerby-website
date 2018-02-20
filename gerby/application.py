@@ -47,16 +47,21 @@ feeds = {
 def get_statistics():
   statistics = []
 
-  statistics.append(str(BookStatistic.get(BookStatistic.statistic == "lines").value) + " lines of code")
+  if BookStatistic.table_exists():
+    try:
+      statistics.append(str(BookStatistic.get(BookStatistic.statistic == "pages").value) + " pages")
+    except BookStatistic.DoesNotExist:
+      app.logger.warning("No entry 'pages' in table 'BookStatistics'.")
+
+    try:
+      statistics.append(str(BookStatistic.get(BookStatistic.statistic == "lines").value) + " lines of code")
+    except BookStatistic.DoesNotExist:
+      app.logger.warning("No entry 'lines' in table 'BookStatistics'.")
 
   tags = Tag.select().where(Tag.active == True).count()
   statistics.append(str(tags) + " tags")
-
   statistics.append(str(Tag.select().where(Tag.type == "section").count()) + " sections")
   statistics.append(str(Tag.select().where(Tag.type == "chapter").count()) + " chapters")
-
-  statistics.append(str(BookStatistic.get(BookStatistic.statistic == "pages").value) + " pages")
-
   statistics.append(str(Slogan.select().count()) + " slogans")
 
   return statistics
