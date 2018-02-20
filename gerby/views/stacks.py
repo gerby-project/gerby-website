@@ -138,20 +138,20 @@ def show_history(tag):
   if tag.type not in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"]:
     return render_template("tag.history.invalid.html", tag=tag, breadcrumb=breadcrumb)
 
-  changes = Change.select().join(Commit).where(Change.tag == tag).order_by(Commit.time.desc())
-  for change in changes:
-    change.commit.time = change.commit.time.decode("utf-8").split(" ")[0] # why in heaven's name is this returning bytes?!
+  if Change.table_exists():
+    changes = Change.select().join(Commit).where(Change.tag == tag).order_by(Commit.time.desc())
+    for change in changes:
+      change.commit.time = change.commit.time.decode("utf-8").split(" ")[0] # why in heaven's name is this returning bytes?!
+
+    if len(changes) > 0:
+      return render_template("tag.history.html",
+                             tag=tag,
+                             changes=changes,
+                             breadcrumb=breadcrumb,
+                             neighbours=neighbours)
 
   # this means something went wrong
-  if len(changes) == 0:
-    return render_template("tag.history.empty.html", tag=tag, breadcrumb=breadcrumb)
-
-  return render_template("tag.history.html",
-                         tag=tag,
-                         changes=changes,
-                         breadcrumb=breadcrumb,
-                         neighbours=neighbours)
-
+  return render_template("tag.history.empty.html", tag=tag, breadcrumb=breadcrumb)
 
 @app.route("/chapter/<int:chapter>")
 def show_chapter_message(chapter):
