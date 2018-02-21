@@ -264,3 +264,8 @@ ul#citations {
 a.btn:hover {
   color: white;
 }
+
+ul + span.qed,
+ol + span.qed {
+  margin-top: -2.5rem !important;
+}
