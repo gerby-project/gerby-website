@@ -30,6 +30,7 @@ div.html {
   overflow-x: hidden;
   overflow: -moz-scrollbars-none;
   text-align: justify;
+  padding-right: 0.5rem;
 }
 
 div.html div.equation {
