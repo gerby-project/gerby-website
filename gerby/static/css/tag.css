@@ -43,6 +43,11 @@ div.html::-webkit-scrollbar {
   display: none;
 }
 
+p + div.equation {
+  margin-top: -1.2rem;
+  margin-bottom: -0.4rem;
+}
+
 div.html h1 {
   font-size: 1.6rem;
   font-weight: bold;
