@@ -301,8 +301,9 @@ ul#index-select li {
   width: 48%;
   margin-left: 4px;
   margin-bottom: 1em;
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 6px;
+  box-shadow: 1px 1px 1px gray;
 }
 
 ul#index-select li a {
