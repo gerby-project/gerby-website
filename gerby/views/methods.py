@@ -13,7 +13,7 @@ def is_math(tag, name, value):
 # Stacks flavored Markdown parser
 def sfm(comment):
   attributes = ALLOWED_ATTRIBUTES
-  attributes["span"] = ["class"]
+  attributes["a"] = ["data-tag", "class", "href"]
   attributes["script"] = is_math
 
   tags = ALLOWED_TAGS + ["span", "script"]
@@ -24,8 +24,14 @@ def sfm(comment):
 
   # Stacks flavored Markdown: only \ref{tag}, no longer \ref{label}
   references = re.compile(r"\\ref\{([0-9A-Z]{4})\}").findall(comment)
+  tags = Tag.select(Tag.tag, Tag.ref).where(Tag.tag << references)
+  tags = {tag.tag: tag.ref for tag in tags}
+
   for reference in references:
-    comment = comment.replace("\\ref{" + reference + "}", "[<span class=\"tag\">" + reference + "</a>](/tag/" + reference + ")")
+    if reference in tags:
+      comment = comment.replace("\\ref{" + reference + "}", "<a href=\"/tag/" + reference + "\" data-tag=\"" + reference + "\">" + tags[reference] + "</a>")
+    else:
+      comment = comment.replace("\\ref{" + reference + "}", "<a href=\"/tag/" + reference + "\" class=\"tag\">" + reference + "</a>")
 
   comment = md.convert(comment)
   comment = comment.replace("<script>", "<script type=\"text\">")
