@@ -135,7 +135,8 @@ div#burger-content div.interaction {
 }
 
 
-div#burger-content br ~ div.toggle {
+div#burger-content br ~ div.toggle,
+section#meta br ~ div.toggle {
   margin-top: 1rem;
 }
 
