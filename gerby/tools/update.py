@@ -162,7 +162,7 @@ def checkInactivity(tags):
     tag.save()
 
 def makeDependency():
-  # Create tag dependency data.
+  # Create tag dependency data
   if Dependency.table_exists():
     Dependency.drop_table()
   Dependency.create_table()
@@ -244,9 +244,14 @@ def makeInternalCitations():
 
   for tag in Tag.select():
     regex = re.compile(r'\"/bibliography/([0-9A-Za-z\-\_]+)\"')
+    references = Reference.select().where(Reference.tag == tag) # TODO if we have backref we don't need this
 
     with db.atomic():
-      citations = regex.findall(tag.html)
+      html = tag.html
+      if references.count() == 1:
+        html = html + references[0].html
+
+      citations = regex.findall(html)
       citations = list(set(citations)) # make sure citations are inserted only once
 
       if len(citations) > 0:
@@ -378,15 +383,15 @@ if __name__ == "__main__":
     importTags(files)
 
   if not args.noProofs:
-    log.info("Importing proofs.")
+    log.info("Importing proofs")
     importProofs(files)
 
   if not args.noFootnotes:
-    log.info("Importing footnotes.")
+    log.info("Importing footnote.")
     importFootnotes(files)
 
   if not args.noSearch:
-    log.info("Populating the search tables.")
+    log.info("Populating the search tables")
     makeSearchTable()
 
   if not args.noParts:
@@ -398,7 +403,7 @@ if __name__ == "__main__":
     checkInactivity(tags)
 
   if not args.noDependencies:
-    log.info("Creating dependency data.")
+    log.info("Creating dependency data")
     makeDependency()
 
   if not args.noExtras:
@@ -410,17 +415,17 @@ if __name__ == "__main__":
     nameTags(tags)
 
   if not args.noBibliography:
-    log.info("Importing bibliography.")
+    log.info("Importing bibliography")
     makeBibliography(files)
 
   if not args.noCitations:
-    log.info("Managing internal citations.")
+    log.info("Managing internal citations")
     makeInternalCitations()
 
   if not args.noTagStats:
-    log.info("Computing statistics.")
+    log.info("Computing statistics")
     computeTagStats()
 
   if not args.noBookStats:
-    log.info("Processing book statistics.")
+    log.info("Processing book statistics")
     computeBookStats()
