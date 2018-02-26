@@ -75,13 +75,13 @@
 {% endmacro %}
 
 {% macro badges(tag) %}
-  {% if tag.slogan_set %}
-    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-primary" data-toggle="popover" title="Slogan" data-html="true" data-content="{{ tag.slogan_set[0].html }}">slogan</a>
+  {% if tag.slogan %}
+    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-primary" data-toggle="popover" title="Slogan" data-html="true" data-content="{{ tag.slogan.html }}">slogan</a>
   {% endif %}
-  {% if tag.history_set %}
-    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-secondary" data-toggle="popover" title="History" data-html="true" data-content='{{ tag.history_set[0].html }}'>historical remark</a>
+  {% if tag.history %}
+    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-secondary" data-toggle="popover" title="History" data-html="true" data-content='{{ tag.history.html }}'>historical remark</a>
   {% endif %}
-  {% if tag.reference_set %}
-    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-info" data-toggle="popover" title="Reference" data-html="true" data-content='{{ tag.reference_set[0].html }}'>reference</a>
+  {% if tag.reference %}
+    <a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-info" data-toggle="popover" title="Reference" data-html="true" data-content='{{ tag.reference.html }}'>reference</a>
   {% endif %}
 {% endmacro %}

@@ -17,7 +17,6 @@ spelling = {
 
     "pseudocoherent": "\"pseudo-coherent\"",
     }
-extras = {"slogan": Slogan, "history": History, "reference": Reference}
 
 @app.route("/tag")
 def redirect_to_search():
@@ -86,16 +85,15 @@ def show_search():
     references.update([".".join(pieces[0:i]) for i in range(len(pieces) + 1)])
 
   # get all tags for the search results (including parent tags)
-  complete = Tag.select() \
-                .where(Tag.ref << references, ~(Tag.type << ["item", "part"]))
+  complete = Tag.select(Tag,
+                        Slogan.html.alias("slogan"),
+                        History.html.alias("history"),
+                        Reference.html.alias("reference")) \
+                .where(Tag.ref << references, ~(Tag.type << ["item", "part"])) \
+                .join(Slogan, JOIN.LEFT_OUTER).switch(Tag) \
+                .join(History, JOIN.LEFT_OUTER).switch(Tag) \
+                .join(Reference, JOIN.LEFT_OUTER)
 
-  # TODO again, is there a JOIN for this? check tag.py for similar issue: maybe put slogans etc. in the tags table?
-  for result in complete:
-    for extra in extras:
-      try:
-        setattr(result, extra, extras[extra].get(extras[extra].tag == result.tag).html)
-      except extras[extra].DoesNotExist:
-        pass
   tree = tag.combine(list(sorted(complete)))
 
   # check whether we should suggest an alternative query, and build it if this is the case

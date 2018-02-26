@@ -104,14 +104,18 @@ def show_tag(tag):
   if not isTag(tag):
     return render_template("tag.invalid.html", tag=tag)
 
-  if not Tag.select().where(Tag.tag == tag).exists():
+  try:
+    tag = (Tag.select(Tag,
+                      Slogan.html.alias("slogan"),
+                      History.html.alias("history"),
+                      Reference.html.alias("reference"))
+                .where(Tag.tag == tag.upper())
+                .join(Slogan, JOIN.LEFT_OUTER).switch(Tag)
+                .join(History, JOIN.LEFT_OUTER).switch(Tag)
+                .join(Reference, JOIN.LEFT_OUTER)).get()
+  except Tag.DoesNotExist:
     return render_template("tag.notfound.html", tag=tag)
 
-  tag = (Tag.select(Tag, Slogan, History,Reference)
-              .where(Tag.tag == tag.upper())
-              .join(Slogan, JOIN.LEFT_OUTER, on=(Tag.tag == Slogan.tag))
-              .join(History, JOIN.LEFT_OUTER, on=(Tag.tag == History.tag))
-              .join(Reference, JOIN.LEFT_OUTER, on=(Tag.tag == Reference.tag)))[0]
 
   html = ""
   breadcrumb = getBreadcrumb(tag)
@@ -182,20 +186,14 @@ def show_tag(tag):
       # so we just do this
       tags = list(chapters)
     else:
-      tags = (Tag.select(Tag.tag,
-                        Tag.label,
-                        Tag.active,
-                        Tag.ref,
-                        Tag.type,
-                        Tag.html,
-                        Tag.name,
-                        Reference.html.alias("reference"),
-                        History.html.alias("history"),
-                        Slogan.html.alias("slogan"))
-                .join(Reference, JOIN.LEFT_OUTER, on=(Tag.tag == Reference.tag))
-                .join(History, JOIN.LEFT_OUTER, on=(Tag.tag == History.tag))
-                .join(Slogan, JOIN.LEFT_OUTER, on=(Tag.tag == Slogan.tag))
-                .where(Tag.ref.startswith(tag.ref + ".")))
+      tags = (Tag.select(Tag,
+                        Reference.html.alias("reference"), # the alias is for Reference rather than Reference.html, oddly enough
+                        Slogan.html.alias("slogan"),
+                        History.html.alias("history"))
+                .where(Tag.ref.startswith(tag.ref + "."))
+                .join(Reference, JOIN.LEFT_OUTER).switch(Tag)
+                .join(History, JOIN.LEFT_OUTER).switch(Tag)
+                .join(Slogan, JOIN.LEFT_OUTER))
 
     tree = combine(sorted(tags))
 
