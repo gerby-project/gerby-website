@@ -136,6 +136,10 @@ label.toggle-off:active {
         </div>
       </div>
     {% endif %}
+
+    {% if self.tagline() %}
+      {% block tagline %}{% endblock %}
+    {% endif %}
   </nav>
 
   <div class="row" id="content">
