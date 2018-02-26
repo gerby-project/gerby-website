@@ -49,6 +49,10 @@ $("ul#toc").click(function() {
   var state = bonsai.serialize();
   localStorage.setItem("bonsai-toc", JSON.stringify(state));
 });
+
+$("div.expand-all").click(function() {
+  $("ul#toc").click();
+});
   </script>
 {% endblock %}
 
