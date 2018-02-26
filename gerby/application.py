@@ -97,7 +97,6 @@ def show_index():
   if Comment.table_exists():
     comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5)
 
-  # TODO make this a pretty JOIN across databases if possible
   for comment in comments:
     comment.tag = Tag.get(Tag.tag == comment.tag)
 
