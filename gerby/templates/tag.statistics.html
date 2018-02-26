@@ -15,35 +15,50 @@
 {% endblock %}
 
 {% block body %}
-<h2>Statistics of tag <span class="tag">{{ tag.tag }}</span></h2>
+<h2>Statistics for tag <span class="tag">{{ tag.tag }}</span></h2>
 <p><a href="/tag/{{ tag.tag }}">Go back to the tag's page</a>.
 
 {% if statistics %}
-<table class="table">
-  {% if statistics.consequences != -1 %}
-  <tr>
-    <td>number of results (indirectly) using this tag</td>
-    <td>{{ statistics.consequences }}</td>
-  </tr>
-  {% endif %}
-  {% if statistics.preliminaries != -1 %}
-  <tr>
-    <td>number of results used</td>
-    <td>{{ statistics.preliminaries }}</td>
-  </tr>
-  {% endif %}
-  {% if statistics.chapters != -1 %}
-  <tr>
-    <td>number of chapters used</td>
-    <td>{{ statistics.chapters }}</td>
-  </tr>
-  {% endif %}
-  {% if statistics.sections != -1 %}
-  <tr>
-    <td>number of sections used</td>
-    <td>{{ statistics.sections }}</td>
-  </tr>
-  {% endif %}
+<h3>Complexity measure</h3>
+<table class="table table-striped table-sm table-hover">
+  <thead>
+    <tr>
+      <th>metric</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if statistics.proof != -1 %}
+    <tr>
+      <td>number of results in proof</td>
+      <td>{{ statistics.proof }}</td>
+    </tr>
+    {% endif %}
+    {% if statistics.preliminaries != -1 %}
+    <tr>
+      <td>number of results used in preliminary results</td>
+      <td>{{ statistics.preliminaries }}</td>
+    </tr>
+    {% endif %}
+    {% if statistics.chapters != -1 %}
+    <tr>
+      <td>number of chapters used</td>
+      <td>{{ statistics.chapters }}</td>
+    </tr>
+    {% endif %}
+    {% if statistics.sections != -1 %}
+    <tr>
+      <td>number of sections used</td>
+      <td>{{ statistics.sections }}</td>
+    </tr>
+    {% endif %}
+    {% if statistics.consequences != -1 %}
+    <tr>
+      <td>number of results (indirectly) using this tag</td>
+      <td>{{ statistics.consequences }}</td>
+    </tr>
+    {% endif %}
+  </tbody>
 </table>
 {% else %}
 <h3>No computed statistics for this tag</h3><br/>

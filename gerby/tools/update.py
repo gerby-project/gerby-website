@@ -291,6 +291,7 @@ def computeTagStats():
   log.info("  Saving statistics")
   for tag in Tag.select():
     TagStatistic.create(tag=tag, statistic="preliminaries", value=len(preliminaries[tag.tag]))
+    TagStatistic.create(tag=tag, statistic="proof", value=len(dependencies[tag.tag]))
     TagStatistic.create(tag=tag, statistic="chapters", value=len(set([chapters[result] for result in preliminaries[tag.tag]])))
     TagStatistic.create(tag=tag, statistic="sections", value=len(set([sections[result] for result in preliminaries[tag.tag] if len(sections[result].split(".")) == 2])))
     TagStatistic.create(tag=tag, statistic="consequences", value=sum([1 for result in preliminaries if tag.tag in preliminaries[result]]))
