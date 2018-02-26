@@ -35,7 +35,6 @@ $(document).ready(function() {
   });
 
   // toggle if localStorage says so
-  console.log(localStorage.getItem("toggle"));
   if (localStorage.getItem("toggle") == "tag") {
     $("section#meta input.toggle").bootstrapToggle("toggle");
   }
