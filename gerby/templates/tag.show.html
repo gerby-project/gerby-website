@@ -24,15 +24,15 @@
 {% block body %}
 <div class="html" id="tag">
   {% if tag.slogan_set %}
-    <p class="slogan"><strong>{{ tag.slogan_set[0].html | safe }}</strong>
-  {% endif %}
-
-  {% if tag.history_set %}
-    <p class="history">{{ tag.history_set[0].html | safe }}
+    <p class="slogan alert alert-primary"><strong>{{ tag.slogan_set[0].html | safe }}</strong>
   {% endif %}
 
   {% if tag.reference_set %}
-    <p class="reference">{{ tag.reference_set[0].html | safe }}
+    <p class="reference alert alert-info">{{ tag.reference_set[0].html | safe }}
+  {% endif %}
+
+  {% if tag.history_set %}
+    <p class="history alert alert-secondary">{{ tag.history_set[0].html | safe }}
   {% endif %}
 
   {{ html | safe }}
