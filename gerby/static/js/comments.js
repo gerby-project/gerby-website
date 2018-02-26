@@ -8,10 +8,10 @@ $(document).ready(function() {
     $("section#post-comment h2").toggleClass("hidden");
     $("section#post-comment h2 ~ *").toggle();
 
-    Cookies.set("comment-visible", !($("section#post-comment h2").hasClass("hidden")));
+    localStorage.setItem("comment-visible", !($("section#post-comment h2").hasClass("hidden")));
   });
 
-  if (Cookies.get("comment-visible") == "true")
+  if (localStorage.getItem("comment-visible") == "true")
     $("section#post-comment h2").click();
 
   // read author information from local storage
