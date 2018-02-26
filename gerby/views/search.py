@@ -8,7 +8,14 @@ import peewee
 
 spelling = {
     "quasicoherent": "\"quasi-coherent\"",
-    "quasicompact": "\"quasi-compact\""
+    "quasicompact": "\"quasi-compact\"",
+    "quasiisomorphism": "\"quasi-isomorphism\"",
+    "quasiisomorphic": "\"quasi-isomorphic\"",
+
+    "semilocal": "\"semi-local\"",
+    "semicontinuous": "\"semi-continuous\"",
+
+    "pseudocoherent": "\"pseudo-coherent\"",
     }
 extras = {"slogan": Slogan, "history": History, "reference": Reference}
 
