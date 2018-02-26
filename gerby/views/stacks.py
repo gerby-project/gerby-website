@@ -147,6 +147,7 @@ def show_history(tag):
       return render_template("tag.history.html",
                              tag=tag,
                              changes=changes,
+                             filename=tag.label.split("-" + tag.type)[0],
                              breadcrumb=breadcrumb,
                              neighbours=neighbours)
 

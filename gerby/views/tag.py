@@ -267,4 +267,5 @@ def show_tag_statistics(tag):
                          breadcrumb=breadcrumb,
                          neighbours=neighbours,
                          statistics=statistics,
+                         filename=tag.label.split("-" + tag.type)[0],
                          dependencies = dependencies)
