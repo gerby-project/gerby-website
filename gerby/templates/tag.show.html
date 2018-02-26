@@ -146,7 +146,7 @@ var simplemde = new SimpleMDE({
   },
   element: $("#comment")[0],
   forceSync: true,
-  insertTexts: { link: ["\\ref{", "}"], inline: ["$", "$"], display: ["$$", "$$"] },
+  insertTexts: { link: ["\\ref{", "}"], table: ["$", "$"], image: ["\\begin{equation}\n", "\n\\end{equation}\n"] }, // we hack into these insertion methods, I couldn't figure out how to write your own...
   placeholder: "You can type your comment here, use the preview option to see what it will look like.",
   previewRender: function(plaintext, preview) {
     // deal with references
@@ -167,7 +167,7 @@ var simplemde = new SimpleMDE({
   spellChecker: false,
   status: false,
   toolbar: [
-    "link", "|",
+    "link", {name: "inline", action: SimpleMDE.drawTable, className: "fa fa-usd"}, {name: "block", action: SimpleMDE.drawImage, className: "fa fa-square"}, "|",
     "bold", "italic", "|",
     "ordered-list", "unordered-list", "|",
     "preview"
