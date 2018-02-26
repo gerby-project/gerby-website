@@ -15,21 +15,67 @@
 
 {% block body %}
 <h2>Statistics</h2>
-<table class="table">
-  {% for environment in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
-    <tr>
-      <td>number of {{ environment }}s</td>
-      <td>{{ counts[environment] }}
-  {% endfor %}
+<p>Here we collect some metrics regarding the Stacks project. If you have a suggestion for an interesting metric, <a href="mailto:stacks.project@gmail.com">please get in touch</a>.
 
-  <tr>
-    <td>most complex tag: {{ records.complex.tag.tag }}</td>
-    <td>{{ records.complex.value }}</td>
-  </tr>
-  <tr>
-    <td>most used tag: {{ records.used.tag.tag }}</td>
-    <td>{{ records.used.value }}</td>
-  </tr>
+<h3>Breakdown of tags per type</h3>
+<p>There are {{ total }} tags in total.
+<table class="table table-striped table-sm table-hover">
+  <thead>
+    <tr>
+      <th>type</th>
+      <th class="text-center">count</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for environment in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
+      <tr>
+        <td>{{ environment }}</td>
+        <td class="text-center">{{ counts[environment] }}
+      </tr>
+    {% endfor %}
+
+    {% for environment in ["part", "chapter", "section", "subsection"] %}
+      <tr>
+        <td>{{ environment }}</td>
+        <td class="text-center">{{ counts[environment] }}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>Record-breaking tags</h3>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>metric</th>
+      <th class="text-center">tag</th>
+      <th class="text-center">value</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>most complex tag</td>
+      <td class="text-center"><a class="tag" href="/tag/{{ records.complex.tag.tag }}">{{ records.complex.tag.tag }}</a></td>
+      <td class="text-center">{{ records.complex.value }} in dependency graph</td>
+    </tr>
+    <tr>
+      <td>most used tag</td>
+      <td class="text-center"><a class="tag" href="/tag/{{ records.used.tag.tag }}">{{ records.used.tag.tag }}</a></td>
+      <td class="text-center">{{ records.used.value }} tags (indirectly) build on this</td>
+    </tr>
+    <tr>
+      <td>most referenced tag</td>
+      <td class="text-center"><a class="tag" href="/tag/{{ records.referenced.to.tag }}">{{ records.referenced.to.tag }}</a></td>
+      <td class="text-center">{{ records.referenced.value }} tags reference this tag</td>
+    </tr>
+
+    <tr>
+      <td>longest proof</td>
+      <td class="text-center"><a class="tag" href="/tag/{{ records.proof.tag.tag }}">{{ records.proof.tag.tag }}</a></td>
+      <td class="text-center">{{ records.proof.value }} characters long (in HTML)</td>
+    </tr>
+  </tbody>
 </table>
 {% endblock %}
 

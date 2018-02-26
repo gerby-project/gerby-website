@@ -114,16 +114,24 @@ def show_about():
 
 @app.route("/statistics")
 def show_statistics():
+  total = Tag.select().count()
+
   counts = dict()
   for count in Tag.select(Tag.type, fn.COUNT(Tag.tag).alias("count")).group_by(Tag.type):
     counts[count.type] = count.count
 
+  extras = dict()
+  for (name, extra) in {"slogans": Slogan, "references": Reference, "historical remarks": History}.items():
+    extras[name] = extra.select().count()
+
   records = dict()
   records["complex"] = TagStatistic.select(TagStatistic.tag, fn.MAX(TagStatistic.value).alias("value")).where(TagStatistic.statistic == "preliminaries").execute()[0]
   records["used"] = TagStatistic.select(TagStatistic.tag, fn.MAX(TagStatistic.value).alias("value")).where(TagStatistic.statistic == "consequences").execute()[0]
+  records["referenced"] = Dependency.select(Dependency.to, fn.COUNT(Dependency.to).alias("value")).group_by(Dependency.to).order_by(fn.COUNT(Dependency.to).desc())[0]
+  records["proof"] = Proof.select(Proof.tag, fn.length(Proof.html).alias("value")).order_by(fn.length(Proof.html).desc())[0]
 
   #records["complex"] = Tag.get(Tag.tag == TagStatistic.get(TagStatistic.type == "preliminaries", TagStatistic.value == fn.Max(TagStatistic.).tag)
-  return render_template("single/statistics.html", counts=counts, records=records)
+  return render_template("single/statistics.html", total=total, counts=counts, extras=extras, records=records)
 
 @app.route("/browse")
 def show_chapters():
