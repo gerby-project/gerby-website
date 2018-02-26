@@ -113,6 +113,7 @@ input#burger-input:checked + label#burger-icon span#bottom-bun {
 
 input#burger-input:checked + label#burger-icon + div#burger-content {
   display: block;
+  box-shadow: 1px 1px 1px gray;
 }
 
 div#burger-content {
@@ -125,6 +126,22 @@ div#burger-content {
   background-color: #f9f8f4;
   z-index: 2;
   text-align: left;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+
+div#burger-content div.interaction {
+  margin-top: -1rem;
+}
+
+
+div#burger-content br ~ div.toggle {
+  margin-top: 1rem;
+}
+
+div#burger-content ul.tag-info {
+  margin-left: .5rem;
+  margin-bottom: 0;
 }
 
 ul#crumbs li + li::before {
