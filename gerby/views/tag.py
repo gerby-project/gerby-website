@@ -127,6 +127,21 @@ def show_tag(tag):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
       html = html + "".join([item.html for item in sorted(tags)])
 
+      # add badges for extras
+      pattern = re.compile("id=\"([0-9A-Z]{4})\">")
+      identifiers = pattern.findall(html)
+
+      references = Reference.select().where(Reference.tag << identifiers)
+      for reference in references:
+        html = html.replace("id=\"" + reference.tag.tag + "\">", 'id="' + reference.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-info" data-toggle="popover" title="Reference" data-html="true" data-content=\'' + reference.html + '\'>reference</a>')
+      histories = History.select().where(History.tag << identifiers)
+      for history in histories:
+        html = html.replace("id=\"" + history.tag.tag + "\">", 'id="' + history.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-secondary" data-toggle="popover" title="Historical remark" data-html="true" data-content=\'' + history.html + '\'>historical remark</a>')
+      slogans = Slogan.select().where(Slogan.tag << identifiers)
+      for slogan in slogans:
+        html = html.replace("id=\"" + slogan.tag.tag + "\">", 'id="' + slogan.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-primary" data-toggle="popover" title="Slogan" data-html="true" data-content=\'' + slogan.html + '\'>slogan</a>')
+
+
   # it's an item
   elif tag.type == "item":
     html = "<ul>" + tag.html + "</ul>" # <ol start> is incompatible with our current counter setup

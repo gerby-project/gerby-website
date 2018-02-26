@@ -156,6 +156,11 @@ div.html div.equation span.equation-label::after {
   content: ")";
 }
 
+div.html article a.btn {
+  margin-left: .3em;
+  font-style: normal;
+}
+
 span.toggle {
   display: block;
 }

@@ -37,6 +37,17 @@
 
   {{ html | safe }}
 
+  <script type="text/javascript">
+$(document).ready(function() {
+  // move extras from parent element to after environment name and number
+  $("article a[data-toggle]").each(function(index, element) {
+    $(element).insertAfter(($(element).parent().find("a.environment-identifier")));
+  });
+
+  $('article a[data-toggle="popover"]').popover()
+});
+  </script>
+
   {% if tree %}
     <ul class="tree" id="tree">
     {% for item in tree recursive %}
