@@ -19,7 +19,7 @@ TAGS_PATTERN = re.compile("^[0-9a-zA-Z]{4}")
 
 # validate whether something is (potentially) a tag
 def isTag(string):
-  return TAGS_PATTERN.match(string) is not None
+  return TAGS_PATTERN.match(string) is not None and len(string) == 4
 
 # turn a flat list into a tree based on tag.ref length
 def combine(tags):
@@ -99,18 +99,19 @@ def redirect_to_tag(tag):
 @app.route("/tag/<string:tag>")
 @app.route("/tag/tag/<string:tag>")
 def show_tag(tag):
+  tag = tag.upper()
+
   if not isTag(tag):
     return render_template("tag.invalid.html", tag=tag)
 
-  tag = (Tag.select(Tag,Slogan,History,Reference)
+  if not Tag.select().where(Tag.tag == tag).exists():
+    return render_template("tag.notfound.html", tag=tag)
+
+  tag = (Tag.select(Tag, Slogan, History,Reference)
               .where(Tag.tag == tag.upper())
               .join(Slogan, JOIN.LEFT_OUTER, on=(Tag.tag == Slogan.tag))
               .join(History, JOIN.LEFT_OUTER, on=(Tag.tag == History.tag))
-              .join(Reference, JOIN.LEFT_OUTER, on=(Tag.tag == Reference.tag)))
-  if len(tag) == 0:
-    return render_template("tag.notfound.html", tag=tag)
-
-  tag = tag[0]
+              .join(Reference, JOIN.LEFT_OUTER, on=(Tag.tag == Reference.tag)))[0]
 
   html = ""
   breadcrumb = getBreadcrumb(tag)

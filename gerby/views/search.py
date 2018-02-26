@@ -49,9 +49,10 @@ def show_search():
     return render_template("search.html", count=0, perpage=perpage, radius="all")
 
 
-  # b) if the query is actually a tag we redirect
-  if tag.isTag(request.args["query"]) and Tag.select().where(Tag.tag == request.args["query"].upper()).exists():
-    return redirect("tag/" + request.args["query"].upper())
+  # b) if the query is actually a tag we redirect (we say that a string is a tag if is looks like and *and* it starts with a digit: maybe that's actually a good rule in general)
+  if tag.isTag(request.args["query"]):
+    if Tag.select().where(Tag.tag == request.args["query"].upper()).exists() or request.args["query"][0].isdigit():
+      return redirect("tag/" + request.args["query"].upper())
 
 
   # c) actually search
