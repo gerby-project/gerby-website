@@ -1,13 +1,21 @@
+// check whether we should execute the onChange for the checkbox
+var execute = false;
+
 $(document).ready(function() {
   // we do this in JS as it only makes sense to have these when JS is enabled
-  $("div#burger-content div.interaction").append("<span class='toggle'><input type='radio' class='toggle-numbering' name='burger-toggle-numbering' value='burger-toggle-numbers' id='burger-toggle-numbers' checked><label for='burger-toggle-numbers'>show numbers</label></span>")
-  $("div#burger-content div.interaction").append("<span class='toggle'><input type='radio' class='toggle-numbering' name='burger-toggle-numbering' value='burger-toggle-tags' id='burger-toggle-tags'><label for='burger-toggle-tags'>show tags</label></span>")
+  var html = '<input class="toggle" name="toggle" type="checkbox" checked data-toggle="toggle" data-on="numbers" data-off="tags" data-size="small" data-width="90">';
+  $("section#meta div.interaction, div#burger-content div.interaction").append(html);
 
-  $("section#meta div.interaction").append("<span class='toggle'><input type='radio' class='toggle-numbering' name='meta-toggle-numbering' value='meta-toggle-numbers' id='meta-toggle-numbers' checked><label for='meta-toggle-numbers'>show numbers</label></span>")
-  $("section#meta div.interaction").append("<span class='toggle'><input type='radio' class='toggle-numbering' name='meta-toggle-numbering' value='meta-toggle-tags' id='meta-toggle-tags'><label for='meta-toggle-tags'>show tags</label></span>")
+  // turn the checkbox into a toggle button
+  $("input.toggle").bootstrapToggle();
 
-  $("input[type=radio][class=toggle-numbering]").on("change", function() {
-    // the actual toggle
+  $("input.toggle").change(function() {
+    // change the state which decides whether we execute the event
+    execute = !execute;
+    // check whether we should execute the event or not: synchronise fires a second event
+    if (!execute) return;
+
+    // the actual toggling code
     $("*[data-tag]").each(function(index, reference) {
       $(reference).toggleClass("tag");
 
@@ -16,18 +24,19 @@ $(document).ready(function() {
       $(reference).text(value);
     });
 
-    // synchronise the other radio buttons: use presence of tag class
-    if ($("*[data-tag]").hasClass("tag"))
-      $("input[value$=-toggle-tags]").prop("checked", true);
-    else
-      $("input[value$=-toggle-numbers]").prop("checked", true);
+    // synchronise the other checkbox
+    $("input.toggle").not($(this)).bootstrapToggle("toggle");
 
-    Cookies.set("tag-numbering-preference", $("input[name=meta-toggle-numbering]:checked").val().split("-")[2]);
+    // and save preference: use presence of tag class
+    if ($("*[data-tag]").hasClass("tag"))
+      localStorage.setItem("toggle", "tag");
+    else
+      localStorage.setItem("toggle", "numbers");
   });
 
-  // toggle if required
-  if (Cookies.get("tag-numbering-preference") == "tags")
-    $("input[value=meta-toggle-tags]").click();
-  else
-    $("input[value=meta-toggle-numbers]").click();
+  // toggle if localStorage says so
+  console.log(localStorage.getItem("toggle"));
+  if (localStorage.getItem("toggle") == "tag") {
+    $("section#meta input.toggle").bootstrapToggle("toggle");
+  }
 });
