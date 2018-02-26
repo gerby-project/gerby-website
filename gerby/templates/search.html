@@ -90,6 +90,7 @@
   <input type="hidden" name="perpage" id="perpage" value="{{ perpage }}">
 
   <script type="text/javascript">
+// synchronise the two text inputs
 $("input[type=search]").on("paste keyup", function() {
   $("input[type=search]").val($(this).val());
 });

@@ -13,13 +13,13 @@ span.previewable {
   cursor: pointer;
   width: 1.3rem;
   height: 1.2rem;
-  background-image: url("/static/images/preview-open.svg");
+  background-image: url("/static/images/search.svg");
   background-position: left .1rem;
   background-repeat: no-repeat;
 }
 
 span.previewing {
-  background-image: url("/static/images/preview-close.svg");
+  background-image: url("/static/images/search.svg");
 }
 
 ul#pages li {
@@ -34,6 +34,10 @@ ol#search-results div.html li:before {
 
 ol#search-results div.html li li:before {
   left: 6.5em;
+}
+
+ol#search-results article p:last-child {
+  margin-bottom: 0;
 }
 
 nav#results-per-page p {
