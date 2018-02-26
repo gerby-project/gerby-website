@@ -74,6 +74,11 @@ $("ul#tree").click(function() {
   localStorage.setItem("bonsai-{{ tag.tag }}", JSON.stringify(state));
 });
 
+// trigger the click event handler to save state even when clicking on the expand/collapse all links, which are outside ul#tree
+$("div.expand-all").click(function() {
+  $("ul#tree").click();
+});
+
 $(function () {
   $('[data-toggle="popover"]').popover()
 
