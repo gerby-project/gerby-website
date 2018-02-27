@@ -178,12 +178,11 @@ def show_tag(tag):
       chapters = Part.select(Part.chapter).where(Part.part == tag.tag)
       chapters = Tag.select().where(Tag.tag << [chapter.chapter.tag for chapter in chapters])
 
-      # even this is too slow for the Stacks project
-      #tags = [Tag.select().where(Tag.ref.startswith(chapter.ref + "."), Tag.type << ["section"]) for chapter in chapters] # only consider sections
-      #tags = list(chapters) + [tag for sublist in tags for tag in sublist] # flatten
+      prefixes = tuple(chapter.ref + "." for chapter in chapters)
+      sections = Tag.select().where(Tag.type == "section")
+      sections = filter(lambda section: section.ref.startswith(prefixes), sections)
 
-      # so we just do this
-      tags = list(chapters)
+      tags = list(chapters) + list(sections)
     else:
       tags = (Tag.select(Tag,
                         Reference.html.alias("reference"), # the alias is for Reference rather than Reference.html, oddly enough
