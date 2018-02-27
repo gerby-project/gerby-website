@@ -47,7 +47,7 @@ def show_entry(key):
   if index < len(entries) - 1:
     neighbours[1] = entries[index+1]
 
-  citations = Tag.select().join(Citation).where(Citation.key == entry.key).order_by()
+  citations = Citation.select().where(Citation.key == entry.key)
   citations = sorted(citations)
 
   return render_template("bibliography.entry.html",

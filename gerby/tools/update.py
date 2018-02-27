@@ -256,18 +256,22 @@ def makeInternalCitations():
   Citation.create_table()
 
   for tag in Tag.select():
-    regex = re.compile(r'\"/bibliography/([0-9A-Za-z\-\_]+)\"')
+    html = tag.html
+    if tag.references.count() == 1:
+      html = html + tag.references[0].html
 
-    with db.atomic():
-      html = tag.html
-      if tag.references.count() == 1:
-        html = html + tag.references[0].html
+    for match in re.compile(r'<span class=\"cite\">\[(.+?)</a>\]</span>').findall(html):
+      note = re.compile(r'<span class=\"postnote\">(.+?)</span>').search(match)
+      if note == None:
+        note = ""
+      else:
+        note = note.group(1)
 
-      citations = regex.findall(html)
-      citations = list(set(citations)) # make sure citations are inserted only once
-
-      if len(citations) > 0:
-        Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()
+      key = re.compile(r'\"/bibliography/(.+?)\"').search(match).group(1)
+      try:
+        Citation.create(tag=tag.tag, key=key, note=note)
+      except IntegrityError:
+        pass # this just means that the item was cited multiple times in the same tag
 
 
 def computeTagStats():

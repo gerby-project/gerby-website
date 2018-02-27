@@ -17,7 +17,7 @@
   {% if citations | length >= 1 %}
     <ul>
       {% for citation in citations %}
-        <li>{{ citation.type | capitalize }} <a href="/tag/{{ citation.tag }}" data-tag="{{ citation.tag }}">{{ citation.ref }}</a>{% if citation.name %}: {{ citation.name | safe }}{% endif %}
+        <li>in {{ citation.tag.type | capitalize }} <a href="/tag/{{ citation.tag.tag }}" data-tag="{{ citation.tag.tag }}">{{ citation.tag.ref }}</a>{% if citation.tag.name %}: {{ citation.tag.name | safe }}{% endif %}{% if citation.note %}, which cites {{ citation.note }} of <span class="tag">{{ entry.key }}</span>{% endif %}
       {% endfor %}
     </ul>
   {% endif %}
@@ -39,12 +39,6 @@
 {% block sidebar %}
   <div class="interaction">
     {{ neighboursMacro(neighbours) }}
-  </div>
-
-  {% if citations | length > 0 %}<hr>{% endif %}
-
-  <div class="information">
-    {{ citationsMacro(citations) }}
   </div>
 {% endblock %}
 

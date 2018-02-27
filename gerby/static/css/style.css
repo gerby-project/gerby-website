@@ -36,10 +36,6 @@ ul#quicklinks {
   div#burger {
     display: none;
   }
-
-  div#citations-main {
-    display: none;
-  }
 }
 
 body {

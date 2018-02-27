@@ -127,6 +127,13 @@ class BibliographyField(BaseModel):
 class Citation(BaseModel):
   tag = ForeignKeyField(Tag, backref="citations")
   key = ForeignKeyField(BibliographyEntry)
+  note = TextField(null=True)
+
+  class Meta:
+    primary_key = CompositeKey("tag", "key")
+
+  def __gt__(self, other):
+    return self.tag > other.tag
 
 
 # history functionality
