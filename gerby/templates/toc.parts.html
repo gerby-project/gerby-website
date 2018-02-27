@@ -23,7 +23,7 @@
     {% for part in parts %}
       <li id="{{ part.tag }}" class="expanded">
         <a class="header-offset" id="{{ part.label }}"></a>
-        <a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
+        <strong><a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}</strong>
 
         <ul>
           {% for chapter in part.chapters %}
@@ -32,6 +32,7 @@
             <a href="/download/{{ filename[0] }}.pdf" class="pdf-link">pdf</a>
           {% endfor %}
         </ul>
+        <hr class="my-1">
     {% endfor %}
   </ul>
   <script type="text/javascript">
@@ -64,8 +65,14 @@ $("div.expand-all").click(function() {
 
   <ul>
   {% for part in parts %}
-    <li><a href="#{{ part.label }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
+    <li><a class="sidebar-link" data-for="{{ part.tag }}" href="#{{ part.label }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}
   {% endfor %}
+  <script type="text/javascript">
+$("a.sidebar-link").click(function() {
+  var bonsai = $("ul#toc").data("bonsai");
+  bonsai.expand($("li#" + $(this).data("for")));
+});
+  </script>
   </ul>
 
   <hr>

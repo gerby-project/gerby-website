@@ -1,9 +1,13 @@
-ul#toc ul li {
-  margin: 0;
-  padding: .2em;
+ul#toc li strong {
+  font-size: 1.1rem;
 }
 
-ul#toc li li:nth-of-type(odd) {
+ul#toc ul li {
+  margin: 0;
+  padding: .3rem;
+}
+
+ul#toc ul li:hover {
   background-color: #f6f6f0;
 }
 
