@@ -12,6 +12,11 @@ from PyPDF2 import PdfFileReader
 from gerby.database import *
 import gerby.configuration
 
+# helper function
+def flatten(l):
+  return [item for sublist in l for item in sublist]
+
+
 def getTags():
   # Get dictionary of tags
   tags = None
@@ -20,6 +25,7 @@ def getTags():
     tags = [line.strip() for line in tags if not line.startswith("#")]
     tags = dict([line.split(",") for line in tags if "," in line])
   return tags
+
 
 def importTags(files):
   # import tags
@@ -63,6 +69,7 @@ def importTags(files):
 
     entity.save()
 
+
 def importProofs(files):
   # import proofs
   proofFiles = [filename for filename in files if filename.endswith(".proof")]
@@ -95,6 +102,7 @@ def importProofs(files):
 
     proof.save()
 
+
 def importFootnotes(files):
   # import footnotes
   if Footnote.table_exists():
@@ -109,6 +117,7 @@ def importFootnotes(files):
     label = filename.split(".")[0]
     Footnote.create(label=label, html=value)
 
+
 def makeSearchTable():
   # create search table
   if SearchTag.table_exists():
@@ -120,9 +129,8 @@ def makeSearchTable():
   SearchStatement.create_table()
 
   for tag in Tag.select():
-    proofs = Proof.select().where(Proof.tag == tag.tag).order_by(Proof.number)
     SearchTag.insert({SearchTag.tag: tag.tag,
-                      SearchTag.html: tag.html + "".join([proof.html for proof in proofs])}).execute()
+                      SearchTag.html: tag.html + "".join([proof.html for proof in tag.proofs])}).execute()
 
     if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"]:
       SearchStatement.insert({SearchStatement.tag: tag.tag,
@@ -147,6 +155,7 @@ def assignParts():
     log.warning("  Unable to find 'parts.json'; skipping parts assignment.")
     Part.drop_table()
 
+
 def checkInactivity(tags):
   # check (in)activity of tags
   for tag in Tag.select():
@@ -160,6 +169,7 @@ def checkInactivity(tags):
         tag.active = True
 
     tag.save()
+
 
 def makeDependency():
   # Create tag dependency data
@@ -198,6 +208,7 @@ def importExtras(files):
         row.html = value
         row.save()
 
+
 def nameTags(tags):
   # Import and assign names to tags
   names = list()
@@ -210,6 +221,7 @@ def nameTags(tags):
 
   for entry in names:
     Tag.update(name=entry["name"]).where(Tag.tag == entry["tag"]).execute()
+
 
 def makeBibliography(files):
   # import bibliography
@@ -236,6 +248,7 @@ def makeBibliography(files):
 
         BibliographyField.create(key = entry.key, field = field.lower(), value = value)
 
+
 def makeInternalCitations():
   # managing citations
   if Citation.table_exists():
@@ -244,12 +257,11 @@ def makeInternalCitations():
 
   for tag in Tag.select():
     regex = re.compile(r'\"/bibliography/([0-9A-Za-z\-\_]+)\"')
-    references = Reference.select().where(Reference.tag == tag) # TODO if we have backref we don't need this
 
     with db.atomic():
       html = tag.html
-      if references.count() == 1:
-        html = html + references[0].html
+      if tag.references.count() == 1:
+        html = html + tag.references[0].html
 
       citations = regex.findall(html)
       citations = list(set(citations)) # make sure citations are inserted only once
@@ -257,9 +269,6 @@ def makeInternalCitations():
       if len(citations) > 0:
         Citation.insert_many([{"tag": tag.tag, "key": citation} for citation in citations]).execute()
 
-# helper function
-def flatten(l):
-  return [item for sublist in l for item in sublist]
 
 def computeTagStats():
   # do statistics
@@ -387,7 +396,7 @@ if __name__ == "__main__":
     importProofs(files)
 
   if not args.noFootnotes:
-    log.info("Importing footnote.")
+    log.info("Importing footnotes")
     importFootnotes(files)
 
   if not args.noSearch:

@@ -131,7 +131,7 @@ def show_tag(tag):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << headings)
       html = html + "".join([item.html for item in sorted(tags)])
 
-      # add badges for extras
+      # add badges for extras: look for HTML code that signifies a tag
       pattern = re.compile("id=\"([0-9A-Z]{4})\">")
       identifiers = pattern.findall(html)
 
@@ -152,8 +152,7 @@ def show_tag(tag):
 
   # it's a tag (maybe with proofs)
   else:
-    proofs = Proof.select().where(Proof.tag == tag.tag)
-    html = tag.html + "".join([proof.html for proof in proofs])
+    html = tag.html + "".join([proof.html for proof in tag.proofs.order_by(Proof.number)])
 
   # handle footnotes: relabeling the labels to actual numbers
   pattern = re.compile("class=\"footnotemark\" href=\"#(a[0-9]+)\"")
@@ -221,7 +220,7 @@ def show_tag(tag):
                          neighbours=neighbours,
                          html=html,
                          footnotes=footnotes,
-                         dependencies=Dependency.select().where(Dependency.to == tag.tag),
+                         dependencies=tag.incoming,
                          tree=tree,
                          commentsEnabled=commentsEnabled,
                          comments=comments,
@@ -261,17 +260,18 @@ def show_tag_statistics(tag):
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
 
-  dependencies = sorted(Dependency.select().where(Dependency.to == tag.tag))
+  tag.incoming = sorted(tag.incoming)
 
-  for dependency in dependencies:
+  # make sure we can give section numbers here
+  for dependency in tag.incoming:
     ref = ".".join(dependency.tag.ref.split(".")[0:-1])
-    dependency.parent = Tag.select().where(Tag.ref == ref, ~(Tag.type << ["item"])).get()
+    dependency.parent = Tag.get(Tag.ref == ref, ~(Tag.type << ["item"]))
 
   statistics = dict()
   if TagStatistic.table_exists():
     for statistic in ["preliminaries", "chapters", "sections", "consequences"]:
       try:
-        statistics[statistic] = TagStatistic.get(TagStatistic.tag == tag, TagStatistic.statistic == statistic).value
+        statistics[statistic] = tag.statistics.filter(TagStatistic.statistic == statistic).get().value
       except TagStatistic.DoesNotExist:
         log.warning("Unable to get statistic '{0}' for tag '{1}'.".format(statistic, tag))
         statistics[statistic] = -1
@@ -282,4 +282,4 @@ def show_tag_statistics(tag):
                          neighbours=neighbours,
                          statistics=statistics,
                          filename=tag.label.split("-" + tag.type)[0],
-                         dependencies = dependencies)
+                         dependencies=tag.incoming)
