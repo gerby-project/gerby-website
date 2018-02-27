@@ -131,8 +131,8 @@ div#burger-content div.interaction {
 }
 
 
-div#burger-content br ~ div.toggle,
-section#meta br ~ div.toggle {
+div#burger-content div.toggle,
+section#meta div.toggle {
   margin-top: 1rem;
 }
 
@@ -368,4 +368,45 @@ h2.error {
   background-repeat: no-repeat;
   background-position: left .2rem;
   padding-left: 1.5rem;
+}
+
+.toggle-off {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+.toggle.off {
+  border-color: rgba(0, 0, 0, .25);
+}
+
+.toggle-handle {
+  background-color: white;
+  border: thin rgba(0, 0, 0, .25) solid;
+}
+
+div.toggle,
+div.toggle:hover,
+div.toggle:active {
+  display: block;
+  margin: auto;
+  background-color: #edece6 !important;
+  border-color: rgba(0, 0, 0, .25) !important;
+}
+
+div.btn-primary,
+div.btn-primary:hover,
+div.btn-primary:active {
+  border-color: rgba(0, 0, 0, .25);
+}
+
+label.toggle-on,
+label.toggle-off {
+  background-color: #edece6;
+  color: black;
+}
+
+label.toggle-on:hover,
+label.toggle-off:hover,
+label.toggle-on:active,
+label.toggle-off:active {
+  background-color: #d9d8d1 !important;
+  color: black !important;
 }
