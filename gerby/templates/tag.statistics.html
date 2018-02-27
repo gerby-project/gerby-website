@@ -18,6 +18,20 @@
 <h2>Statistics for tag <span class="tag">{{ tag.tag }}</span></h2>
 <p><a href="/tag/{{ tag.tag }}">Go back to the tag's page</a>.
 
+{% if creation and update %}
+  <table class="table table-sm">
+    <tr>
+      <th class="border-top-0">tag creation</th>
+      <th class="border-top-0">last update</th>
+    </tr>
+    <tr>
+      <td>{{ creation.strftime("%b %-d, %Y") }}</td>
+      <td>{{ update.strftime("%b %-d, %Y") }}</td>
+      <td><a href="/tag/{{ tag.tag }}/history">more history</a>
+    </tr>
+  </table>
+{% endif %}
+
 {% if statistics %}
 <h3>Complexity measure</h3>
 <table class="table table-striped table-sm table-hover">

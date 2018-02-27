@@ -138,7 +138,7 @@ class Commit(BaseModel):
 
 
 class Change(BaseModel):
-  tag = ForeignKeyField(Tag, backref="change")
+  tag = ForeignKeyField(Tag, backref="changes")
   commit = ForeignKeyField(Commit)
   action = TextField()
   filename = TextField()

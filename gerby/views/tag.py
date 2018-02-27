@@ -260,13 +260,27 @@ def show_tag_statistics(tag):
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
 
+  # dealing with the creation and update date
+  creation = None
+  update = None
+  try:
+    creation = tag.changes.where(Change.action == "creation").get()
+    creation = datetime.datetime.strptime(creation.commit.time.decode(), "%Y-%m-%d %H:%M:%S %z")
+
+    update = Commit.select().where(Commit.hash << [change.commit.hash for change in tag.changes]).order_by(Commit.time.desc()).get()
+    update = datetime.datetime.strptime(update.time.decode(), "%Y-%m-%d %H:%M:%S %z")
+  except (Change.DoesNotExist, Commit.DoesNotExist):
+    pass
+
+  # dealing with the tags using this results
   tag.incoming = sorted(tag.incoming)
 
-  # make sure we can give section numbers here
+  # making sure we can give section numbers here
   for dependency in tag.incoming:
     ref = ".".join(dependency.tag.ref.split(".")[0:-1])
     dependency.parent = Tag.get(Tag.ref == ref, ~(Tag.type << ["item"]))
 
+  # dealing with statistics
   statistics = dict()
   statistics["proof"] = tag.outgoing.count()
 
@@ -282,6 +296,8 @@ def show_tag_statistics(tag):
                          tag=tag,
                          breadcrumb=breadcrumb,
                          neighbours=neighbours,
+                         creation=creation,
+                         update=update,
                          statistics=statistics,
                          filename=tag.label.split("-" + tag.type)[0],
                          dependencies=tag.incoming)
