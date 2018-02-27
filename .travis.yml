@@ -1,0 +1,42 @@
+language: python
+
+python:
+  - "3.6"
+
+install:
+  - sudo apt install dvipng
+  - git clone https://github.com/pbelmans/plastex.git
+  - cd plastex
+  - git checkout gerby
+  - pip install .
+  - cd ..
+  - git clone https://github.com/stacks/stacks-project.git
+  - git clone https://github.com/live-clones/pybtex.git
+  - wget https://bitbucket.org/pybtex-devs/pybtex/issues/attachments/110/pybtex-devs/pybtex/1514284299.07/110/no-protected-in-math-mode.patch
+  - cd pybtex
+  - git apply ../no-protected-in-math-mode.patch
+  - pip install .
+  - cd ..
+  - git clone https://github.com/pbelmans/gerby-website.git
+  - cd gerby-website/gerby/static
+  - git clone https://github.com/sonoisa/XyJax.git
+  - sed -i -e 's@\[MathJax\]@/static/XyJax@' XyJax/extensions/TeX/xypic.js
+  - git clone https://github.com/aexmachina/jquery-bonsai
+  - cp jquery-bonsai/jquery.bonsai.css css/
+  - cd ../..
+  - pip install .
+  - cd ..
+
+script: 
+  - mkdir WEB
+  - cd stacks-project
+  - echo yes | python2 scripts/add_tags.py
+  - make web
+  - cd ../WEB
+  - plastex --renderer=Gerby book.tex
+  - cd ..
+  - cd gerby-website/gerby/tools
+  - ln -s ../../../WEB/book stacks
+  - ln -s ../../../WEB/book.paux stacks.paux
+  - ln -s ../../../WEB/tags stacks.tags
+  - python update.py --noSearch --noTagStats
