@@ -268,6 +268,8 @@ def show_tag_statistics(tag):
     dependency.parent = Tag.get(Tag.ref == ref, ~(Tag.type << ["item"]))
 
   statistics = dict()
+  statistics["proof"] = tag.outgoing.count()
+
   if TagStatistic.table_exists():
     for statistic in ["preliminaries", "chapters", "sections", "consequences"]:
       try:
