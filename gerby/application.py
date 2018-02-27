@@ -30,7 +30,6 @@ app.config["flask_profiler"] = {
 	]
 }
 
-
 feeds = {
   "github": {
     "url": "https://github.com/stacks/stacks-project/commits/master.atom",

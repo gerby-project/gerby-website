@@ -27,8 +27,6 @@ ul.neighbours li.right a:after {
 }
 
 div.html {
-  overflow-x: hidden;
-  overflow: -moz-scrollbars-none;
   text-align: justify;
   padding-right: 0.5rem;
 }
@@ -38,8 +36,7 @@ div.html div.equation {
   overflow: -moz-scrollbars-none;
 }
 
-div.equation::-webkit-scrollbar,
-div.html::-webkit-scrollbar {
+div.equation::-webkit-scrollbar {
   display: none;
 }
 
