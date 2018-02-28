@@ -27,6 +27,9 @@ ul.neighbours li.right a:after {
 }
 
 div.html {
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
   text-align: justify;
   padding-right: 0.5rem;
 }
