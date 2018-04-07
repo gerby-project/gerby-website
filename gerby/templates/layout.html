@@ -62,7 +62,7 @@
 
       <form id="quicksearch" action="/search">
         <span id="search-icon"><img src="/static/images/search.svg"></span>
-        <input type="search" name="query" size="16" placeholder="keywords or a tag"{% if not search %} autofocus{% endif %} value="{{ query }}">
+        <input type="search" name="query" size="16" placeholder="keywords or a tag"{% if index %} autofocus{% endif %} value="{{ query }}">
       </form>
     </nav>
   </div>

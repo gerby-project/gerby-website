@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 
+{% set index = true %}
+
 {% block title %}Index{% endblock %}
 
 {% block body %}
@@ -11,7 +13,7 @@
     <li id="index-bibliography"><a href="/bibliography">bibliography<img src="/static/images/bibliography.svg"></a>
     <li id="index-github"><a href="https://github.com/stacks/stacks-project"><img src="/static/images/github.svg">GitHub</a>
     <li id="index-comments"><a href="/recent-comments">comments<img src="/static/images/comments.svg"></a>
-    <li id="index-changes"><a href="/recent-changes"><img src="/static/images/diff.svg">online changes</a>
+    <li id="index-changes"><a href="/recent-changes"><img src="/static/images/diff.svg">recent changes</a>
   </ul>
 {% endblock %}
 
