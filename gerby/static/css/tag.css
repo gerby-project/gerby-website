@@ -161,6 +161,10 @@ div.html article a.btn {
   font-style: normal;
 }
 
+div.preview {
+  margin-left: 1.5em;
+}
+
 span.toggle {
   display: block;
 }
