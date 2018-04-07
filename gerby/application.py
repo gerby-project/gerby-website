@@ -1,5 +1,5 @@
 import os, os.path, time
-import urllib.request
+import urllib.request, socket
 import feedparser
 import re
 from flask import Flask, render_template, request, send_from_directory
@@ -43,6 +43,9 @@ feeds = {
   },
 }
 
+# set timeout for feed request
+socket.setdefaulttimeout(5)
+
 def get_statistics():
   statistics = []
 
@@ -70,11 +73,14 @@ def update_feeds():
   if not os.path.exists("feeds"):
     os.makedirs("feeds")
 
-  # update if needed
+  # update if needed (i.e. older than 1 hour)
   for label, feed in feeds.items():
     path = "feeds/" + label + ".feed"
     if not os.path.isfile(path) or time.time() - os.path.getmtime(path) > 3600:
-      urllib.request.urlretrieve(feed["url"], path)
+      try:
+        urllib.request.urlretrieve(feed["url"], path)
+      except: # when this happens we should probably add more information etc. but for now it's just caught
+        app.logger.warning("feed '%s' did not load properly" % feed["title"])
 
 @app.route("/")
 def show_index():
