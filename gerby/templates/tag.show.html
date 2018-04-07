@@ -191,8 +191,12 @@ var simplemde = new SimpleMDE({
 });
 
 // make sure to show tags, not numbers
+var tagToggleHappened = false; // only do this once to not annoy the user too much
 simplemde.codemirror.on("change", function() {
-  $("input#burger-toggle-tags").click();
+  // if data-tag elements do not have tag attribute we need to make tags visible
+  if (!$("*[data-tag]").hasClass("tag") && !tagToggleHappened)
+    $("section#meta input.toggle").bootstrapToggle("toggle");
+  tagToggleHappened = true;
 });
 
 // prevent form submit when the captcha isn't correct
