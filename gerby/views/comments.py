@@ -35,7 +35,11 @@ def post_comment():
 @app.route("/recent-comments.rss")
 def show_comments_feed():
   comments = []
-  for comment in Comment.select().order_by(Comment.id.desc()).paginate(1, 10):
+  comments = []
+  if Comment.table_exists():
+    comment = Comment.select().order_by(Comment.id.desc()).paginate(1, 10)
+
+  for comment in comments:
     comment.comment = sfm(comment.comment)
     comments.append(comment)
 
@@ -48,7 +52,14 @@ def show_comments(page):
   PERPAGE = 20
 
   comments = []
-  for comment in Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE):
+  count = 0
+  tags = 0
+  if Comment.table_exists():
+    comments = Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE)
+    count = Comment.select().count()
+    tags = Comment.select(Comment.tag).distinct().count()
+
+  for comment in comments:
     comment.comment = sfm(comment.comment)
     comment.breadcrumb = getBreadcrumb(Tag.get(Tag.tag == comment.tag))
     comment.tag = Tag.get(Tag.tag == comment.tag)
@@ -60,5 +71,5 @@ def show_comments(page):
       page=page,
       perpage=PERPAGE,
       comments=comments,
-      count=Comment.select().count(),
-      tags=Comment.select(Comment.tag).distinct().count())
+      count=count,
+      tags=tags)
