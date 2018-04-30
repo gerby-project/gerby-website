@@ -275,9 +275,16 @@ def show_tag_statistics(tag):
   tag.incoming = sorted(tag.incoming)
 
   # making sure we can give section numbers here
+  sections = []
+  for dependency in tag.incoming:
+    sections.append(".".join(dependency.tag.ref.split(".")[0:-1]))
+
+  sections = Tag.select().where(Tag.ref << sections, ~(Tag.type << ["item"]))
+  sections = {section.ref: section for section in sections}
+
   for dependency in tag.incoming:
     ref = ".".join(dependency.tag.ref.split(".")[0:-1])
-    dependency.parent = Tag.get(Tag.ref == ref, ~(Tag.type << ["item"]))
+    dependency.parent = sections[ref]
 
   # dealing with statistics
   statistics = dict()
