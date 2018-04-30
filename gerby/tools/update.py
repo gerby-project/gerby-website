@@ -180,7 +180,7 @@ def makeDependency():
   for proof in Proof.select():
     regex = re.compile(r'\"/tag/([0-9A-Z]{4})\"')
     with db.atomic():
-      dependencies = regex.findall(proof.html)
+      dependencies = set(regex.findall(proof.html))
 
       if len(dependencies) > 0:
         Dependency.insert_many([{"tag": proof.tag.tag, "to": to} for to in dependencies]).execute()
