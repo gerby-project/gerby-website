@@ -2,7 +2,8 @@ import argparse
 import re
 import os
 import os.path
-import logging, sys
+import logging
+import sys
 import pickle
 import pybtex.database
 import collections
@@ -11,6 +12,7 @@ from PyPDF2 import PdfFileReader
 
 from gerby.database import *
 import gerby.configuration
+
 
 # helper function
 def flatten(l):
@@ -217,7 +219,7 @@ def nameTags(tags):
   labels = {item: key for key, item in tags.items()}
   for key, item in context["Gerby"].items():
     if "title" in item and key in labels:
-      names.append({"tag" : labels[key], "name" : item["title"]})
+      names.append({"tag": labels[key], "name": item["title"]})
 
   for entry in names:
     Tag.update(name=entry["name"]).where(Tag.tag == entry["tag"]).execute()
@@ -240,13 +242,14 @@ def makeBibliography(files):
     for key in bibtex.entries:
       entry = bibtex.entries[key]
 
-      data = pybtex.database.BibliographyData({key: entry}) # we create a new object to output a single entry
-      BibliographyEntry.create(entrytype = entry.type, key = entry.key, code = data.to_string("bibtex"))
+      # we create a new object to output a single entry
+      data = pybtex.database.BibliographyData({key: entry})
+      BibliographyEntry.create(entrytype=entry.type, key=entry.key, code=data.to_string("bibtex"))
 
       for field in list(entry.rich_fields.keys()) + entry.persons.keys():
         value = entry.rich_fields[field].render_as("html")
 
-        BibliographyField.create(key = entry.key, field = field.lower(), value = value)
+        BibliographyField.create(key=entry.key, field=field.lower(), value=value)
 
 
 def makeInternalCitations():
@@ -262,7 +265,7 @@ def makeInternalCitations():
 
     for match in re.compile(r'<span class=\"cite\">\[(.+?)</a>\]</span>').findall(html):
       note = re.compile(r'<span class=\"postnote\">(.+?)</span>').search(match)
-      if note == None:
+      if note is None:
         note = ""
       else:
         note = note.group(1)
@@ -270,8 +273,9 @@ def makeInternalCitations():
       key = re.compile(r'\"/bibliography/(.+?)\"').search(match).group(1)
       try:
         Citation.create(tag=tag.tag, key=key, note=note)
+      # this just means that the item was cited multiple times in the same tag
       except IntegrityError:
-        pass # this just means that the item was cited multiple times in the same tag
+        pass
 
 
 def computeTagStats():
@@ -337,6 +341,7 @@ def computeBookStats():
     BookStatistic.create(statistic="pages", value=book_pdf.getNumPages())
   else:
     log.warning("  Cannot find file 'book.pdf'; skipping.")
+
 
 if __name__ == "__main__":
   db.init(gerby.configuration.DATABASE)

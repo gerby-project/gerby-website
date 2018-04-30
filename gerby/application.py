@@ -1,5 +1,8 @@
-import os, os.path, time
-import urllib.request, socket
+import os
+import os.path
+import time
+import urllib.request
+import socket
 import feedparser
 import re
 from flask import Flask, render_template, request, send_from_directory
@@ -22,12 +25,10 @@ app.config["flask_profiler"] = {
     "storage": {
         "engine": "sqlite"
     },
-    "basicAuth":{
+    "basicAuth": {
         "enabled": False,
     },
-    "ignore": [
-	    "^/static/.*"
-	]
+    "ignore": ["^/static/.*"]
 }
 
 feeds = {
@@ -45,6 +46,7 @@ feeds = {
 
 # set timeout for feed request
 socket.setdefaulttimeout(5)
+
 
 def get_statistics():
   statistics = []
@@ -68,6 +70,7 @@ def get_statistics():
 
   return statistics
 
+
 def update_feeds():
   # make sure there is a directory
   if not os.path.exists("feeds"):
@@ -79,8 +82,10 @@ def update_feeds():
     if not os.path.isfile(path) or time.time() - os.path.getmtime(path) > 3600:
       try:
         urllib.request.urlretrieve(feed["url"], path)
-      except: # when this happens we should probably add more information etc. but for now it's just caught
+      except:
+        # when this happens we should probably add more information etc. but for now it's just caught
         app.logger.warning("feed '%s' did not load properly" % feed["title"])
+
 
 @app.route("/")
 def show_index():
@@ -112,9 +117,11 @@ def show_index():
       comments=comments,
       )
 
+
 @app.route("/about")
 def show_about():
   return render_template("single/about.html")
+
 
 @app.route("/statistics")
 def show_statistics():
@@ -134,8 +141,8 @@ def show_statistics():
   records["referenced"] = Dependency.select(Dependency.to, fn.COUNT(Dependency.to).alias("value")).group_by(Dependency.to).order_by(fn.COUNT(Dependency.to).desc())[0]
   records["proof"] = Proof.select(Proof.tag, fn.length(Proof.html).alias("value")).order_by(fn.length(Proof.html).desc())[0]
 
-  #records["complex"] = Tag.get(Tag.tag == TagStatistic.get(TagStatistic.type == "preliminaries", TagStatistic.value == fn.Max(TagStatistic.).tag)
   return render_template("single/statistics.html", total=total, counts=counts, extras=extras, records=records)
+
 
 @app.route("/browse")
 def show_chapters():
@@ -161,6 +168,7 @@ def show_chapters():
 def show_robots():
   return send_from_directory(app.static_folder, request.path[1:])
 
+
 app.jinja_env.add_extension('jinja2.ext.do')
 
 import gerby.views.bibliography
@@ -172,4 +180,3 @@ import gerby.views.tag
 flask_profiler.init_app(app)
 # Stacks project specific pages
 import gerby.views.stacks
-
