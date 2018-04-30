@@ -38,7 +38,8 @@ def show_markdown():
 def show_acknowledgements():
   acknowledgements = []
 
-  with open("tex/documentation/support") as f:
+  with app.open_resource("tex/documentation/support", mode="r") as f:
+    print(type(f))
     for line in f:
       if line.startswith("%") or line.isspace():
         continue
@@ -56,7 +57,7 @@ def show_contribute():
 def show_contributors():
   contributors = []
 
-  with open("tex/CONTRIBUTORS") as f:
+  with app.open_resource("tex/CONTRIBUTORS", mode="r") as f:
     for line in f:
       if line.startswith("%") or line.isspace():
         continue
