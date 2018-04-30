@@ -6,45 +6,48 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="theme-color" content="#d9d8d1">
 
 <title>{% block title %}{% endblock %}&mdash;The Stacks project</title>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/print.css') }}">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      extensions: ['tex2jax.js'],
-      jax: ['input/TeX','output/HTML-CSS'],
-      TeX: {
-        extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'],
-        Macros: {
-          linebreak: ["", 1, ""],
-          },
-        TagSide: 'left'
-      },
-      tex2jax: {
-        inlineMath: [['$','$']],
-        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-      },
-      'HTML-CSS': { scale: 100 }
-    });
-  </script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/print.css') }}">
 
-  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ['tex2jax.js'],
+    jax: ['input/TeX','output/HTML-CSS'],
+    TeX: {
+      extensions: ['AMSmath.js', 'AMSsymbols.js', '/static/XyJax/extensions/TeX/xypic.js'],
+      Macros: {
+        linebreak: ["", 1, ""],
+        },
+      TagSide: 'left'
+    },
+    tex2jax: {
+      inlineMath: [['$','$']],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    },
+    'HTML-CSS': { scale: 100 }
+  });
+</script>
 
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
 
-  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-  <link rel="icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
-  <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-  {% block head %}{% endblock %}
+<link rel="icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/static/stacks.ico">
+
+{% block head %}{% endblock %}
+
 </head>
 
 <body>
