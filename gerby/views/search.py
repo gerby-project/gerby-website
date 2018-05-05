@@ -7,15 +7,19 @@ from gerby.database import *
 import peewee
 
 spelling = {
+    "quasiaffine": "\"quasi-affine\"",
     "quasicoherent": "\"quasi-coherent\"",
     "quasicompact": "\"quasi-compact\"",
+    "quasifinite": "\"quasi-finite\"",
     "quasiisomorphism": "\"quasi-isomorphism\"",
     "quasiisomorphic": "\"quasi-isomorphic\"",
+    "quasiprojective": "\"quasi-projective\"",
 
     "semilocal": "\"semi-local\"",
     "semicontinuous": "\"semi-continuous\"",
 
     "pseudocoherent": "\"pseudo-coherent\"",
+    "\"pro-etale\"": "\"pro-étale\"",
     }
 
 @app.route("/tag")
