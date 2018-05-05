@@ -45,6 +45,11 @@ $(document).ready(function() {
   });
 
   $('article a[data-toggle="popover"]').popover()
+
+  // render mathematics in popovers
+  $("[data-toggle=popover]").on('shown.bs.popover', function () {
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, $("div.popover-body").html()]);
+  });
 });
   </script>
 
@@ -81,11 +86,6 @@ $("div.expand-all").click(function() {
 
 $(function () {
   $('[data-toggle="popover"]').popover()
-
-  // render mathematics in popovers
-  $("[data-toggle=popover]").on('shown.bs.popover', function () {
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, $("div.popover-body").html()]);
-  });
 })
     </script>
 
