@@ -38,7 +38,7 @@ def show_search():
   if "perpage" in request.args:
     if request.args["perpage"] == "oo":
       perpage = 9223372036854775807 # 2^63-1 (shame on me for taking this approach)
-    else:
+    elif request.args["perpage"] != "":
       perpage = int(request.args["perpage"])
 
   # dealing with search options: search radius (all tags, only statements)
