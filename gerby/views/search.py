@@ -7,15 +7,19 @@ from gerby.database import *
 import peewee
 
 spelling = {
+    "quasiaffine": "\"quasi-affine\"",
     "quasicoherent": "\"quasi-coherent\"",
     "quasicompact": "\"quasi-compact\"",
+    "quasifinite": "\"quasi-finite\"",
     "quasiisomorphism": "\"quasi-isomorphism\"",
     "quasiisomorphic": "\"quasi-isomorphic\"",
+    "quasiprojective": "\"quasi-projective\"",
 
     "semilocal": "\"semi-local\"",
     "semicontinuous": "\"semi-continuous\"",
 
     "pseudocoherent": "\"pseudo-coherent\"",
+    "\"pro-etale\"": "\"pro-étale\"",
     }
 
 @app.route("/tag")
@@ -97,11 +101,11 @@ def show_search():
   tree = tag.combine(list(sorted(complete)))
 
   # check whether we should suggest an alternative query, and build it if this is the case
-  misspellt = [keyword for keyword in spelling.keys() if keyword in request.args["query"]]
+  misspelt = [keyword for keyword in spelling.keys() if keyword in request.args["query"]]
   alternative = request.args["query"]
 
-  if len(results) == 0 and len(misspellt) != 0:
-    for keyword in misspellt:
+  if len(results) == 0 and len(misspelt) != 0:
+    for keyword in misspelt:
       alternative = alternative.replace(keyword, spelling[keyword])
 
   return render_template("search.html",
@@ -110,7 +114,7 @@ def show_search():
                          page=page,
                          perpage=perpage,
                          tree=tree,
-                         misspellt=misspellt,
+                         misspelt=misspelt,
                          alternative=alternative,
                          radius=radius,
                          headings=tag.headings)
