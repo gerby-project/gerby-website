@@ -259,7 +259,7 @@ li.custom-item {
   list-style-type: none;
 }
 
-li.custom-item:before {
+li.custom-item[data-marker]:before {
   content: attr(data-marker) !important;
 }
 
