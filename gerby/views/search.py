@@ -10,6 +10,7 @@ spelling = {
     "quasiaffine": "\"quasi-affine\"",
     "quasicoherent": "\"quasi-coherent\"",
     "quasicompact": "\"quasi-compact\"",
+    "quasicompactness": "\"quasi-compactness\"",
     "quasifinite": "\"quasi-finite\"",
     "quasiisomorphism": "\"quasi-isomorphism\"",
     "quasiisomorphic": "\"quasi-isomorphic\"",
