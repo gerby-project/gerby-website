@@ -24,12 +24,14 @@
       <li id="{{ part.tag }}" class="expanded">
         <a class="header-offset" id="{{ part.label }}"></a>
         <strong><a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}</strong>
+        {% set filename = part.label.split("-part-")[1] %}
+        <a href="/download/{{ filename }}.pdf" class="pdf-link">pdf</a>
 
         <ul>
           {% for chapter in part.chapters %}
             <li><p><a href="/tag/{{ chapter.tag }}">Chapter <span data-tag="{{ chapter.tag }}">{{ chapter.ref }}</span></a>: {{ chapter.name }}
-            {% set filename = chapter.label.split("-section-") %}</p>
-            <a href="/download/{{ filename[0] }}.pdf" class="pdf-link">pdf</a>
+            {% set filename = chapter.label.split("-section-")[0] %}</p>
+            <a href="/download/{{ filename }}.pdf" class="pdf-link">pdf</a>
           {% endfor %}
         </ul>
         <hr class="my-1">

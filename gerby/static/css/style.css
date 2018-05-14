@@ -39,6 +39,12 @@ ul#quicklinks {
   }
 }
 
+@media (min-width: 768px) {
+  ul#toc .pdf-link {
+    display: inline;
+  }
+}
+
 body {
   position: relative;
   font-family: "Droid Sans", Arial, sans-serif;

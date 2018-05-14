@@ -18,4 +18,5 @@ ul#toc li li p {
 
 ul#toc .pdf-link {
   float: right;
+  display: none; /* hide by default, turn it on with media query */
 }
