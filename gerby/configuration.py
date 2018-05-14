@@ -1,6 +1,6 @@
 # configuration for the website
-COMMENTS = "/Users/pbelmans/Documents/Projects/gerby-website/gerby/comments.sqlite"
-DATABASE = "/Users/pbelmans/Documents/Projects/gerby-website/gerby/stacks.sqlite"
+COMMENTS = "comments.sqlite"
+DATABASE = "stacks.sqlite"
 UNIT = "section"
 DEPTH = 0
 
