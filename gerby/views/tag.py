@@ -213,6 +213,13 @@ def show_tag(tag):
       if count > 0:
         parentComments.append([parent, count])
 
+  if tag.type == "part":
+    filename = "part-" + tag.label.split("-part-")[1]
+  elif tag.type == "chapter":
+    filename = tag.label.split("-section-")[0]
+  else:
+    filename = tag.label.split("-" + tag.type)[0]
+
   return render_template("tag.show.html",
                          tag=tag,
                          breadcrumb=breadcrumb,
@@ -223,7 +230,7 @@ def show_tag(tag):
                          tree=tree,
                          commentsEnabled=commentsEnabled,
                          comments=comments,
-                         filename=tag.label.split("-" + tag.type)[0],
+                         filename=filename,
                          parentComments=parentComments,
                          depth=gerby.configuration.DEPTH)
 
