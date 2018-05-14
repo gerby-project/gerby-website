@@ -1,9 +1,10 @@
+from gerby.configuration import *
 import datetime
 from peewee import *
 from playhouse.sqlite_ext import *
 
 db = SqliteExtDatabase(None)
-comments = SqliteDatabase("comments.sqlite");
+comments = SqliteDatabase(COMMENTS);
 
 class BaseModel(Model):
   class Meta:

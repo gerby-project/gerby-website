@@ -1,13 +1,10 @@
-PATH = "stacks"
-DATABASE = "stacks.sqlite"
-PAUX = "stacks.paux"
-TAGS = "stacks.tags"
+# configuration for the website
+COMMENTS = "/Users/pbelmans/Documents/Projects/gerby-website/gerby/comments.sqlite"
+DATABASE = "/Users/pbelmans/Documents/Projects/gerby-website/gerby/stacks.sqlite"
 UNIT = "section"
 DEPTH = 0
 
-#PATH = "htt"
-#DATABASE = "htt.sqlite"
-#PAUX = "htt.paux"
-#TAGS = "htt.tags"
-#UNIT = "subsection"
-#DEPTH = 1
+# configuration for the import
+PATH = "/Users/pbelmans/Documents/Projects/stacks-project/gerby/book"
+PAUX = "/Users/pbelmans/Documents/Projects/stacks-project/gerby/book.paux"
+TAGS = "/Users/pbelmans/Documents/Projects/stacks-project/gerby/tags"
