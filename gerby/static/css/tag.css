@@ -64,11 +64,6 @@ div.html h3 {
   margin-bottom: 1rem;
 }
 
-div.html article ol,
-div.html article ul {
-  margin-top: -0.75rem;
-}
-
 div.html ul li p:only-child,
 div.html ol li p:only-child {
   margin-bottom: .3rem;
@@ -264,7 +259,7 @@ li.custom-item {
   list-style-type: none;
 }
 
-li.custom-item:before {
+li.custom-item[data-marker]:before {
   content: attr(data-marker) !important;
 }
 
