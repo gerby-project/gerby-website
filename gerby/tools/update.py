@@ -339,7 +339,7 @@ def computeBookStats():
     book_pdf = PdfFileReader(open(gerby.configuration.PDF, "rb"))
     BookStatistic.create(statistic="pages", value=book_pdf.getNumPages())
   else:
-    log.warning("  Cannot find file 'book.pdf'; skipping.")
+    log.warning("  Cannot find file '%s; skipping." % gerby.configuration.PDF)
 
 
 if __name__ == "__main__":
