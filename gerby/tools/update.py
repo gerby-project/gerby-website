@@ -388,8 +388,9 @@ if __name__ == "__main__":
       model.create_table()
     log.info("Created database")
 
-  if not os.path.isfile("comments.sqlite"):
+  if not os.path.isfile(gerby.configuration.COMMENTS):
     Comment.create_table()
+    log.info("Created COMMENTS database")
 
   # the information on disk
   tags = getTags()
