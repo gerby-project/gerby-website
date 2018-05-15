@@ -20,16 +20,16 @@ db.init(DATABASE)
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-app.config["flask_profiler"] = {
-    "enabled": "true",
-    "storage": {
-        "engine": "sqlite"
-    },
-    "basicAuth": {
-        "enabled": False,
-    },
-    "ignore": ["^/static/.*"]
-}
+#app.config["flask_profiler"] = {
+#    "enabled": "true",
+#    "storage": {
+#        "engine": "sqlite"
+#    },
+#    "basicAuth": {
+#        "enabled": False,
+#    },
+#    "ignore": ["^/static/.*"]
+#}
 
 feeds = {
   "github": {
