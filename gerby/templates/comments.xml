@@ -15,12 +15,12 @@
 
   {% for comment in comments %}
     <item>
-      <title>#{{ comment.id }} on tag {{ comment.tag.tag }} by {{ comment.name }}</title>
+      <title>#{{ comment.id }} on tag {{ comment.tag.tag }} by {{ comment.author }}</title>
       <link>http://stacks.math.columbia.edu/tag/{{ comment.tag }}#comment-{{ comment.id }}</link>
-      <description>A new comment by {{ comment.name }} on tag {{ comment.tag.tag }}.</description>
+      <description>A new comment by {{ comment.author }} on tag {{ comment.tag }}.</description>
       <content:encoded><![CDATA[ {{ comment.comment | safe }}]]  ></content:encoded>
-      <dc:creator>{{ comment.name }}</dc:creator>
-      <pubDate>{{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}</pubDate>
+      <dc:creator>{{ comment.author }}</dc:creator>
+      <pubDate>{{ comment.date.strftime("%B %d, %Y at %H:%M") }}</pubDate>
     </item>
   {% endfor %}
 </channel>
