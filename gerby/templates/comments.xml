@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
   <title>Stacks project -- Comments</title>
@@ -15,12 +15,12 @@
 
   {% for comment in comments %}
     <item>
-      <title>#{{ comment.id }} on tag {{ comment.tag.tag }} by {{ comment.author }}</title>
+      <title>#{{ comment.id }} on tag {{ comment.tag }} by {{ comment.author }}</title>
       <link>http://stacks.math.columbia.edu/tag/{{ comment.tag }}#comment-{{ comment.id }}</link>
       <description>A new comment by {{ comment.author }} on tag {{ comment.tag }}.</description>
       <content:encoded><![CDATA[ {{ comment.comment | safe }}]]></content:encoded>
       <dc:creator>{{ comment.author }}</dc:creator>
-      <pubDate>{{ comment.date.strftime("%B %d, %Y at %H:%M") }}</pubDate>
+      <pubDate>{{ comment.date.strftime("%a, %d %b %Y %I:%M:%S GMT") }}</pubDate>
     </item>
   {% endfor %}
 </channel>
