@@ -200,7 +200,7 @@ def show_tag(tag):
   comments = []
   parentComments = []
   if commentsEnabled:
-    comments = Comment.select().where(Comment.tag == tag.tag)
+    comments = Comment.select().where(Comment.tag == tag.tag, Comment.active)
     for comment in comments:
       comment.comment = sfm(comment.comment)
 
@@ -209,7 +209,7 @@ def show_tag(tag):
     for parent in breadcrumb:
       if parent.tag == tag.tag:
         continue
-      count = Comment.select().where(Comment.tag == parent.tag).count() # this could be done in a single JOIN
+      count = Comment.select().where(Comment.tag == parent.tag, Comment.active).count() # this could be done in a single JOIN
       if count > 0:
         parentComments.append([parent, count])
 

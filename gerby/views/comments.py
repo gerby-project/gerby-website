@@ -37,7 +37,7 @@ def show_comments_feed():
   comments = []
   commentsout = []
   if Comment.table_exists():
-    comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 10)
+    comments = Comment.select().where(Comment.active).order_by(Comment.id.desc()).paginate(1, 10)
 
   for comment in comments:
     comment.comment = sfm(comment.comment)
@@ -57,7 +57,7 @@ def show_comments(page):
   tags = 0
   if Comment.table_exists():
     comments = Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE)
-    count = Comment.select().count()
+    count = Comment.select().where(Comment.active == True).count()
     tags = Comment.select(Comment.tag).distinct().count()
 
   for comment in comments:

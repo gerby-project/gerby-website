@@ -105,7 +105,7 @@ def show_index():
 
   comments = []
   if Comment.table_exists():
-    comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 5)
+    comments = Comment.select().where(Comment.active).order_by(Comment.id.desc()).paginate(1, 5)
 
   for comment in comments:
     comment.tag = Tag.get(Tag.tag == comment.tag)
