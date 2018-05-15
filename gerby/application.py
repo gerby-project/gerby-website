@@ -6,7 +6,7 @@ import socket
 import feedparser
 import re
 from flask import Flask, render_template, request, send_from_directory
-import flask_profiler
+#import flask_profiler
 
 from peewee import *
 from playhouse.sqlite_ext import *
@@ -177,6 +177,7 @@ import gerby.views.search
 import gerby.views.tag
 
 
-flask_profiler.init_app(app)
+#flask_profiler.init_app(app)
+
 # Stacks project specific pages
 import gerby.views.stacks
