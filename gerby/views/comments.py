@@ -37,7 +37,7 @@ def show_comments_feed():
   comments = []
   commentsout = []
   if Comment.table_exists():
-    comment = Comment.select().order_by(Comment.id.desc()).paginate(1, 10)
+    comments = Comment.select().order_by(Comment.id.desc()).paginate(1, 10)
 
   for comment in comments:
     comment.comment = sfm(comment.comment)
