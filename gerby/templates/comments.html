@@ -4,6 +4,8 @@
 
 {% block head %}
   <script type="text/javascript" src="/static/js/toggle.js"></script>
+
+  <link rel="alternate" type="application/rss+xml" href="/recent-comments.rss">
 {% endblock %}
 
 {% block breadcrumb %}
@@ -26,6 +28,9 @@
 {% block hamburger %}
   <div class="interaction">
     {{ pagination() }}
+
+    <p style="text-align: center"><a rel="alternate" type="application/rss.xml" href="/recent-comments.rss">feed</a></p>
+
   </div>
 {% endblock %}
 
@@ -62,6 +67,7 @@
 {% block sidebar %}
   <div class="interaction">
     {{ pagination() }}
+    <p style="text-align: center"><a rel="alternate" type="application/rss.xml" href="/recent-comments.rss">feed</a></p>
   </div>
 {% endblock %}
 
