@@ -335,9 +335,8 @@ def computeBookStats():
     log.warning("  Cannot find file 'meta.statistics'; skipping.")
 
   # try to get pdf page counts
-  bookPDFPath = os.path.join(gerby.configuration.PATH, "book.pdf")
-  if os.path.isfile(bookPDFPath):
-    book_pdf = PdfFileReader(open(bookPDFPath, "rb"))
+  if os.path.isfile(gerby.configuration.PDF):
+    book_pdf = PdfFileReader(open(gerby.configuration.PDF, "rb"))
     BookStatistic.create(statistic="pages", value=book_pdf.getNumPages())
   else:
     log.warning("  Cannot find file 'book.pdf'; skipping.")

@@ -8,3 +8,4 @@ DEPTH = 0
 PATH = "stacks"
 PAUX = "stacks.paux"
 TAGS = "stacks.tags"
+PDF = "stacks.pdf"
