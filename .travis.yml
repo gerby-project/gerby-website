@@ -4,6 +4,7 @@ python:
   - "3.6"
 
 install:
+  - sudo apt-get update
   - sudo apt install dvipng
   - git clone https://github.com/pbelmans/plastex.git
   - cd plastex
@@ -27,7 +28,7 @@ install:
   - pip install .
   - cd ..
 
-script: 
+script:
   - mkdir WEB
   - cd stacks-project
   - echo yes | python2 scripts/add_tags.py
