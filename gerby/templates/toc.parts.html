@@ -24,8 +24,11 @@
       <li id="{{ part.tag }}" class="expanded">
         <a class="header-offset" id="{{ part.label }}"></a>
         <strong><a href="/tag/{{ part.tag }}">Part <span data-tag="{{ part.tag }}">{{ part.ref }}</span></a>: {{ part.name }}</strong>
+
+        {#
         {% set filename = part.label.split("-part-")[1] %}
         <a href="/download/part-{{ filename }}.pdf" class="pdf-link">pdf</a>
+        #}
 
         <ul>
           {% for chapter in part.chapters %}

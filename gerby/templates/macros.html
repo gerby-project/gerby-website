@@ -41,7 +41,7 @@
 
   <hr>
   {% if tag.type == "part" %}
-    <a href="https://stacks.math.columbia.edu/download/{{ filename }}.pdf">View Part <span data-tag="{{ tag.tag }}">{{ tag.ref }}</span> as pdf</a>
+    {#<a href="https://stacks.math.columbia.edu/download/{{ filename }}.pdf">View Part <span data-tag="{{ tag.tag }}">{{ tag.ref }}</span> as pdf</a>#}
   {% else %}
     <a href="https://stacks.math.columbia.edu/download/{{ filename }}.pdf#nameddest={{ tag.tag }}">View {{ tag.type | capitalize }} <span data-tag="{{ tag.tag }}">{{ tag.ref }}</span> as pdf</a>
   {% endif %}
