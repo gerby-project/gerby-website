@@ -57,8 +57,9 @@ def show_contribute():
 def show_contributors():
   contributors = []
 
-  with app.open_resource("tex/CONTRIBUTORS", mode="r") as f:
+  with app.open_resource("tex/CONTRIBUTORS") as f:
     for line in f:
+      line = line.decode("utf-8")
       if line.startswith("%") or line.isspace():
         continue
       contributors.append(line)
