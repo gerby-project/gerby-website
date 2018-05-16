@@ -70,15 +70,16 @@ def get_statistics():
 
   return statistics
 
+feedsDirectory = app.instance_path + "/feeds"
 
 def update_feeds():
   # make sure there is a directory
-  if not os.path.exists("feeds"):
-    os.makedirs("feeds")
+  if not os.path.exists(feedsDirectory):
+    os.makedirs(feedsDirectory)
 
   # update if needed (i.e. older than 1 hour)
   for label, feed in feeds.items():
-    path = "feeds/" + label + ".feed"
+    path = feedsDirectory + "/" + label + ".feed"
     if not os.path.isfile(path) or time.time() - os.path.getmtime(path) > 3600:
       try:
         urllib.request.urlretrieve(feed["url"], path)
@@ -95,7 +96,7 @@ def show_index():
   for label, feed in feeds.items():
     update = {"title": "<a href='" + feed["link"] + "'>" + feed["title"] + "</a>", "entries": []}
 
-    d = feedparser.parse("feeds/" + label + ".feed")
+    d = feedparser.parse(feedsDirectory + "/" + label + ".feed")
     for i in range(min(5, len(d.entries))):
       entry = "<span class='date'>" + time.strftime("%d %b %Y", d.entries[i].updated_parsed) + "</span>: "
       entry = entry + "<a href='" + d.entries[i].link + "'>" + d.entries[i].title + "</a>"
