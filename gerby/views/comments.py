@@ -56,9 +56,9 @@ def show_comments(page):
   count = 0
   tags = 0
   if Comment.table_exists():
-    comments = Comment.select().order_by(Comment.id.desc()).paginate(page, PERPAGE)
-    count = Comment.select().where(Comment.active == True).count()
-    tags = Comment.select(Comment.tag).distinct().count()
+    comments = Comment.select().where(Comment.active).order_by(Comment.id.desc()).paginate(page, PERPAGE)
+    count = Comment.select().where(Comment.active).count()
+    tags = Comment.select(Comment.tag).where(Comment.active).distinct().count()
 
   for comment in comments:
     comment.comment = sfm(comment.comment)
