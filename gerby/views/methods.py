@@ -40,6 +40,9 @@ def sfm(comment):
 
 
 def getBreadcrumb(tag):
+  if tag.type == "item":
+    return [tag]
+
   if tag.type == "part":
     return [tag]
 
