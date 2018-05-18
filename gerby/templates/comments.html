@@ -35,26 +35,26 @@
 {% endblock %}
 
 {% block body %}
-  <p>There are currently {{ count }} comments on {{ tags }} tags.
-  <p>You are now viewing comments {{ (page - 1) * perpage + 1 }} to {{ [page * perpage, count] | sort | first }} in reverse chronological order.
+  <p>Comments {{ (page - 1) * perpage + 1 }} to {{ [page * perpage, count] | sort | first }} out of {{ count }} in reverse chronological order.
 
   <hr>
 
   <section id="comments">
     {% for comment in comments %}
       <header>
-        <p>
-        {% for parent in comment.breadcrumb %}
-          {{ parent.type | capitalize }} <a href="/tag/{{ parent.tag }}" data-tag="{{ parent.tag }}">{{ parent.ref }}</a>{% if parent.name %}: {{ parent.name }}{% endif %}{% if not loop.last %}, {% endif %}
-        {% endfor %}
-
-        <p>On <time datetime="{{ comment.date }}">{{ comment.date.strftime("%B %d, %Y at %H:%M %Z") }}</time>
+        <p>On <time datetime="{{ comment.date }}">{{ comment.date.strftime("%b %d, %Y") }}</time>
         {% if comment.site %}<cite><a href="{{ comment.site }}" rel="author">{{ comment.author }}</a></cite>
         {% else %}<cite>{{ comment.author }}</cite>{% endif %}
         left
         <a href="/tag/{{ comment.tag.tag }}#comment-{{ comment.id }}">comment #{{ comment.id }}</a>
         on
-        <a href="/tag/{{ comment.tag.tag }}">tag <span class="tag">{{ comment.tag.tag }}</span></a>
+	{{ comment.tag.type | capitalize }}
+	<a href="/tag/{{ comment.tag.tag }}" data-tag="{{ comment.tag.tag }}">{{ comment.tag.ref }}</a>
+	{% for parent in comment.breadcrumb %}
+          {% if parent.type == "chapter" %}
+	    in {{ parent.name }}
+	  {% endif %}
+        {% endfor %}
       </header>
 
       <blockquote>{{ comment.comment | safe }}</blockquote>
