@@ -1,4 +1,8 @@
-{% macro neighbours(neighbours, modifier) %}
+{% macro neighbours(neighbours, modifier, tag) %}
+  {% if neighbours[2] %}
+    <span style="display: block; text-align: center;"><a href="/tag/{{ neighbours[2].tag }}{{ modifier }}#{{ tag.tag }}">go to {{ neighbours[2].type }}</a></span>
+  {% endif %}
+
   <ul class="neighbours">
   {% if neighbours[0] %}
     <li class="left"><a href="/tag/{{ neighbours[0].tag }}{{ modifier }}">previous {{ neighbours[0].type }}</a>
@@ -22,7 +26,7 @@
 
 {% macro tagHamburger(tag, neighboursList, neighboursModifier, dependencies) %}
   <div class="interaction">
-    {{ neighbours(neighboursList, neighboursModifier) }}
+    {{ neighbours(neighboursList, neighboursModifier, tag) }}
   </div>
 
   {% if tag.type in ["definition", "example", "exercise", "lemma", "proposition", "remark", "remarks", "situation", "theorem"] %}
@@ -36,7 +40,7 @@
 
 {% macro tagSidebar(tag, neighboursList, neighboursModifier, dependencies, filename) %}
   <div class="interaction">
-    {{ neighbours(neighboursList, neighboursModifier) }}
+    {{ neighbours(neighboursList, neighboursModifier, tag) }}
   </div>
 
   <hr>

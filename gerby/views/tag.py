@@ -88,7 +88,17 @@ def getNeighbours(tag):
   except Tag.DoesNotExist:
     right = None
 
-  return (left, right)
+  # up
+  up = ".".join(map(str, pieces[:-1]))
+  try:
+    if tag.type in headings: # for now we don't deal with this, Kerodon might need this though
+      up = None
+    else:
+      up = Tag.get(Tag.ref == up, Tag.type != "item")
+  except Tag.DoesNotExist:
+    up = None
+
+  return (left, right, up)
 
 # for the absolutely ancient redirect setup
 @app.route("/index.php?page=tag?tag=<string:tag>")
@@ -120,6 +130,7 @@ def show_tag(tag):
   html = ""
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
+
 
   # if the tag is section-like: decide whether we output a table of contents or generate all output
   # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
