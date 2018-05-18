@@ -1,7 +1,9 @@
 {% macro neighbours(neighbours, modifier, tag) %}
+  {#
   {% if neighbours[2] %}
     <span style="display: block; text-align: center;"><a href="/tag/{{ neighbours[2].tag }}{{ modifier }}#{{ tag.tag }}">go to {{ neighbours[2].type }}</a></span>
   {% endif %}
+  #}
 
   <ul class="neighbours">
   {% if neighbours[0] %}
