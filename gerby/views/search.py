@@ -20,6 +20,16 @@ spelling = {
     "semicontinuous": "\"semi-continuous\"",
 
     "pseudocoherent": "\"pseudo-coherent\"",
+    "gluing": "glu*",
+    "glueing": "glu*",
+    "fiber": "fib*",
+    "fibers": "fib*",
+    "fibered": "fib*",
+    "fibre": "fib*",
+    "fibres": "fib*",
+    "fibred": "fib*",
+    "etale": "étale",
+    "proetale": "\"pro-étale\"",
     "\"pro-etale\"": "\"pro-étale\"",
     }
 
@@ -105,7 +115,7 @@ def show_search():
   misspelt = [keyword for keyword in spelling.keys() if keyword in request.args["query"]]
   alternative = request.args["query"]
 
-  if len(results) == 0 and len(misspelt) != 0:
+  if len(misspelt) != 0:
     for keyword in misspelt:
       alternative = alternative.replace(keyword, spelling[keyword])
 

@@ -112,8 +112,7 @@ $("input[type=search]").on("paste keyup", function() {
   </h2>
 
   {% if misspelt | length > 0 %}
-  <p>The keyword{{ "(s)" if misspelt | length > 1 }} {% for keyword in misspelt %}<var>{{ keyword }}</var>{{ ", " if not loop.last }}{% endfor %} {% if misspelt | length == 1 %}is{% else %}are{% endif %} spellt differently in the Stacks project.
-  <p>Do you perhaps want to search for <a href="{{ searchlink(alternative, page, perpage, radius) }}"><var>{{ alternative }}</var></a>?
+  <p>If the keyword{{ "(s)" if misspelt | length > 1 }} {% for keyword in misspelt %}<var>{{ keyword }}</var>{{ ", " if not loop.last }}{% endfor %} is not giving you the results you expect, then try searching for <a href="{{ searchlink(alternative, page, perpage, radius) }}"><var>{{ alternative }}</var></a>.
   {% endif %}
 
   <ol id="search-results">
