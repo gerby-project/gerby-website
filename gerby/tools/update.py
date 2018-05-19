@@ -162,7 +162,8 @@ def checkInactivity(tags):
   # check (in)activity of tags
   for tag in Tag.select():
     if tag.tag not in tags:
-      log.info("  Tag %s became inactive", tag.tag)
+      if tag.active:
+        log.info("  Tag %s became inactive", tag.tag)
       tag.active = False
     else:
       if tag.label != tags[tag.tag]:
