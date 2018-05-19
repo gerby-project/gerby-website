@@ -154,7 +154,7 @@ $(function () {
     <label>Comment:</label>
     <textarea name="comment" id="comment-textarea" cols="80" rows="10" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
     <script type="text/javascript">
-var simplemde = new EasyMDE({
+var easymde = new EasyMDE({
   autosave: {
     enabled: true,
     delay: 1000,
@@ -183,7 +183,7 @@ var simplemde = new EasyMDE({
   spellChecker: false,
   status: false,
   toolbar: [
-    "link", {name: "inline", action: SimpleMDE.drawTable, className: "fa fa-usd"}, {name: "block", action: SimpleMDE.drawImage, className: "fa fa-square"}, "|",
+    "link", {name: "inline", action: EasyMDE.drawTable, className: "fa fa-usd"}, {name: "block", action: EasyMDE.drawImage, className: "fa fa-square"}, "|",
     "bold", "italic", "|",
     "ordered-list", "unordered-list", "|",
     "preview"
@@ -192,7 +192,7 @@ var simplemde = new EasyMDE({
 
 // make sure to show tags, not numbers
 var tagToggleHappened = false; // only do this once to not annoy the user too much
-simplemde.codemirror.on("change", function() {
+easymde.codemirror.on("change", function() {
   // if data-tag elements do not have tag attribute we need to make tags visible
   if (!$("*[data-tag]").hasClass("tag") && !tagToggleHappened)
     $("section#meta input.toggle").bootstrapToggle("toggle");
@@ -202,7 +202,7 @@ simplemde.codemirror.on("change", function() {
 // prevent form submit when the captcha isn't correct
 // it's a bit silly to use HTML5 validation for this, as bots can figure that out
 // also save the author information to localStorage
-simplemde.element.form.addEventListener("submit", function(event) {
+easymde.element.form.addEventListener("submit", function(event) {
   if ($("#check").val() != $("#hidden-tag").val()) {
     // explain captcha
     $("#captcha-message").toggle();
