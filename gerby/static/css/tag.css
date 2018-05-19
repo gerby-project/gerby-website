@@ -141,6 +141,7 @@ div.html article.env-proof span.qed {
 
 div.html div.equation span.equation-label {
   float: left;
+  padding-top: 1rem;
 }
 
 div.html div.equation span.equation-label::before {
