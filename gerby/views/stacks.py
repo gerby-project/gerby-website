@@ -39,7 +39,6 @@ def show_acknowledgements():
   acknowledgements = []
 
   with app.open_resource("tex/documentation/support", mode="r") as f:
-    print(type(f))
     for line in f:
       if line.startswith("%") or line.isspace():
         continue
