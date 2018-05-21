@@ -38,9 +38,9 @@ feeds = {
     "link": "https://github.com/stacks/stacks-project/commits",
   },
   "blog": {
-    "url": "http://math.columbia.edu/~dejong/wordpress/?feed=rss2",
+    "url": "https://www.math.columbia.edu/~dejong/wordpress/?feed=rss2",
     "title": "Recent blog posts",
-    "link": "http://math.columbia.edu/~dejong/wordpress",
+    "link": "https://www.math.columbia.edu/~dejong/wordpress",
   },
 }
 
