@@ -1,6 +1,6 @@
 import datetime
 
-from flask import render_template
+from flask import render_template, request, redirect
 
 from gerby.application import app
 from gerby.database import *
@@ -101,9 +101,12 @@ def getNeighbours(tag):
   return (left, right, up)
 
 # for the absolutely ancient redirect setup
-@app.route("/index.php?page=tag?tag=<string:tag>")
-def redirect_to_tag(tag):
-  return redirect("/tag/" + tag)
+@app.route("/index.php")
+def redirect_to_tag():
+  tag = request.args.get('tag')
+  if tag is None:
+    return redirect('/', code = 301)
+  return redirect("/tag/" + tag, code = 301)
 
 
 @app.route("/tag/<string:tag>")
