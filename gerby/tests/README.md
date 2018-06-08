@@ -9,7 +9,7 @@ error is found is given, together with the offending LaTeX code.
 To run this script:
 
   1. Install `selenium`, via `pip install selenium`. See the
-  [docs](http://selenium-python.readthedocs.io/) for more detail.
+  [docs](https://selenium-python.readthedocs.io/) for more detail.
   2. Install `geckodriver` to run the Firefox webdriver. Obtain the binary
   [here](https://github.com/mozilla/geckodriver/releases), and put it somewhere
   where your `PATH` variable can find.
