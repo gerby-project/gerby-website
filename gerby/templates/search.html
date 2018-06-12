@@ -91,8 +91,11 @@
 
   <script type="text/javascript">
 // synchronise the two text inputs
-$("input[type=search]").on("paste keyup", function() {
-  $("input[type=search]").val($(this).val());
+$("form[id=search] div input[type=search]").on("paste keyup", function() {
+  $("form[id=quicksearch] input[type=search]").val($(this).val());
+});
+$("form[id=quicksearch] input[type=search]").on("paste keyup", function() {
+  $("form[id=search] div input[type=search]").val($(this).val());
 });
   </script>
 
