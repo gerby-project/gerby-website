@@ -40,6 +40,10 @@ ol#search-results article p:last-child {
   margin-bottom: 0;
 }
 
+nav#results-per-page {
+  margin-top: 1rem;
+}
+
 nav#results-per-page p {
   margin-left: .5rem;
   margin-top: .4rem;
