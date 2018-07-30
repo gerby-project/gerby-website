@@ -7,6 +7,7 @@ from gerby.application import app
 from gerby.database import *
 from gerby.views.methods import *
 import gerby.views.tag
+from gerby.configuration import *
 
 # we need this for building GitHub URLs pointing to diffs
 @app.context_processor
@@ -87,7 +88,7 @@ def show_api_statement(tag):
   # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
   if tag.type in gerby.views.tag.headings:
     # if we are below the cutoff: generate all data below it too
-    if gerby.views.tag.headings.index(tag.type) >= gerby.views.tag.headings.index(config.UNIT):
+    if gerby.views.tag.headings.index(tag.type) >= gerby.views.tag.headings.index(UNIT):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << gerby.views.tag.headings)
       html = html + "".join([item.html for item in sorted(tags)])
 
@@ -110,7 +111,7 @@ def show_api_tag(tag):
     html = tag.html
 
     # if we are below the cutoff: generate all data below it too
-    if gerby.views.tag.headings.index(tag.type) >= gerby.views.tag.headings.index(config.UNIT):
+    if gerby.views.tag.headings.index(tag.type) >= gerby.views.tag.headings.index(UNIT):
       tags = Tag.select().where(Tag.ref.startswith(tag.ref + "."), Tag.type << gerby.views.tag.headings)
       html = html + "".join([item.html for item in sorted(tags)])
 
