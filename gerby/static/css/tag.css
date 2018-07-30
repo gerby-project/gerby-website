@@ -270,10 +270,21 @@ li.custom-item p {
 
 ul#citations {
   font-size: .9rem;
+  list-style-type: none;
+  padding-left: 0;
 }
 
-a.btn:hover {
-  color: white;
+ul#citations li {
+  margin-bottom: .4rem;
+}
+
+button.clipboard {
+  -webkit-appearance: none;
+  background-color: white;
+}
+
+button.clipboard:hover {
+  background-color: #f5f5dc;
 }
 
 ul + span.qed,
