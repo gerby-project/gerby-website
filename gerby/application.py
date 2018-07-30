@@ -135,6 +135,7 @@ def show_statistics():
   extras = dict()
   for (name, extra) in {"slogans": Slogan, "references": Reference, "historical remarks": History}.items():
     extras[name] = extra.select().count()
+  extras["comments"] = Comment.select().where(Comment.active).count()
 
   records = dict()
   records["complex"] = TagStatistic.select(TagStatistic.tag, fn.MAX(TagStatistic.value).alias("value")).where(TagStatistic.statistic == "preliminaries").execute()[0]
