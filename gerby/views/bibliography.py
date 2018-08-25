@@ -24,7 +24,11 @@ def show_bibliography():
 
 @app.route("/bibliography/<string:key>")
 def show_entry(key):
-  entry = BibliographyEntry.get(BibliographyEntry.key == key)
+  try:
+    entry = BibliographyEntry.get(BibliographyEntry.key == key)
+  except BibliographyEntry.DoesNotExist:
+    return render_template("bibliography.notfound.html", key=key), 404
+
 
   fields = BibliographyField.select().where(BibliographyField.key == entry.key)
   entry.fields = dict()

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}Bibliography item {{ key }} does not exist{% endblock %}
+
+{% block breadcrumb %}
+{% endblock %}
+
+{% block body %}
+<h2 class="error">Bibliography item <code>{{ key }}</code> does not exist</h2>
+
+<p>The bibliography entry you requested does not exist.</p>
+{% endblock %}
+
