@@ -28,7 +28,7 @@ def getTags():
     tags = dict([line.split(",") for line in tags if "," in line])
   return tags
 
-
+@db.atomic('EXCLUSIVE')
 def importTags(files):
   # import tags
   tagFiles = [filename for filename in files if filename.endswith(".tag")]
@@ -72,6 +72,7 @@ def importTags(files):
     entity.save()
 
 
+@db.atomic('EXCLUSIVE')
 def importProofs(files):
   # import proofs
   proofFiles = [filename for filename in files if filename.endswith(".proof")]
@@ -105,6 +106,7 @@ def importProofs(files):
     proof.save()
 
 
+@db.atomic('EXCLUSIVE')
 def importFootnotes(files):
   # import footnotes
   if Footnote.table_exists():
@@ -120,6 +122,7 @@ def importFootnotes(files):
     Footnote.create(label=label, html=value)
 
 
+@db.atomic('EXCLUSIVE')
 def makeSearchTable():
   # create search table
   if SearchTag.table_exists():
@@ -139,6 +142,7 @@ def makeSearchTable():
                               SearchStatement.html: tag.html}).execute()
 
 
+@db.atomic('EXCLUSIVE')
 def assignParts():
   # link chapters to parts
   if Part.table_exists():
@@ -158,6 +162,7 @@ def assignParts():
     Part.drop_table()
 
 
+@db.atomic('EXCLUSIVE')
 def checkInactivity(tags):
   # check (in)activity of tags
   for tag in Tag.select():
@@ -174,6 +179,7 @@ def checkInactivity(tags):
     tag.save()
 
 
+@db.atomic('EXCLUSIVE')
 def makeDependency():
   # Create tag dependency data
   if Dependency.table_exists():
@@ -182,13 +188,13 @@ def makeDependency():
 
   for proof in Proof.select():
     regex = re.compile(r'\"/tag/([0-9A-Z]{4})\"')
-    with db.atomic():
-      dependencies = set(regex.findall(proof.html))
+    dependencies = set(regex.findall(proof.html))
 
-      if len(dependencies) > 0:
-        Dependency.insert_many([{"tag": proof.tag.tag, "to": to} for to in dependencies]).execute()
+    if len(dependencies) > 0:
+      Dependency.insert_many([{"tag": proof.tag.tag, "to": to} for to in dependencies]).execute()
 
 
+@db.atomic('EXCLUSIVE')
 def importExtras(files):
   # Import extras such as history, slogans, references, etc.
   extras = ("slogan", "history", "reference")
@@ -212,6 +218,7 @@ def importExtras(files):
         row.save()
 
 
+@db.atomic('EXCLUSIVE')
 def nameTags(tags):
   # Import and assign names to tags
   names = list()
@@ -226,6 +233,7 @@ def nameTags(tags):
     Tag.update(name=entry["name"]).where(Tag.tag == entry["tag"]).execute()
 
 
+@db.atomic('EXCLUSIVE')
 def makeBibliography(files):
   # import bibliography
   if BibliographyEntry.table_exists():
@@ -253,6 +261,7 @@ def makeBibliography(files):
         BibliographyField.create(key=entry.key, field=field.lower(), value=value)
 
 
+@db.atomic('EXCLUSIVE')
 def makeInternalCitations():
   # managing citations
   if Citation.table_exists():
@@ -279,6 +288,7 @@ def makeInternalCitations():
         pass
 
 
+@db.atomic('EXCLUSIVE')
 def computeTagStats():
   # do statistics
   if TagStatistic.table_exists():
@@ -312,15 +322,15 @@ def computeTagStats():
       new = new - preliminaries[tag.tag]
 
   log.info("  Saving statistics")
-  with db.atomic():
-    for tag in Tag.select():
-      TagStatistic.create(tag=tag, statistic="preliminaries", value=len(preliminaries[tag.tag]))
-      TagStatistic.create(tag=tag, statistic="proof", value=len(dependencies[tag.tag]))
-      TagStatistic.create(tag=tag, statistic="chapters", value=len(set([chapters[result] for result in preliminaries[tag.tag]])))
-      TagStatistic.create(tag=tag, statistic="sections", value=len(set([sections[result] for result in preliminaries[tag.tag] if len(sections[result].split(".")) == 2])))
-      TagStatistic.create(tag=tag, statistic="consequences", value=sum([1 for result in preliminaries if tag.tag in preliminaries[result]]))
+  for tag in Tag.select():
+    TagStatistic.create(tag=tag, statistic="preliminaries", value=len(preliminaries[tag.tag]))
+    TagStatistic.create(tag=tag, statistic="proof", value=len(dependencies[tag.tag]))
+    TagStatistic.create(tag=tag, statistic="chapters", value=len(set([chapters[result] for result in preliminaries[tag.tag]])))
+    TagStatistic.create(tag=tag, statistic="sections", value=len(set([sections[result] for result in preliminaries[tag.tag] if len(sections[result].split(".")) == 2])))
+    TagStatistic.create(tag=tag, statistic="consequences", value=sum([1 for result in preliminaries if tag.tag in preliminaries[result]]))
 
 
+@db.atomic('EXCLUSIVE')
 def computeBookStats():
   if BookStatistic.table_exists():
     BookStatistic.drop_table()
