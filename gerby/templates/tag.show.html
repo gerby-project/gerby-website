@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Tag {{ tag.tag }}{% endblock %}
+{% block title %}{{ tag.type | capitalize }} {{ tag.ref }} ({{ tag.tag }}){% if tag.name and "<" not in tag.name %}: {{ tag.name }}{% endif %}{% endblock %}
 
 {% block head %}
   <script type="text/javascript" src="/static/js/toggle.js"></script>
