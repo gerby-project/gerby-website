@@ -106,6 +106,17 @@ def importProofs(files):
     proof.save()
 
 
+@db.atomic("EXCLUSIVE")
+def removeProofs(files):
+  tags = [filename.split("-")[0] for filename in files if filename.endswith(".proof")]
+
+  for proof in Proof.select():
+    if proof.tag.tag not in tags:
+      log.info("  Proof for tag %s deleted, file no longer exists", proof.tag.tag)
+      proof.delete_instance()
+
+
+
 @db.atomic('EXCLUSIVE')
 def importFootnotes(files):
   # import footnotes
@@ -415,6 +426,7 @@ if __name__ == "__main__":
   if not args.noProofs:
     log.info("Importing proofs")
     importProofs(files)
+    removeProofs(files)
 
   if not args.noFootnotes:
     log.info("Importing footnotes")
