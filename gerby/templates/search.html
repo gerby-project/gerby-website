@@ -61,7 +61,7 @@
   {% if count > perpage %}
     <nav class="col-md">
       <ul class="pagination search-pages flex-wrap">
-        <li class="previous-search-page"{% if page == 1%} class="inactive"{% endif %}><a href="{{ searchlink(query, page - 1, perpage, radius) }}">&laquo;</a></li>
+        <li class="previous-search-page{% if page == 1%} inactive{% endif %}"><a href="{{ searchlink(query, page - 1, perpage, radius) }}">&laquo;</a></li>
       {% set lastpage = ((count - 1) // perpage) + 1 %}
 
       {% set pages = [1, page - 1, page, page + 1, lastpage] %}
