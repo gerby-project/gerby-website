@@ -59,15 +59,36 @@
 
 {% block pagination %}
   {% if count > perpage %}
-    <nav>
-      <ul id="pages" class="pagination flex-wrap">
-      {% for i in range(1, ((count - 1) // perpage) + 2) %}
-        <li class="page-item{% if i == page %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, i, perpage, radius) }}">{{ i }}</a>
+    <nav class="col-md">
+      <ul class="pagination search-pages flex-wrap">
+        <li class="previous-search-page"{% if page == 1%} class="inactive"{% endif %}><a href="{{ searchlink(query, page - 1, perpage, radius) }}">&laquo;</a></li>
+      {% set lastpage = ((count - 1) // perpage) + 1 %}
+
+      {% set pages = [1, page - 1, page, page + 1, lastpage] %}
+      {% if page == 1 %}{% do pages.append(3) %}{% do pages.append(4) %}{% do pages.append(5) %}{% endif %}
+      {% if page == 2 %}{% do pages.append(4) %}{% do pages.append(5) %}{% endif %}
+      {% if page == 3 %}{% do pages.append(5) %}{% endif %}
+      {% if page == lastpage - 2 %}{% do pages.append(lastpage - 4) %}{% endif %}
+      {% if page == lastpage - 1 %}{% do pages.append(lastpage - 4) %}{% do pages.append(lastpage - 3) %}{% endif %}
+      {% if page == lastpage %}{% do pages.append(lastpage - 4) %}{% do pages.append(lastpage - 3) %}{% do pages.append(lastpage - 2) %}{% endif %}
+
+      {% set jump = {"jump": false} %} {# determines whether we want to add ellipsis, need dictionary for variable in loop... #}
+
+      {% for i in range(1, lastpage + 1) %}
+        {% if i in pages %}
+    <br style="clear: both">
+          {% do jump.update({"jump": true}) %}
+          <li class="page-item{% if i == page %} active{% endif %}"><a class="page-link" href="{{ searchlink(query, i, perpage, radius) }}">{{ i }}</a>
+        {% elif jump.jump %}
+          <li class="page-item ellipsis">...</li>
+          {% do jump.update({"jump": false}) %}
+        {% endif %}
+
       {% endfor %}
+      <li class="next-search-page{% if page == lastpage %} inactive{% endif %}"><a href="{{ searchlink(query, page + 1, perpage, radius) }}">&raquo;</a></li>
       </ul>
     </nav>
   {% endif %}
-
 {% endblock %}
 
 {% block body %}

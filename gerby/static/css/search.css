@@ -52,3 +52,27 @@ nav#results-per-page p {
 form#search button {
   float: right;
 }
+
+ul.search-pages li {
+  font-size: .9rem;
+}
+
+li.ellipsis,
+li.previous-search-page,
+li.next-search-page {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-top: .5rem;
+  text-align: center;
+}
+
+li.previous-search-page a,
+li.next-search-page a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+ul.search-pages li.inactive {
+  visibility: hidden;
+}
