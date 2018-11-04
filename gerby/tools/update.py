@@ -5,7 +5,7 @@ import os.path
 import logging
 import sys
 import pickle
-import pybtex.database
+import pybtex.database, pybtex.richtext
 import collections
 
 from PyPDF2 import PdfFileReader
@@ -266,8 +266,8 @@ def makeBibliography(files):
       data = pybtex.database.BibliographyData({key: entry})
       BibliographyEntry.create(entrytype=entry.type, key=entry.key, code=data.to_string("bibtex"))
 
-      for field in list(entry.rich_fields.keys()) + entry.persons.keys():
-        value = entry.rich_fields[field].render_as("html")
+      for field in list(entry.fields.keys()) + entry.persons.keys():
+        value = pybtex.richtext.Text.from_latex(entry.fields[field]).render_as("html")
 
         BibliographyField.create(key=entry.key, field=field.lower(), value=value)
 
