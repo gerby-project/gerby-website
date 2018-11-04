@@ -266,9 +266,13 @@ def makeBibliography(files):
       data = pybtex.database.BibliographyData({key: entry})
       BibliographyEntry.create(entrytype=entry.type, key=entry.key, code=data.to_string("bibtex"))
 
-      for field in list(entry.fields.keys()) + entry.persons.keys():
-        value = pybtex.richtext.Text.from_latex(entry.fields[field]).render_as("html")
+      for (field, value) in entry.fields.items():
+        value = pybtex.richtext.Text.from_latex(value).render_as("html")
+        BibliographyField.create(key=entry.key, field=field.lower(), value=value)
 
+      for (field, value) in entry.persons.items():
+        value = " and ".join([person.__str__() for person in value])
+        value = pybtex.richtext.Text.from_latex(value).render_as("text")
         BibliographyField.create(key=entry.key, field=field.lower(), value=value)
 
 
