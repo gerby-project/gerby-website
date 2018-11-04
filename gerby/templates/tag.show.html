@@ -227,9 +227,8 @@ easymde.element.form.addEventListener("submit", function(event) {
     <input type="hidden" name="tag" id="hidden-tag" value="{{ tag.tag }}"><br>
 
     <p id="captcha-message" style="display: none" class="alert alert-warning" role="alert">The tag you filled in for the captcha is wrong. You need to write <span class="tag">{{ tag.tag }}</span>, in case you are confused.</p>
-  </form>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
 // enter in captcha fields causes \ref to appear (?!)
 $("input#check").on("keypress", function(e) {
   if (e.which == 13) {
@@ -246,7 +245,8 @@ $("input#check").on("keypress", function(e) {
     }
   }
 });
-  </script>
+    </script>
+  </form>
 </section>
 
 {% endif %}
