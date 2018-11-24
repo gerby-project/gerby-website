@@ -35,17 +35,15 @@ div.html {
 }
 
 div.html div.equation {
-  overflow-x: scroll;
-  overflow: -moz-scrollbars-none;
+  overflow-x: -moz-scrollbars-none;
 }
 
-div.equation::-webkit-scrollbar {
+div.html div.equation::-webkit-scrollbar {
   display: none;
 }
 
 p + div.equation {
-  margin-top: -1.2rem;
-  margin-bottom: -0.4rem;
+  margin: -0.4rem;
 }
 
 div.html h1 {
