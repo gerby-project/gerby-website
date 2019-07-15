@@ -14,4 +14,5 @@ setup(
         "flask ",
         "peewee ",
         "flask_profiler ",
+        "pybtex",
         "feedparser "])
