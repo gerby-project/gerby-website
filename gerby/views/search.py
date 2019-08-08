@@ -100,14 +100,14 @@ def show_search():
     references.update([".".join(pieces[0:i]) for i in range(len(pieces) + 1)])
 
   # get all tags for the search results (including parent tags)
-  complete = Tag.select(Tag,
-                        Slogan.html.alias("slogan"),
-                        History.html.alias("history"),
-                        Reference.html.alias("reference")) \
-                .where(Tag.ref << references, ~(Tag.type << ["item", "part"])) \
-                .join(Slogan, JOIN.LEFT_OUTER).switch(Tag) \
-                .join(History, JOIN.LEFT_OUTER).switch(Tag) \
-                .join(Reference, JOIN.LEFT_OUTER)
+  complete = (Tag.select(Tag,
+                        Slogan.html,
+                        History.html,
+                        Reference.html)
+                 .where(Tag.ref << references, ~(Tag.type << ["item", "part"]))
+                 .join_from(Tag, Slogan, JOIN.LEFT_OUTER, attr="slogan")
+                 .join_from(Tag, History, JOIN.LEFT_OUTER, attr="history")
+                 .join_from(Tag, Reference, JOIN.LEFT_OUTER, attr="reference"))
 
   tree = tag.combine(list(sorted(complete)))
 

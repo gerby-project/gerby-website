@@ -119,21 +119,21 @@ def show_tag(tag):
 
   try:
     tag = (Tag.select(Tag,
-                      Slogan.html.alias("slogan"),
-                      History.html.alias("history"),
-                      Reference.html.alias("reference"))
+                      Slogan.html,
+                      History.html,
+                      Reference.html)
                 .where(Tag.tag == tag.upper())
-                .join(Slogan, JOIN.LEFT_OUTER).switch(Tag)
-                .join(History, JOIN.LEFT_OUTER).switch(Tag)
-                .join(Reference, JOIN.LEFT_OUTER)).get()
+                .join_from(Tag, Slogan, JOIN.LEFT_OUTER, attr="slogan")
+                .join_from(Tag, History, JOIN.LEFT_OUTER, attr="history")
+                .join_from(Tag, Reference, JOIN.LEFT_OUTER, attr="reference")
+                .get())
+
   except Tag.DoesNotExist:
     return render_template("tag.notfound.html", tag=tag), 404
-
 
   html = ""
   breadcrumb = getBreadcrumb(tag)
   neighbours = getNeighbours(tag)
-
 
   # if the tag is section-like: decide whether we output a table of contents or generate all output
   # the second case is just like an ordinary tag, but with tags glued together, and is treated as such
