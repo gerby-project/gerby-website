@@ -60,6 +60,7 @@ def importTags(files):
 
   # post-processing tags
   for entity in list(Tag.select()) + list(Proof.select()):
+    # dealing with references
     regex = re.compile(r'\\ref\{([0-9A-Za-z\-]+)\}')
     for label in regex.findall(entity.html):
       try:
@@ -68,6 +69,20 @@ def importTags(files):
       # if the label isn't recognised (which happens on 02BZ in the Stacks project, for a very silly reason), just ignore
       except:
         pass
+
+    # dealing with tikzpicture and tikzcd (and possibly others)
+    for type in ["tikzpicture", "tikzcd"]:
+      environment_regex = re.compile(r'<div class="' + type + '">(.+?)<\/div>', flags=re.DOTALL)
+
+      for tikz in environment_regex.findall(entity.html):
+        filename_regex = re.compile(r'data="(.+?)"')
+
+        filename = filename_regex.search(entity.html).group(1)
+        file = os.path.join(gerby.configuration.PATH, filename)
+
+        with open(file) as f:
+          entity.html = entity.html.replace(tikz, f.read())
+
 
     entity.save()
 
