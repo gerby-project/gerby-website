@@ -9,6 +9,8 @@ from gerby.views.methods import *
 import gerby.views.tag
 from gerby.configuration import *
 
+import json
+
 # we need this for building GitHub URLs pointing to diffs
 @app.context_processor
 def md5_processor():
@@ -70,6 +72,60 @@ def show_contributors():
 @app.route("/api")
 def show_api():
   return render_template("single/api.html")
+
+
+@app.route("/data/tag/<string:tag>/structure")
+def show_api_structure(tag):
+  # little helper function to turn the output of gerby.views.tag.combine() into a dict (for JSON output)
+  def jsonify(tag):
+    output = dict()
+
+    output["tag"] = tag.tag
+    output["type"] = tag.type
+    output["reference"] = tag.ref
+    if tag.name:
+      output["name"] = tag.name
+
+    if hasattr(tag, "children"):
+      output["children"] = [jsonify(child) for child in tag.children]
+
+    return output
+
+
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+  # probably need nicer errors in the API: what would people find convenient?
+  if tag.type not in gerby.views.tag.headings:
+    return "This tag does not have a structure."
+  # modified from show_tag for headings
+  else:
+    # if the tag is a part, we select all chapters, and then do the startswith for these
+    if tag.type == "part":
+      chapters = Part.select(Part.chapter).where(Part.part == tag.tag)
+      chapters = Tag.select().where(Tag.tag << [chapter.chapter.tag for chapter in chapters])
+
+      prefixes = tuple(chapter.ref + "." for chapter in chapters)
+      # instead of sections we now select *all* tags, which can be slow'ish
+      sections = Tag.select()
+      sections = filter(lambda section: section.ref.startswith(prefixes), sections)
+
+      tags = list(chapters) + list(sections)
+
+    else:
+      tags = Tag.select(Tag).where(Tag.ref.startswith(tag.ref + "."))
+
+    tree = gerby.views.tag.combine(sorted(tags))
+
+    tag.children = tree
+    return json.dumps(jsonify(tag), indent=2)
+
+
 
 
 @app.route("/data/tag/<string:tag>/content/statement")
