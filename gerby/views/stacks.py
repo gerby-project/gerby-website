@@ -126,8 +126,6 @@ def show_api_structure(tag):
     return json.dumps(jsonify(tag), indent=2)
 
 
-
-
 @app.route("/data/tag/<string:tag>/content/statement")
 def show_api_statement(tag):
   if not gerby.views.tag.isTag(tag):
@@ -179,6 +177,61 @@ def show_api_tag(tag):
   return html
 
 
+@app.route("/data/tag/<string:tag>/graph/topics")
+def show_topics_data(tag):
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+
+@app.route("/data/tag/<string:tag>/graph/structure")
+def show_graph_data(tag):
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+
+TREE_LEVEL = 4
+@app.route("/data/tag/<string:tag>/graph/tree")
+def show_tree_data(tag):
+  # recursive method to populate the tree
+  def populate_tree(tag, level=0):
+    data = dict()
+
+    # the information that we display
+    data["tag"] = tag.tag
+    data["ref"] = tag.ref
+    data["type"] = tag.type
+    if tag.name:
+      data["name"] = tag.name
+
+    if level < TREE_LEVEL:
+      children = Dependency.select().where(Dependency.tag == tag.tag)
+      if len(children) > 0:
+        data["children"] = [populate_tree(child.to, level + 1) for child in children]
+
+    return data
+
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+  data = populate_tree(tag)
+  return json.dumps(data, indent=2)
+
+
 @app.route("/tag/<string:tag>/history")
 def show_history(tag):
   if not gerby.views.tag.isTag(tag):
@@ -211,6 +264,7 @@ def show_history(tag):
 
   # this means something went wrong
   return render_template("tag.history.empty.html", tag=tag, breadcrumb=breadcrumb)
+
 
 @app.route("/chapter/<int:chapter>")
 def show_chapter_message(chapter):
