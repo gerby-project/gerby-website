@@ -213,6 +213,7 @@ def show_topics_data(tag):
   # only visit tags once
   tags = set()
 
+  # recursing through the tags
   def recurse(tag):
     tags.add(tag.tag)
 
@@ -260,6 +261,32 @@ def show_graph_data(tag):
     tag = Tag.get(Tag.tag == tag)
   except Tag.DoesNotExist:
     return "This tag does not exist."
+
+  data = dict()
+  data["nodes"] = []
+  data["links"] = []
+
+  # only visit tags once
+  tags = set()
+
+  # recursing through the tags
+  def recurse(tag):
+    tags.add(tag.tag)
+
+    data["nodes"].append({"tag": tag.tag, "ref": tag.ref})
+
+    for child in structure[tag.tag].outgoing:
+      data["links"].append({"source": tag.tag, "target": child.to.tag})
+
+      if child.to.tag not in tags:
+        recurse(child.to)
+
+  # collect all used tags
+  recurse(tag)
+
+  return json.dumps(data, indent=2)
+
+
 
 
 TREE_LEVEL = 4
