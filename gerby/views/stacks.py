@@ -177,6 +177,25 @@ def show_api_tag(tag):
   return html
 
 
+# preparing the data structure for the graphs
+# need to collect all data in one go
+tags = Tag.select().prefetch(Dependency)
+
+# dictionary of tags with keys the tags
+structure = dict()
+for tag in tags:
+  structure[tag.tag] = tag
+
+# dictionary of tags with keys the references
+references = dict()
+for tag in tags:
+  # ignore these
+  if tag.type in ["item", "part"]:
+    continue
+
+  references[tag.ref] = tag
+
+
 @app.route("/data/tag/<string:tag>/graph/topics")
 def show_topics_data(tag):
   if not gerby.views.tag.isTag(tag):
@@ -186,6 +205,50 @@ def show_topics_data(tag):
     tag = Tag.get(Tag.tag == tag)
   except Tag.DoesNotExist:
     return "This tag does not exist."
+
+  # these will contain the actual chapter and section numbers
+  chapters = set()
+  sections = set()
+
+  # only visit tags once
+  tags = set()
+
+  def recurse(tag):
+    tags.add(tag.tag)
+
+    for child in structure[tag.tag].outgoing:
+      if child.to.type == "item":
+        continue
+
+      chapter = child.to.ref.split(".")[0]
+      section = ".".join(child.to.ref.split(".")[0:2])
+
+      chapters.add(chapter)
+      sections.add(section)
+
+      if child.to.tag not in tags:
+        recurse(child.to)
+
+  # collect all used sections
+  recurse(tag)
+
+  # create the JSON dict for the output
+  data = []
+
+  # collect the actual tag information
+  for chapter in chapters:
+    chapter = references[chapter]
+
+    output = {"tag": chapter.tag, "ref": chapter.ref, "name": chapter.name, "children": []}
+
+    for section in [ref for ref in sections if ref.split(".")[0] == chapter.ref]:
+      section = references[section]
+
+      output["children"].append({"tag": section.tag, "ref": section.ref, "name": section.name})
+
+    data.append(output)
+
+  return json.dumps(data, indent=2)
 
 
 @app.route("/data/tag/<string:tag>/graph/structure")
@@ -198,15 +261,6 @@ def show_graph_data(tag):
   except Tag.DoesNotExist:
     return "This tag does not exist."
 
-
-tags = Tag.select()
-dependencies = Dependency.select()
-
-structure = dict()
-# prefetch gives massive speedup
-data = prefetch(tags, dependencies)
-for tag in data:
-  structure[tag.tag] = tag
 
 TREE_LEVEL = 4
 @app.route("/data/tag/<string:tag>/graph/tree")
