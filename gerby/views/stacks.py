@@ -199,6 +199,15 @@ def show_graph_data(tag):
     return "This tag does not exist."
 
 
+tags = Tag.select()
+dependencies = Dependency.select()
+
+structure = dict()
+# prefetch gives massive speedup
+data = prefetch(tags, dependencies)
+for tag in data:
+  structure[tag.tag] = tag
+
 TREE_LEVEL = 4
 @app.route("/data/tag/<string:tag>/graph/tree")
 def show_tree_data(tag):
@@ -214,7 +223,8 @@ def show_tree_data(tag):
       data["name"] = tag.name
 
     if level < TREE_LEVEL:
-      children = Dependency.select().where(Dependency.tag == tag.tag)
+      children = structure[tag.tag].outgoing
+
       if len(children) > 0:
         data["children"] = [populate_tree(child.to, level + 1) for child in children]
 
