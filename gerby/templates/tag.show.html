@@ -58,12 +58,15 @@ $(document).ready(function() {
     {% for item in tree recursive %}
       {% if loop.depth <= depth %}<li class="expanded" id="{{ item.tag }}">{% else %}<li id="{{ item.tag }}">{% endif %}
       {{ item.type | capitalize }} <a href="/tag/{{ item.tag }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.name %}: {{ item.name | safe }}{% endif %}
+
       {{ macros.badges(item) }}
+
       {% if item.children %}
         <ul>{{ loop(item.children) }}</ul>
       {% endif %}
     {% endfor %}
     </ul>
+
     <script type="text/javascript">
 $("ul.tree").bonsai({
   addExpandAll: true,

@@ -200,13 +200,13 @@ def show_tag(tag):
       tags = list(chapters) + list(sections)
     else:
       tags = (Tag.select(Tag,
-                        Reference.html.alias("reference"), # the alias is for Reference rather than Reference.html, oddly enough
-                        Slogan.html.alias("slogan"),
-                        History.html.alias("history"))
+                         Reference.html,
+                         Slogan.html,
+                         History.html)
                 .where(Tag.ref.startswith(tag.ref + "."))
-                .join(Reference, JOIN.LEFT_OUTER).switch(Tag)
-                .join(History, JOIN.LEFT_OUTER).switch(Tag)
-                .join(Slogan, JOIN.LEFT_OUTER))
+                .join_from(Tag, Slogan, JOIN.LEFT_OUTER, attr="slogan")
+                .join_from(Tag, History, JOIN.LEFT_OUTER, attr="history")
+                .join_from(Tag, Reference, JOIN.LEFT_OUTER, attr="reference"))
 
     tree = combine(sorted(tags))
 
