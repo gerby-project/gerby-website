@@ -426,7 +426,7 @@ if __name__ == "__main__":
 
   # create database if it doesn't exist already
   if not os.path.isfile(gerby.configuration.DATABASE):
-    for model in [Tag, Proof, Slogan, History, Reference, Commit, Change]:
+    for model in [Tag, Proof, Slogan, History, Reference, Commit, Change, Dependency]:
       model.create_table()
     log.info("Created database")
 
