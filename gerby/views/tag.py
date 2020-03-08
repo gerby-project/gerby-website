@@ -151,13 +151,14 @@ def show_tag(tag):
 
       references = Reference.select().where(Reference.tag << identifiers)
       for reference in references:
-        html = html.replace("id=\"" + reference.tag.tag + "\">", 'id="' + reference.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-info" data-toggle="popover" title="Reference" data-html="true" data-content=\'' + reference.html + '\'>reference</a>')
+        html = html.replace("id=\"" + reference.tag.tag + "\">", 'id="' + reference.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-info" data-toggle="popover" title="Reference" data-html="true" data-content=\'' + reference.html.replace("'", "&#39;") + '\'>reference</a>')
       histories = History.select().where(History.tag << identifiers)
       for history in histories:
-        html = html.replace("id=\"" + history.tag.tag + "\">", 'id="' + history.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-secondary" data-toggle="popover" title="Historical remark" data-html="true" data-content=\'' + history.html + '\'>historical remark</a>')
+        html = html.replace("id=\"" + history.tag.tag + "\">", 'id="' + history.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-secondary" data-toggle="popover" title="Historical remark" data-html="true" data-content=\'' + history.html.replace("'", "&#39;") + '\'>historical remark</a>')
       slogans = Slogan.select().where(Slogan.tag << identifiers)
       for slogan in slogans:
-        html = html.replace("id=\"" + slogan.tag.tag + "\">", 'id="' + slogan.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-primary" data-toggle="popover" title="Slogan" data-html="true" data-content=\'' + slogan.html + '\'>slogan</a>')
+        html = html.replace("id=\"" + slogan.tag.tag + "\">", 'id="' + slogan.tag.tag + '"><a tabindex="0" role="button" data-trigger="focus" data-placement="bottom" class="btn badge badge-primary" data-toggle="popover" title="Slogan" data-html="true" data-content=\'' + slogan.html.replace("'", "&#39;") + '\'>slogan</a>')
+      # replacing ' with &#39; is not ideal, but I found no cheap library for precisely this purpose (= replacing quotes in an HTML string, but not those related to tags)
 
 
   # it's an item
