@@ -139,11 +139,11 @@ $("form[id=quicksearch] input[type=search]").on("paste keyup", function() {
   <p>If the keyword{{ "(s)" if misspelt | length > 1 }} {% for keyword in misspelt %}<var>{{ keyword }}</var>{{ ", " if not loop.last }}{% endfor %} is not giving you the results you expect, then try searching for <a href="{{ searchlink(alternative, page, perpage, radius) }}"><var>{{ alternative }}</var></a>.
   {% endif %}
 
-  <ol id="search-results">
+  <div id="search-results">
     {% if tree %}
-      <ul class="tree">
+      <ul id="tree" class="tree">
       {% for item in tree recursive %}
-        <li class="expanded">
+        <li class="expanded" id="{{ item.tag }}">
         <span class="preview-title">{{ item.type | capitalize }} <a href="/tag/{{ item.tag }}" data-tag="{{ item.tag }}">{{ item.ref }}</a>{% if item.name %}: {{ item.name | safe }}{% endif %}{{ macros.badges(item) }}</span>
 
         {% if item.type not in headings %}
@@ -159,12 +159,25 @@ $("form[id=quicksearch] input[type=search]").on("paste keyup", function() {
       </ul>
 
       <script type="text/javascript">
-$("ul.tree").bonsai({
+$("ul#tree").bonsai({
   addExpandAll: true,
 });
 
+var storageID = "bonsai-{{ query | urlencode }}-{{ perpage }}-{{ page }}";
+// load state of Bonsai
+var state = sessionStorage.getItem(storageID);
+if (state !== null)
+  $("ul#tree").data("bonsai").restore(JSON.parse(state));
+
+// update storage if necessary
+$("div#search-results").click(function() {
+  var bonsai = $("ul#tree").data("bonsai");
+  var state = bonsai.serialize();
+  sessionStorage.setItem(storageID, JSON.stringify(state));
+});
+
 // CSS doesn't have a parent selector so we mimick it in jQuery
-$("ul.tree li div.preview").parent().prepend("<span class='previewable'></span>")
+$("ul#tree li div.preview").parent().prepend("<span class='previewable'></span>")
 
 $("span.previewable").click(function(e) {
   $(e.target).siblings("div.preview").toggle();
@@ -181,7 +194,7 @@ $(function () {
 })
       </script>
     {% endif %}
-  </ol>
+  </div>
 
   {{ self.pagination() }}
 {% endif %}

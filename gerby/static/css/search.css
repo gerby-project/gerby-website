@@ -1,4 +1,4 @@
-ol#search-results {
+div#search-results {
   padding: 0;
 }
 
@@ -28,15 +28,15 @@ ul#pages li {
   text-align: center;
 }
 
-ol#search-results div.html li:before {
+div#search-results div.html li:before {
   left: 3.5em;
 }
 
-ol#search-results div.html li li:before {
+div#search-results div.html li li:before {
   left: 6.5em;
 }
 
-ol#search-results article p:last-child {
+div#search-results article p:last-child {
   margin-bottom: 0;
 }
 
