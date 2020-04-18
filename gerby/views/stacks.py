@@ -318,6 +318,8 @@ def show_graph_data(tag):
   G = nx.DiGraph()
   [G.add_node(node["tag"]) for node in data["nodes"]]
   [G.add_edge(link["source"], link["target"]) for link in data["links"]]
+  # TODO fails for 0E9C
+  #assert nx.is_directed_acyclic_graph(G)
 
   depths = dict(nx.single_source_shortest_path_length(G, tag.tag))
   sizes = {node["tag"]: len(nx.descendants(G, node["tag"])) for node in data["nodes"]}
