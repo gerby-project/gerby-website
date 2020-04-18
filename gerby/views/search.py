@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request
+from flask import redirect, render_template, request, make_response, request
 
 from gerby.application import app
 from gerby.views import tag
@@ -37,6 +37,16 @@ spelling = {
 def redirect_to_search():
   return redirect("/search")
 
+
+def set_cookie(rendered, perpage):
+  response = make_response(rendered)
+
+  response.set_cookie("perpage", str(perpage))
+
+  return response
+
+
+
 @app.route("/search", methods = ["GET"])
 def show_search():
   # dealing with search options: page number
@@ -46,6 +56,9 @@ def show_search():
 
   # dealing with search options: page size
   perpage = 10
+  if "perpage" in request.cookies:
+    perpage = max(int(request.cookies["perpage"]), 10)
+
   if "perpage" in request.args:
     if request.args["perpage"] == "oo":
       perpage = 9223372036854775807 # 2^63-1 (shame on me for taking this approach)
@@ -60,10 +73,10 @@ def show_search():
 
   # a) return empty page (for now)
   if "query" not in request.args:
-    return render_template("search.html", count=0, perpage=perpage, radius="all")
+    return set_cookie(render_template("search.html", count=0, perpage=perpage, radius="all"), perpage)
 
 
-  # b) if the query is actually a tag we redirect (we say that a string is a tag if is looks like and *and* it starts with a digit: maybe that's actually a good rule in general)
+  # b) if the query is actually a tag we redirect (we say that a string is a tag if is looks like *and* it starts with a digit: maybe that's actually a good rule in general)
   if tag.isTag(request.args["query"]):
     if Tag.select().where(Tag.tag == request.args["query"].upper()).exists() or request.args["query"][0].isdigit():
       return redirect("tag/" + request.args["query"].upper())
@@ -76,7 +89,7 @@ def show_search():
     else:
       tags = [result.tag for result in SearchStatement(SearchStatement.tag).search(request.args["query"])]
   except OperationalError:
-    return render_template("search.malformed.html", query=request.args["query"])
+    return set_cookie(render_template("search.malformed.html", query=request.args["query"]), perpage)
 
 
   # now get all the information about the results
@@ -85,9 +98,7 @@ def show_search():
     count = results.count()
   except peewee.OperationalError as e:
     if "too many SQL variables" in str(e):
-      return render_template("search.html",
-                             query=request.args["query"],
-                             count=-1)
+      return set_cookie(render_template("search.html", query=request.args["query"], count=-1), perpage)
 
   # sorting and pagination
   results = sorted(results)
@@ -119,7 +130,7 @@ def show_search():
     for keyword in misspelt:
       alternative = alternative.replace(keyword, spelling[keyword])
 
-  return render_template("search.html",
+  return set_cookie(render_template("search.html",
                          query=request.args["query"],
                          count=count,
                          page=page,
@@ -128,5 +139,4 @@ def show_search():
                          misspelt=misspelt,
                          alternative=alternative,
                          radius=radius,
-                         headings=tag.headings)
-
+                         headings=tag.headings), perpage)
