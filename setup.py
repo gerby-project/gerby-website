@@ -9,10 +9,11 @@ setup(
         "PyPDF2",
         "Markdown",
         "mdx_bleach ",
-        "python-markdown-math ",
-        "validators ",
-        "flask ",
-        "peewee ",
-        "flask_profiler ",
+        "python-markdown-math",
+        "validators",
+        "flask",
+        "peewee",
+        "flask_profiler",
         "pybtex",
-        "feedparser "])
+        "feedparser",
+        "networkx"])

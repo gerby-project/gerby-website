@@ -10,6 +10,7 @@ import gerby.views.tag
 from gerby.configuration import *
 
 import json
+import networkx as nx
 
 # we need this for building GitHub URLs pointing to diffs
 @app.context_processor
@@ -177,6 +178,9 @@ def show_api_tag(tag):
   return html
 
 
+# TODO don't do this here!
+# it breaks initialisation
+
 # preparing the data structure for the graphs
 # need to collect all data in one go
 tags = Tag.select().prefetch(Dependency)
@@ -194,6 +198,19 @@ for tag in tags:
     continue
 
   references[tag.ref] = tag
+
+
+@app.route("/tag/<string:tag>/graph/topics")
+def show_topics_graph(tag):
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+  return render_template("stacks/graph.topics.html", tag=tag)
 
 
 @app.route("/data/tag/<string:tag>/graph/topics")
@@ -252,6 +269,19 @@ def show_topics_data(tag):
   return json.dumps(data, indent=2)
 
 
+@app.route("/tag/<string:tag>/graph/structure")
+def show_structure_graph(tag):
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+  return render_template("stacks/graph.structure.html", tag=tag)
+
+
 @app.route("/data/tag/<string:tag>/graph/structure")
 def show_graph_data(tag):
   if not gerby.views.tag.isTag(tag):
@@ -284,9 +314,40 @@ def show_graph_data(tag):
   # collect all used tags
   recurse(tag)
 
+  # computing statistics
+  G = nx.DiGraph()
+  [G.add_node(node["tag"]) for node in data["nodes"]]
+  [G.add_edge(link["source"], link["target"]) for link in data["links"]]
+
+  depths = dict(nx.single_source_shortest_path_length(G, tag.tag))
+  sizes = {node["tag"]: len(nx.descendants(G, node["tag"])) for node in data["nodes"]}
+
+  # assigning statistics
+  for node in data["nodes"]:
+    node["depth"] = depths[node["tag"]]
+    node["size"] = sizes[node["tag"]]
+
+
+  # dictionary from tags to positions (because D3 works like that)
+  positions = {node["tag"]: position for (position, node) in enumerate(data["nodes"])}
+
+  # replace tags with positions
+  data["links"] = [{"source": positions[link["source"]], "target": positions[link["target"]]} for link in data["links"]]
+
   return json.dumps(data, indent=2)
 
 
+@app.route("/tag/<string:tag>/graph/tree")
+def show_tree_graph(tag):
+  if not gerby.views.tag.isTag(tag):
+    return "This is not a valid tag."
+
+  try:
+    tag = Tag.get(Tag.tag == tag)
+  except Tag.DoesNotExist:
+    return "This tag does not exist."
+
+  return render_template("stacks/graph.dendrogram.html", tag=tag)
 
 
 TREE_LEVEL = 4
