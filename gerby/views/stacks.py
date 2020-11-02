@@ -178,26 +178,32 @@ def show_api_tag(tag):
   return html
 
 
-# TODO don't do this here!
-# it breaks initialisation
+structure = None
+references = None
 
 # preparing the data structure for the graphs
 # need to collect all data in one go
-tags = Tag.select().prefetch(Dependency)
+# this is put into a separate function to avoid initalization problems
+# TODO it would be better to do this differently, but this at least fixes the problems that people experience, for now
+def initialize_dependencies():
+  if structure != None and references != None:
+    return
 
-# dictionary of tags with keys the tags
-structure = dict()
-for tag in tags:
-  structure[tag.tag] = tag
-
-# dictionary of tags with keys the references
-references = dict()
-for tag in tags:
-  # ignore these
-  if tag.type in ["item", "part"]:
-    continue
-
-  references[tag.ref] = tag
+  tags = Tag.select().prefetch(Dependency)
+  
+  # dictionary of tags with keys the tags
+  structure = dict()
+  for tag in tags:
+    structure[tag.tag] = tag
+  
+  # dictionary of tags with keys the references
+  references = dict()
+  for tag in tags:
+    # ignore these
+    if tag.type in ["item", "part"]:
+      continue
+  
+    references[tag.ref] = tag
 
 
 @app.route("/tag/<string:tag>/graph/topics")
@@ -222,6 +228,9 @@ def show_topics_data(tag):
     tag = Tag.get(Tag.tag == tag)
   except Tag.DoesNotExist:
     return "This tag does not exist."
+
+  # TODO avoid this
+  initalize_dependencies()
 
   # these will contain the actual chapter and section numbers
   chapters = set()
@@ -292,6 +301,9 @@ def show_graph_data(tag):
   except Tag.DoesNotExist:
     return "This tag does not exist."
 
+  # TODO avoid this
+  initalize_dependencies()
+
   data = dict()
   data["nodes"] = []
   data["links"] = []
@@ -355,6 +367,9 @@ def show_tree_graph(tag):
 TREE_LEVEL = 4
 @app.route("/data/tag/<string:tag>/graph/tree")
 def show_tree_data(tag):
+  # TODO avoid this
+  initalize_dependencies()
+
   # recursive method to populate the tree
   def populate_tree(tag, level=0):
     data = dict()
